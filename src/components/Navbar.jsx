@@ -37,15 +37,21 @@ export default function Navbar({ darkMode, setDarkMode }) {
         </a>
 
         {/* desktop nav */}
-        <nav className="hidden items-center gap-5 font-mono text-[11px] tracking-[0.15em] text-espresso/70 dark:text-parchment/70 md:flex lg:gap-6">
+        <nav className="hidden items-center gap-4 font-mono text-[11px] tracking-[0.15em] text-espresso/70 dark:text-parchment/70 md:flex lg:gap-5">
           <a href="#timeline" className="py-2 hover:text-cherry transition-colors">
             ERAS
           </a>
           <a href="#vault" className="py-2 hover:text-cherry transition-colors">
-            SECRET VAULT
+            VAULT
           </a>
           <a href="#tarot" className="py-2 hover:text-cherry transition-colors">
-            LYRICAL TAROT
+            TAROT
+          </a>
+          <a href="#muses" className="hidden py-2 hover:text-cherry transition-colors lg:block">
+            MUSES
+          </a>
+          <a href="#now" className="hidden py-2 hover:text-cherry transition-colors lg:block">
+            NOW
           </a>
           <a
             href="#hero"
@@ -121,6 +127,22 @@ export default function Navbar({ darkMode, setDarkMode }) {
                 className="flex items-center justify-between border-b border-espresso/5 py-3 text-espresso dark:border-parchment/5 dark:text-parchment"
               >
                 <span>03 — LYRICAL TAROT</span>
+                <span className="text-cherry">→</span>
+              </a>
+              <a
+                href="#muses"
+                onClick={() => setOpen(false)}
+                className="flex items-center justify-between border-b border-espresso/5 py-3 text-espresso dark:border-parchment/5 dark:text-parchment"
+              >
+                <span>04 — MUSES & LOVERS</span>
+                <span className="text-cherry">→</span>
+              </a>
+              <a
+                href="#now"
+                onClick={() => setOpen(false)}
+                className="flex items-center justify-between border-b border-espresso/5 py-3 text-espresso dark:border-parchment/5 dark:text-parchment"
+              >
+                <span>05 — LOUISIANA NOW</span>
                 <span className="text-cherry">→</span>
               </a>
               <a

@@ -13,6 +13,8 @@ import Footer from './components/Footer';
 const Timeline = lazy(() => import('./components/Timeline'));
 const Vault = lazy(() => import('./components/Vault'));
 const Tarot = lazy(() => import('./components/Tarot'));
+const Muses = lazy(() => import('./components/Muses'));
+const Louisiana = lazy(() => import('./components/Louisiana'));
 
 function SectionFallback({ label }) {
   return (
@@ -79,6 +81,16 @@ export default function App() {
           <div className="cv-auto">
             <Suspense fallback={<SectionFallback label="04 — LYRICAL TAROT" />}>
               <Tarot setCurrentTrack={setCurrentTrack} setIsPlaying={setIsPlaying} />
+            </Suspense>
+          </div>
+          <div className="cv-auto">
+            <Suspense fallback={<SectionFallback label="05 — MUSES & LOVERS" />}>
+              <Muses setCurrentTrack={setCurrentTrack} setIsPlaying={setIsPlaying} />
+            </Suspense>
+          </div>
+          <div className="cv-auto">
+            <Suspense fallback={<SectionFallback label="06 — LOUISIANA NOW" />}>
+              <Louisiana />
             </Suspense>
           </div>
         </main>

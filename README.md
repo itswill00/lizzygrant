@@ -20,6 +20,8 @@ Retro Americana · 70s editorial nostalgia · cinematic melancholy.
 - **The Eras** — 8 interactive chapters (2005 → present), each with summary, moodboard photography, notable cuts that cue the cassette
 - **Secret Vault** — 9 archival case files (unreleased, poetry, lore); tap `INSPECT` for the full file modal
 - **Lyrical Tarot** — flip vintage tarot cards to reveal a lyric + thematic breakdown
+- **Muses & Lovers** — public relationship chapters (Barrie → Jeremy Dufrene), each mapped to songs as marked fan readings
+- **Louisiana Now** — living journal: Waffle House shift, Coachella headline, the 2024 wedding, developing entries
 - **Cassette deck** — persistent bottom player with genuine 30-second vocal previews, seek tape-counter, volume, track pills, slim mini-bar on mobile (`▴` to expand)
 
 ## Music & photos (legal)
