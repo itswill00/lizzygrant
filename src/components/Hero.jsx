@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { Tilt, Magnetic, FloatingVinyl } from './Fx';
 
 const quotes = [
   { text: '"We were born to die."', ref: '— Born to Die, 2012' },
@@ -27,9 +28,21 @@ export default function Hero({ isPlaying, setIsPlaying, currentTrack, setCurrent
         backgroundImage: `repeating-linear-gradient(90deg, #22201E 0 1px, transparent 1px 40px), repeating-linear-gradient(0deg, #22201E 0 1px, transparent 1px 40px)`
       }} />
 
-      {/* faded noir alternative hint - dark mode shape */}
-      <div className="pointer-events-none absolute -right-20 -top-20 h-[400px] w-[400px] rounded-full bg-cherry/5 blur-[60px] dark:bg-cherry/10 sm:h-[600px] sm:w-[600px] sm:blur-[80px]" />
-      <div className="pointer-events-none absolute -left-20 bottom-0 h-[300px] w-[300px] rounded-full bg-brass/10 blur-[60px] dark:bg-brass/5 sm:h-[500px] sm:w-[500px] sm:blur-[80px]" />
+      {/* ambient blobs — slow GPU-friendly float (transform only) */}
+      <motion.div
+        aria-hidden
+        className="pointer-events-none absolute -right-20 -top-20 h-[400px] w-[400px] rounded-full bg-cherry/5 blur-[60px] dark:bg-cherry/10 sm:h-[600px] sm:w-[600px] sm:blur-[80px]"
+        animate={{ y: [0, -18, 0], x: [0, 10, 0] }}
+        transition={{ duration: 11, repeat: Infinity, ease: 'easeInOut' }}
+      />
+      <motion.div
+        aria-hidden
+        className="pointer-events-none absolute -left-20 bottom-0 h-[300px] w-[300px] rounded-full bg-brass/10 blur-[60px] dark:bg-brass/5 sm:h-[500px] sm:w-[500px] sm:blur-[80px]"
+        animate={{ y: [0, 14, 0], x: [0, -12, 0] }}
+        transition={{ duration: 13, repeat: Infinity, ease: 'easeInOut' }}
+      />
+      {/* floating vinyl 3D object behind collage */}
+      <FloatingVinyl size={280} className="-left-24 top-16 hidden opacity-50 md:block lg:left-auto lg:-right-10 lg:top-8 lg:opacity-70" />
 
       <div className="mx-auto grid max-w-[1400px] grid-cols-1 gap-6 px-3 py-6 sm:gap-8 sm:px-4 sm:py-10 md:px-6 md:py-14 lg:grid-cols-[1.15fr_0.85fr] lg:py-10">
         {/* LEFT - Typography */}
@@ -118,20 +131,24 @@ export default function Hero({ isPlaying, setIsPlaying, currentTrack, setCurrent
           </div>
 
           <div className="mt-6 flex flex-col gap-2.5 sm:flex-row sm:flex-wrap sm:gap-3">
-            <a
-              href="#timeline"
-              onClick={(e) => { e.preventDefault(); document.querySelector('#timeline')?.scrollIntoView({ behavior: 'smooth' }); }}
-              className="group inline-flex w-full items-center justify-center gap-2 rounded-lg bg-cherry px-5 py-3.5 font-mono text-[12px] tracking-[0.14em] text-white shadow-[0_4px_14px_rgba(158,27,27,0.2)] transition-all duration-300 ease-out hover:tracking-[0.16em] hover:bg-cherry-light hover:shadow-[0_8px_20px_rgba(158,27,27,0.3)] active:scale-[0.98] sm:w-auto sm:px-6 sm:py-3 sm:tracking-[0.15em]"
-            >
-              ENTER THE ERAS <span aria-hidden className="transition-transform duration-300 group-hover:translate-x-0.5">—</span> 2005 → 2024
-            </a>
-            <a
-              href="#vault"
-              onClick={(e) => { e.preventDefault(); document.querySelector('#vault')?.scrollIntoView({ behavior: 'smooth' }); }}
-              className="group inline-flex w-full items-center justify-center gap-2 rounded-lg border border-[#D4AF37]/20 bg-white px-5 py-3.5 font-mono text-[12px] tracking-[0.14em] text-espresso shadow-sm transition-all duration-300 ease-out hover:tracking-[0.16em] hover:bg-[#FFFEFB] hover:border-[#D4AF37]/30 hover:shadow-[0_6px_16px_rgba(0,0,0,0.07)] active:scale-[0.98] dark:border-[#F7F4EB]/15 dark:bg-noir-soft dark:text-parchment dark:hover:bg-white/10 sm:w-auto sm:px-6 sm:py-3 sm:tracking-[0.15em]"
-            >
-              OPEN SECRET VAULT <span className="transition-transform duration-300 group-hover:translate-x-0.5">↗</span>
-            </a>
+            <Magnetic strength={0.18}>
+              <a
+                href="#timeline"
+                onClick={(e) => { e.preventDefault(); document.querySelector('#timeline')?.scrollIntoView({ behavior: 'smooth' }); }}
+                className="group inline-flex w-full items-center justify-center gap-2 rounded-lg bg-cherry px-5 py-3.5 font-mono text-[12px] tracking-[0.14em] text-white shadow-[0_4px_14px_rgba(158,27,27,0.2)] transition-all duration-300 ease-out hover:tracking-[0.16em] hover:bg-cherry-light hover:shadow-[0_8px_20px_rgba(158,27,27,0.3)] active:scale-[0.98] sm:w-auto sm:px-6 sm:py-3 sm:tracking-[0.15em]"
+              >
+                ENTER THE ERAS <span aria-hidden className="transition-transform duration-300 group-hover:translate-x-0.5">—</span> 2005 → 2024
+              </a>
+            </Magnetic>
+            <Magnetic strength={0.18}>
+              <a
+                href="#vault"
+                onClick={(e) => { e.preventDefault(); document.querySelector('#vault')?.scrollIntoView({ behavior: 'smooth' }); }}
+                className="group inline-flex w-full items-center justify-center gap-2 rounded-lg border border-[#D4AF37]/20 bg-white px-5 py-3.5 font-mono text-[12px] tracking-[0.14em] text-espresso shadow-sm transition-all duration-300 ease-out hover:tracking-[0.16em] hover:bg-[#FFFEFB] hover:border-[#D4AF37]/30 hover:shadow-[0_6px_16px_rgba(0,0,0,0.07)] active:scale-[0.98] dark:border-[#F7F4EB]/15 dark:bg-noir-soft dark:text-parchment dark:hover:bg-white/10 sm:w-auto sm:px-6 sm:py-3 sm:tracking-[0.15em]"
+              >
+                OPEN SECRET VAULT <span className="transition-transform duration-300 group-hover:translate-x-0.5">↗</span>
+              </a>
+            </Magnetic>
           </div>
 
           <p className="mt-3 hidden font-script text-[14px] text-typewriter dark:text-parchment/50 sm:block sm:text-[15px]">
@@ -145,12 +162,16 @@ export default function Hero({ isPlaying, setIsPlaying, currentTrack, setCurrent
         {/* RIGHT - single main polaroid on mobile, layered collage on md+ */}
         <div className="relative flex min-w-0 flex-col gap-4 sm:gap-5 lg:pl-6">
           <div className="relative mx-auto w-full max-w-[360px] sm:max-w-[420px] md:block md:h-[480px] lg:h-[520px]">
-            {/* card 1 - main */}
+            {/* card 1 - main, 3D tilt on desktop pointers */}
+            <Tilt
+              max={6}
+              className="relative w-full md:absolute md:left-1/2 md:top-2 md:w-[88%] md:-translate-x-1/2"
+            >
             <motion.div
               initial={{ rotate: -2, y: 20, opacity: 0 }}
               animate={{ rotate: -1.5, y: 0, opacity: 1 }}
               transition={{ duration: 0.9, delay: 0.1 }}
-              className="relative w-full rounded-lg paper border border-[#D4AF37]/15 p-2 pb-8 shadow-[0_12px_28px_rgba(0,0,0,0.12)] transition-all duration-300 hover:rotate-[0.7deg] hover:shadow-[0_16px_32px_rgba(0,0,0,0.16)] dark:border-[#F7F4EB]/10 sm:p-3 sm:pb-10 md:absolute md:left-1/2 md:top-2 md:w-[88%] md:-translate-x-1/2"
+              className="relative w-full rounded-lg paper border border-[#D4AF37]/15 p-2 pb-8 shadow-[0_12px_28px_rgba(0,0,0,0.12)] transition-shadow duration-300 hover:shadow-[0_16px_32px_rgba(0,0,0,0.16)] dark:border-[#F7F4EB]/10 sm:p-3 sm:pb-10"
             >
               <div className="tape -top-2 left-4 hidden rotate-[-4deg] sm:block sm:-top-3 sm:left-6" />
               <div className="tape -top-2 right-4 hidden rotate-[5deg] sm:block sm:-top-3 sm:right-6" />
@@ -176,6 +197,7 @@ export default function Hero({ isPlaying, setIsPlaying, currentTrack, setCurrent
                 <span className="font-mono text-[8px] tracking-[0.15em] text-typewriter sm:text-[9px]">FIG. 07</span>
               </div>
             </motion.div>
+            </Tilt>
 
             {/* card 2 - desktop only layer; mobile stays single-polaroid for breathing room */}
             <motion.div

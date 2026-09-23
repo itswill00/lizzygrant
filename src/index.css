@@ -144,7 +144,33 @@ body {
   @apply bg-cherry text-white;
 }
 
-/* Typewriter underline */
+/* Rendering optimizations */
+.cv-auto {
+  content-visibility: auto;
+  contain-intrinsic-size: auto 900px;
+}
+.will-tilt {
+  will-change: transform;
+}
+.vinyl-spin {
+  animation: vinylspin 18s linear infinite;
+}
+@keyframes vinylspin {
+  to { transform: rotate(360deg); }
+}
+@media (prefers-reduced-motion: reduce) {
+  *, ::before, ::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+  html {
+    scroll-behavior: auto;
+  }
+  .vinyl-spin {
+    animation: none;
+  }
+}
 .typewriter-underline {
   background-image: linear-gradient(to right, #9E1B1B 0%, #9E1B1B 100%);
   background-size: 100% 1px;
