@@ -17,6 +17,12 @@ export function DustCanvas() {
 
   useEffect(() => {
     if (reducedMotion()) return;
+    // low-end guard: ≤2GB RAM or ≤2 cores skips the canvas entirely
+    try {
+      const mem = navigator.deviceMemory;
+      const cores = navigator.hardwareConcurrency;
+      if ((typeof mem === 'number' && mem <= 2) || (typeof cores === 'number' && cores <= 2)) return;
+    } catch {}
     const canvas = ref.current;
     if (!canvas) return;
     const ctx = canvas.getContext('2d');
