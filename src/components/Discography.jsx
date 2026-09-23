@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { discography } from '../data/discography';
 import { cueSong } from '../lib/preview';
+import SafeImage from './SafeImage';
 
 export default function Discography({ setCurrentTrack, setIsPlaying }) {
   const [openId, setOpenId] = useState('born-to-die');
@@ -42,11 +43,15 @@ export default function Discography({ setCurrentTrack, setIsPlaying }) {
                 className="flex w-full items-center gap-3 p-3 text-left sm:gap-4 sm:p-4"
               >
                 <span
-                  className="flex h-12 w-12 shrink-0 flex-col items-center justify-center rounded-md text-white shadow-md sm:h-14 sm:w-14"
+                  className="h-12 w-12 shrink-0 overflow-hidden rounded-md shadow-md sm:h-14 sm:w-14"
                   style={{ background: `linear-gradient(135deg, ${album.palette[0]}, ${album.palette[1]})` }}
                 >
-                  <span className="font-display text-[13px] font-bold leading-none sm:text-[15px]">{album.year.slice(2)}</span>
-                  <span className="font-mono text-[7px] tracking-[0.15em] text-white/80">{album.type}</span>
+                  <SafeImage
+                    src={album.cover}
+                    alt={`${album.title} — official album artwork`}
+                    loading="lazy"
+                    className="h-full w-full object-cover"
+                  />
                 </span>
                 <span className="min-w-0 flex-1">
                   <span className="block truncate font-display text-[15px] font-bold leading-tight text-espresso dark:text-parchment sm:text-[18px]">

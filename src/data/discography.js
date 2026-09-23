@@ -4,6 +4,7 @@ const T = (t, s) => ({ t, ...(s ? { s: true } : {}) });
 export const discography = [
   {
     id: 'born-to-die',
+    cover: 'https://upload.wikimedia.org/wikipedia/en/2/29/BornToDieAlbumCover.png',
     title: 'Born to Die',
     year: '2012',
     type: 'ALBUM',
@@ -18,6 +19,7 @@ export const discography = [
   },
   {
     id: 'paradise',
+    cover: 'https://upload.wikimedia.org/wikipedia/en/6/6a/Paradise_EP.png',
     title: 'Paradise',
     year: '2012',
     type: 'EP',
@@ -30,6 +32,7 @@ export const discography = [
   },
   {
     id: 'ultraviolence',
+    cover: 'https://upload.wikimedia.org/wikipedia/en/6/6a/UltraviolenceLDR.png',
     title: 'Ultraviolence',
     year: '2014',
     type: 'ALBUM',
@@ -44,6 +47,7 @@ export const discography = [
   },
   {
     id: 'honeymoon',
+    cover: 'https://upload.wikimedia.org/wikipedia/en/7/75/Lana_Del_Rey_-_Honeymoon_%28Official_Album_Cover%29.png',
     title: 'Honeymoon',
     year: '2015',
     type: 'ALBUM',
@@ -58,6 +62,7 @@ export const discography = [
   },
   {
     id: 'lust-for-life',
+    cover: 'https://upload.wikimedia.org/wikipedia/en/1/1a/Lana_Del_Rey_-_Lust_for_Life.png',
     title: 'Lust for Life',
     year: '2017',
     type: 'ALBUM',
@@ -75,6 +80,7 @@ export const discography = [
   },
   {
     id: 'nfr',
+    cover: 'https://upload.wikimedia.org/wikipedia/en/8/8a/Lana_Del_Rey_-_Norman_Fucking_Rockwell.png',
     title: 'Norman F***ing Rockwell!',
     year: '2019',
     type: 'ALBUM',
@@ -90,6 +96,7 @@ export const discography = [
   },
   {
     id: 'chemtrails',
+    cover: 'https://upload.wikimedia.org/wikipedia/en/1/1f/Lana_Del_Rey_-_Chemtrails_over_the_Country_Club.png',
     title: 'Chemtrails Over the Country Club',
     year: '2021',
     type: 'ALBUM',
@@ -104,6 +111,7 @@ export const discography = [
   },
   {
     id: 'blue-banisters',
+    cover: 'https://upload.wikimedia.org/wikipedia/en/1/10/Lana_Del_Rey_-_Blue_Banisters_cover.png',
     title: 'Blue Banisters',
     year: '2021',
     type: 'ALBUM',
@@ -119,6 +127,7 @@ export const discography = [
   },
   {
     id: 'ocean-blvd',
+    cover: 'https://upload.wikimedia.org/wikipedia/en/4/4f/Lana_Del_Rey_-_Did_You_Know_That_There%27s_a_Tunnel_Under_Ocean_Blvd.png',
     title: "Did You Know That There's a Tunnel Under Ocean Blvd",
     year: '2023',
     type: 'ALBUM',

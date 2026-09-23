@@ -47,7 +47,7 @@ export default function Footer() {
                   <span className="font-mono text-[11px] tracking-[0.12em] text-espresso dark:text-parchment">Photographs</span> — Courtesy of Wikimedia Commons contributors, preserved under CC-BY-SA. Cropped gently, never harshly.
                 </p>
                 <p>
-                  <span className="font-mono text-[11px] tracking-[0.12em] text-espresso dark:text-parchment">Music</span> — All songs and recordings belong to their respective copyright holders. 30-second previews via official sources for reverent listening.
+                  <span className="font-mono text-[11px] tracking-[0.12em] text-espresso dark:text-parchment">Music & artwork</span> — All songs, recordings, and covers belong to their respective copyright holders. 30-second previews via official sources for reverent listening.
                 </p>
               </div>
               <div className="mt-4 border-t border-dashed border-[#D4AF37]/20 pt-3 font-mono text-[9px] tracking-[0.14em] text-typewriter/60">
