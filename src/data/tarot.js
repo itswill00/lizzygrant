@@ -54,7 +54,7 @@ export const tarotCards = [
     name: 'The Empress — Chemtrails',
     arcana: 'III',
     lyric: '"It\'s beautiful how this deep normality settles down over me"',
-    song: 'Chemtrails Over The Country Club — Chemtrails (2021)',
+    song: 'Chemtrails Over the Country Club — Chemtrails (2021)',
     meaning: 'Pastoral horror + domestic bliss. The Empress at the country club, watching men in white. Beauty as anesthesia for decay.',
     theme: 'Pastoral & Dread',
     color: '#A8C3B9',

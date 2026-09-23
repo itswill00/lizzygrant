@@ -59,7 +59,7 @@ export const muses = [
     color: '#A8C3B9',
     story:
       'The lockdown love story — linked from August 2020, a reported engagement by December, wedding-ring photoshoots that launched a thousand threads. Ended quietly in 2021, folded into the folk diaries.',
-    songs: ['Text Book', 'Wild At Heart', 'Black Bathing Suit'],
+    songs: ['Text Book', 'Wild at Heart', 'Black Bathing Suit'],
   },
   {
     id: 'jeremy',
@@ -71,6 +71,6 @@ export const muses = [
     color: '#D4AF37',
     story:
       'Met years earlier on a swamp tour; married September 26, 2024 in Des Allemandes, Louisiana — small outdoor ceremony, alligator country. The Louisiana peace is not a metaphor anymore. This chapter is still being written.',
-    songs: ['The Grants', 'A&W', 'Did you know…'],
+    songs: ['The Grants', 'A&W', "Did You Know That There's a Tunnel Under Ocean Blvd"],
   },
 ];

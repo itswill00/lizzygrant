@@ -142,13 +142,14 @@ export default function AudioPlayer({ isPlaying, setIsPlaying, currentTrack, set
     return () => { cancelled = true; };
   }, []);
 
+  const cleanTitle = (raw) => (raw ? raw.split(' —')[0].trim() : '');
   const activeTrack = tracks[trackIndex];
   const matchDeck = (base) => tracks.findIndex((t) => t.title.toLowerCase() === base || base.includes(t.title.toLowerCase()) || t.title.toLowerCase().includes(base));
-  const reqBase = currentTrack && !currentTrack.src ? currentTrack.title.split(' —')[0].trim().toLowerCase() : null;
+  const reqBase = currentTrack && !currentTrack.src ? cleanTitle(currentTrack.title).toLowerCase() : null;
   const reqPlayable = !currentTrack || currentTrack.src || (reqBase && matchDeck(reqBase) !== -1);
-  const displayTitle = reqPlayable ? (currentTrack?.title || activeTrack.title) : activeTrack.title;
+  const displayTitle = reqPlayable ? cleanTitle(currentTrack?.title || activeTrack.title) : activeTrack.title;
   const displayEra = reqPlayable ? (currentTrack?.era || activeTrack.era) : activeTrack.era;
-  // custom preview from Timeline (Kill Kill, Ride, etc) wins over deck index
+  // custom preview from Timeline, Discography, Muses, Tarot wins over deck index
   const effectiveSrc = currentTrack?.src || activeTrack.src;
   const effectiveSource = currentTrack?.source || activeTrack.source || 'LOCAL';
 
@@ -165,18 +166,10 @@ export default function AudioPlayer({ isPlaying, setIsPlaying, currentTrack, set
       }
       return;
     }
-    const base = currentTrack.title.split(' —')[0].trim().toLowerCase();
-    if (currentTrack.src) {
-      const idx = matchDeck(base);
-      if (idx !== -1 && idx !== trackIndex) setTrackIndex(idx);
-      return;
-    }
+    const base = cleanTitle(currentTrack.title).toLowerCase();
     const idx = matchDeck(base);
-    if (idx !== -1) {
-      if (idx !== trackIndex) setTrackIndex(idx);
-    } else if (toastedRef.current !== currentTrack.title) {
-      toastedRef.current = currentTrack.title;
-      setError('No preview for this one yet — pick from the deck');
+    if (idx !== -1 && idx !== trackIndex) {
+      setTrackIndex(idx);
     }
   }, [currentTrack, tracks, trackIndex]);
 
@@ -349,7 +342,7 @@ export default function AudioPlayer({ isPlaying, setIsPlaying, currentTrack, set
     <>
       <audio
         ref={audioRef}
-        src={activeTrack.src}
+        src={effectiveSrc}
         preload="metadata"
         playsInline
       />

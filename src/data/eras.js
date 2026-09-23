@@ -67,7 +67,7 @@ export const eras = [
     description: 'Honeymoon was escapism as art — cinematic, languid, orchestrated to within an inch of its life. If Ultraviolence was distortion, Honeymoon was distance: trap hats barely audible under strings. "High By The Beach" was breezy nihilism; "Terrence Loves You" and "The Blackest Day" were open wounds dressed in silk.',
     songs: [
       { title: 'Honeymoon', note: 'Ennio Morricone via Malibu', duration: '5:50' },
-      { title: 'High By The Beach', note: 'Pop perfection disguised as sigh', duration: '4:17' },
+      { title: 'High by the Beach', note: 'Pop perfection disguised as sigh', duration: '4:17' },
       { title: 'Art Deco', note: '"You\'re so Art Deco, out on the floor"', duration: '4:55' },
     ],
     mood: 'Venetian hotel lobby / Pink gin at golden hour',
@@ -106,7 +106,7 @@ export const eras = [
     songs: [
       { title: 'Mariners Apartment Complex', note: 'The ballad that rewrote her myth', duration: '4:06' },
       { title: 'Venice Bitch', note: '9:37 of guitar bliss + dread', duration: '9:37' },
-      { title: 'The greatest', note: 'State-of-the-world elegy', duration: '5:00' },
+      { title: 'The Greatest', note: 'State-of-the-world elegy', duration: '5:00' },
     ],
     mood: 'Canyon afternoon / Torn denim + sun-bleached hair',
     image: 'https://commons.wikimedia.org/wiki/Special:FilePath/Lana_Del_Rey_%40_Grammy_Museum_10_13_2019_%2849311020283%29.jpg?width=800',
@@ -144,7 +144,7 @@ export const eras = [
     songs: [
       { title: 'A&W', note: '7-minute fracture: folk → trap → scream', duration: '7:13' },
       { title: 'The Grants', note: 'Family as afterlife', duration: '4:55' },
-      { title: 'Did you know...', note: 'Title track as cathedral', duration: '3:38' },
+      { title: "Did You Know That There's a Tunnel Under Ocean Blvd", note: 'Title track as cathedral', duration: '4:45' },
     ],
     mood: 'Ocean Blvd at dawn / Kitchen table with scattered photos',
     image: 'https://commons.wikimedia.org/wiki/Special:FilePath/Lana_Del_Rey_%282024%29.jpg?width=800',
