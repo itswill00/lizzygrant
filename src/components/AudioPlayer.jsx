@@ -51,6 +51,17 @@ export default function AudioPlayer({ isPlaying, setIsPlaying, currentTrack, set
   const [isSeeking, setIsSeeking] = useState(false);
   const [minimized, setMinimized] = useState(false);
   const [mobileExpanded, setMobileExpanded] = useState(false);
+  const [isDesktop, setIsDesktop] = useState(false);
+  useEffect(() => {
+    try {
+      const mq = window.matchMedia('(min-width: 640px)');
+      const sync = () => setIsDesktop(mq.matches);
+      sync();
+      mq.addEventListener('change', sync);
+      return () => mq.removeEventListener('change', sync);
+    } catch { setIsDesktop(window.innerWidth >= 640); return undefined; }
+  }, []);
+  const showExtras = isDesktop || mobileExpanded;
   const [sourceInfo, setSourceInfo] = useState('LOCAL'); // internal only, never shown
 
   // auto-dismiss error toast so it never blocks the deck
@@ -322,8 +333,8 @@ export default function AudioPlayer({ isPlaying, setIsPlaying, currentTrack, set
         playsInline
       />
 
-      <div className={`sm:hidden ${minimized ? 'h-[56px]' : mobileExpanded ? 'h-[248px]' : 'h-[76px]'}`} />
-      <div className="hidden h-[150px] sm:block lg:h-[170px]" />
+      <div className={`sm:hidden ${minimized ? 'h-[56px]' : mobileExpanded ? 'h-[270px]' : 'h-[76px]'}`} />
+      <div className={`hidden sm:block ${minimized ? 'h-[56px]' : 'h-[300px]'}`} />
 
       <div className="fixed inset-x-2 bottom-2 z-50 mx-auto w-full max-w-[520px] sm:bottom-4 sm:max-w-[620px] lg:bottom-6 lg:max-w-[680px]">
         <AnimatePresence>
@@ -369,7 +380,9 @@ export default function AudioPlayer({ isPlaying, setIsPlaying, currentTrack, set
                 )}
               </AnimatePresence>
 
-              <div className="flex items-center gap-2 p-2.5 sm:gap-4 sm:p-4">
+              {/* mini row — mobile pretty, desktop full */}
+              <div className="relative flex items-center gap-2 p-2.5 sm:gap-4 sm:p-4">
+                {/* cassette window — desktop only */}
                 <div className="hidden h-[64px] w-[90px] shrink-0 items-center justify-center gap-1.5 rounded-md border border-white/10 bg-[#2a2a2a] p-2 shadow-inner sm:flex sm:h-[72px] sm:w-[110px] sm:gap-2">
                   <div className={`h-7 w-7 rounded-full border border-white/15 bg-[#1f1f1f] p-0.5 sm:h-8 sm:w-8 ${reelsSpin ? 'animate-tape-reel' : ''}`}>
                     <div className="h-full w-full rounded-full" style={{ background: `repeating-conic-gradient(from 0deg, #3a3a3a 0 45deg, #2a2a2a 45deg 90deg)` }} />
@@ -380,65 +393,46 @@ export default function AudioPlayer({ isPlaying, setIsPlaying, currentTrack, set
                   </div>
                 </div>
 
-                <div className="min-w-0 flex-1">
-                  <div className="flex items-center justify-between gap-2">
-                    <div className="min-w-0 flex-1">
-                      <div className="truncate font-display text-[13px] font-semibold leading-tight text-parchment sm:text-[16px]" title={displayTitle}>
-                        {displayTitle}
-                      </div>
-                      <div className="hidden truncate font-mono text-[10px] tracking-[0.12em] text-brass-light sm:block sm:text-[12px] sm:tracking-[0.15em]">
-                        LANA DEL REY • {displayEra}
-                      </div>
-                      <div className="mt-1 flex items-center gap-1.5 sm:hidden">
-                        <div className="relative h-1 flex-1 overflow-hidden rounded-full bg-white/10">
-                          <div className="absolute left-0 top-0 h-full bg-brass" style={{ width: `${progress}%` }} />
-                        </div>
-                        <span className="font-mono text-[9px] tabular-nums text-white/40">{formatTime(currentTime)}</span>
-                      </div>
-                    </div>
-                    <button
-                      onClick={() => setMobileExpanded((v) => !v)}
-                      className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full border border-white/10 bg-white/5 font-mono text-[12px] text-white/70 hover:bg-white/10 active:scale-95 sm:hidden"
-                      aria-label={mobileExpanded ? 'Collapse player' : 'Expand player'}
-                    >
-                      {mobileExpanded ? '▾' : '▴'}
-                    </button>
-                    <button
-                      onClick={() => setMinimized(true)}
-                      className="hidden h-7 w-7 shrink-0 items-center justify-center rounded-full border border-white/10 bg-white/5 font-mono text-[10px] text-white/60 hover:bg-white/10 active:scale-95 sm:flex"
-                      aria-label="Hide player"
-                    >
-                      ✕
-                    </button>
-                  </div>
+                {/* live reel thumb — mobile only */}
+                <div className={`h-10 w-10 shrink-0 rounded-full border border-brass/30 bg-[#1f1f1f] p-1 shadow-[0_0_12px_rgba(212,175,55,0.25)] sm:hidden ${reelsSpin ? 'animate-tape-reel' : ''}`}>
+                  <div className="h-full w-full rounded-full" style={{ background: `repeating-conic-gradient(from 0deg, #3a3a3a 0 45deg, #242424 45deg 90deg)` }} />
+                </div>
 
-                  <div className={`mt-2 items-center gap-2 sm:mt-2.5 sm:gap-2.5 ${mobileExpanded ? 'flex' : 'hidden'} sm:flex`}>
-                    <span className="font-mono text-[9px] tabular-nums text-parchment/50 sm:text-[10px]">
-                      {formatTime(currentTime)}
+                {/* title toggles expand — mobile only */}
+                <button
+                  onClick={() => setMobileExpanded((v) => !v)}
+                  aria-expanded={mobileExpanded}
+                  aria-label={mobileExpanded ? 'Collapse player' : 'Expand player'}
+                  className="flex min-w-0 flex-1 items-center gap-1.5 text-left sm:hidden"
+                >
+                  <span className="min-w-0 flex-1">
+                    <span className="block truncate font-display text-[13px] font-semibold leading-tight text-parchment" title={displayTitle}>
+                      {displayTitle}
                     </span>
-                    <div className="relative flex flex-1 items-center">
-                      <input
-                        type="range"
-                        min={0}
-                        max={duration || 30}
-                        step={0.1}
-                        value={isFinite(currentTime) ? currentTime : 0}
-                        onChange={handleSeek}
-                        onMouseDown={() => setIsSeeking(true)}
-                        onMouseUp={() => setIsSeeking(false)}
-                        onTouchStart={() => setIsSeeking(true)}
-                        onTouchEnd={() => setIsSeeking(false)}
-                        className="h-1.5 w-full appearance-none rounded-full bg-white/10 accent-brass [&::-webkit-slider-thumb]:h-3 [&::-webkit-slider-thumb]:w-3 [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:bg-brass"
-                        aria-label="Seek"
-                      />
-                      <div className="pointer-events-none absolute left-0 h-1.5 rounded-full bg-brass" style={{ width: `${progress}%` }} />
-                    </div>
-                    <span className="font-mono text-[9px] tabular-nums text-parchment/50 sm:text-[10px]">
-                      {duration ? formatTime(duration) : '0:30'}
+                    <span className="block truncate font-mono text-[10px] tracking-[0.12em] text-brass-light">
+                      LANA DEL REY • {displayEra}
                     </span>
+                  </span>
+                  <motion.span
+                    animate={{ rotate: mobileExpanded ? 180 : 0 }}
+                    transition={{ duration: 0.25 }}
+                    className="shrink-0 font-mono text-[12px] text-white/50"
+                  >
+                    ▴
+                  </motion.span>
+                </button>
+
+                {/* desktop title */}
+                <div className="hidden min-w-0 flex-1 sm:block">
+                  <div className="truncate font-display text-[16px] font-semibold leading-tight text-parchment" title={displayTitle}>
+                    {displayTitle}
+                  </div>
+                  <div className="truncate font-mono text-[12px] tracking-[0.15em] text-brass-light">
+                    LANA DEL REY • {displayEra}
                   </div>
                 </div>
 
+                {/* transport */}
                 <div className="flex shrink-0 items-center gap-1.5 sm:gap-2">
                   <button
                     onClick={prev}
@@ -451,9 +445,9 @@ export default function AudioPlayer({ isPlaying, setIsPlaying, currentTrack, set
                   <button
                     onClick={() => setIsPlaying(!isPlaying)}
                     aria-label={isPlaying ? 'Pause' : 'Play'}
-                    className="flex h-10 w-10 items-center justify-center rounded-full bg-brass text-noir shadow-md hover:bg-brass-light active:scale-95 sm:h-12 sm:w-12"
+                    className="flex h-11 w-11 items-center justify-center rounded-full bg-brass text-noir shadow-[0_4px_14px_rgba(212,175,55,0.35)] hover:bg-brass-light active:scale-95 sm:h-12 sm:w-12"
                   >
-                    <span className="text-[15px] sm:text-[18px]">{isPlaying ? '❚❚' : '▶'}</span>
+                    <span className="text-[16px] sm:text-[18px]">{isPlaying ? '❚❚' : '▶'}</span>
                   </button>
                   <button
                     onClick={next}
@@ -464,58 +458,114 @@ export default function AudioPlayer({ isPlaying, setIsPlaying, currentTrack, set
                     ⏭
                   </button>
                 </div>
-              </div>
 
-              <div className={`items-center gap-2 border-t border-white/5 bg-[#232120] px-3 py-2 sm:gap-3 sm:px-4 ${mobileExpanded ? 'flex' : 'hidden'} sm:flex`}>
-                <button
-                  onClick={() => setIsMuted((m) => !m)}
-                  aria-label={isMuted ? 'Unmute' : 'Mute'}
-                  className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-white/5 text-[14px] text-white hover:bg-white/10"
-                >
-                  {isMuted || volume === 0 ? '🔇' : volume < 0.5 ? '🔈' : '🔊'}
-                </button>
-                <div className="flex flex-1 items-center gap-2">
-                  <span className="font-mono text-[10px] tracking-widest text-white/40">VOL</span>
-                  <input
-                    type="range"
-                    min={0}
-                    max={1}
-                    step={0.01}
-                    value={isMuted ? 0 : volume}
-                    onChange={(e) => {
-                      const v = parseFloat(e.target.value);
-                      setVolume(v);
-                      if (v > 0) setIsMuted(false);
-                    }}
-                    className="h-1.5 flex-1 appearance-none rounded-full bg-white/10 accent-white [&::-webkit-slider-thumb]:h-4 [&::-webkit-slider-thumb]:w-4 [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:bg-white"
-                    aria-label="Volume"
-                  />
-                  <span className="w-8 text-right font-mono text-[10px] tabular-nums text-white/50">{Math.round((isMuted ? 0 : volume) * 100)}%</span>
+                {/* hairline progress — mobile only */}
+                <div className="absolute inset-x-3 bottom-1 h-[3px] overflow-hidden rounded-full bg-white/10 sm:hidden">
+                  <div className="h-full rounded-full bg-gradient-to-r from-brass-dark via-brass to-brass-light" style={{ width: `${progress}%` }} />
                 </div>
               </div>
 
-              <div className={`border-t border-white/5 bg-[#1f1e1c] px-3 py-2.5 sm:px-4 ${mobileExpanded ? 'block' : 'hidden'} sm:block`}>
-                <div className="mb-1.5 flex items-center justify-between font-mono text-[10px] tracking-[0.15em] text-white/40">
-                  <span>CHOOSE A TRACK</span>
-                  <span className='text-white/20'>8 TRACKS</span>
-                </div>
-                <div className="flex gap-2 overflow-x-auto [-ms-overflow-style:none] [scrollbar-width:none] sm:gap-2">
-                  <style>{`[scrollbar-width:none]::-webkit-scrollbar{display:none}`}</style>
-                  {tracks.map((t, i) => (
+              {/* extras — smooth expand on mobile, always open on desktop */}
+              <AnimatePresence initial={false}>
+                {showExtras && (
+                  <motion.div
+                    key="extras"
+                    initial={{ height: 0, opacity: 0 }}
+                    animate={{ height: 'auto', opacity: 1 }}
+                    exit={{ height: 0, opacity: 0 }}
+                    transition={{ duration: 0.28, ease: 'easeOut' }}
+                    className="overflow-hidden"
+                  >
+                    {/* seek */}
+                    <div className="flex items-center gap-2 px-2.5 pb-2.5 pt-1 sm:gap-2.5 sm:px-4 sm:pt-0">
+                      <span className="font-mono text-[10px] tabular-nums text-parchment/50">
+                        {formatTime(currentTime)}
+                      </span>
+                      <div className="relative flex flex-1 items-center">
+                        <input
+                          type="range"
+                          min={0}
+                          max={duration || 30}
+                          step={0.1}
+                          value={isFinite(currentTime) ? currentTime : 0}
+                          onChange={handleSeek}
+                          onMouseDown={() => setIsSeeking(true)}
+                          onMouseUp={() => setIsSeeking(false)}
+                          onTouchStart={() => setIsSeeking(true)}
+                          onTouchEnd={() => setIsSeeking(false)}
+                          className="h-2 w-full appearance-none rounded-full bg-white/10 accent-brass [&::-webkit-slider-thumb]:h-4 [&::-webkit-slider-thumb]:w-4 [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:bg-brass"
+                          aria-label="Seek"
+                        />
+                        <div className="pointer-events-none absolute left-0 h-2 rounded-full bg-brass" style={{ width: `${progress}%` }} />
+                      </div>
+                      <span className="font-mono text-[10px] tabular-nums text-parchment/50">
+                        {duration ? formatTime(duration) : '0:30'}
+                      </span>
+                    </div>
+
+                    {/* volume */}
+                    <div className="flex items-center gap-2 border-t border-white/5 bg-[#232120] px-3 py-2.5 sm:gap-3 sm:px-4">
+                      <button
+                        onClick={() => setIsMuted((m) => !m)}
+                        aria-label={isMuted ? 'Unmute' : 'Mute'}
+                        className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-white/5 text-[15px] text-white hover:bg-white/10 active:scale-95"
+                      >
+                        {isMuted || volume === 0 ? '🔇' : volume < 0.5 ? '🔈' : '🔊'}
+                      </button>
+                      <div className="flex flex-1 items-center gap-2">
+                        <span className="font-mono text-[10px] tracking-widest text-white/40">VOL</span>
+                        <input
+                          type="range"
+                          min={0}
+                          max={1}
+                          step={0.01}
+                          value={isMuted ? 0 : volume}
+                          onChange={(e) => {
+                            const v = parseFloat(e.target.value);
+                            setVolume(v);
+                            if (v > 0) setIsMuted(false);
+                          }}
+                          className="h-1.5 flex-1 appearance-none rounded-full bg-white/10 accent-white [&::-webkit-slider-thumb]:h-4 [&::-webkit-slider-thumb]:w-4 [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:bg-white"
+                          aria-label="Volume"
+                        />
+                        <span className="w-8 text-right font-mono text-[10px] tabular-nums text-white/50">{Math.round((isMuted ? 0 : volume) * 100)}%</span>
+                      </div>
+                    </div>
+
+                    {/* track pills */}
+                    <div className="border-t border-white/5 bg-[#1f1e1c] px-3 py-2.5 sm:px-4">
+                      <div className="mb-1.5 flex items-center justify-between font-mono text-[10px] tracking-[0.15em] text-white/40">
+                        <span>CHOOSE A TRACK</span>
+                        <span className="text-white/20">8 TRACKS</span>
+                      </div>
+                      <div className="flex gap-2 overflow-x-auto [-ms-overflow-style:none] [scrollbar-width:none] sm:gap-2">
+                        <style>{`[scrollbar-width:none]::-webkit-scrollbar{display:none}`}</style>
+                        {tracks.map((t, i) => (
+                          <button
+                            key={t.title}
+                            onClick={() => selectAndPlay(i)}
+                            className={`shrink-0 rounded-full border px-3.5 py-2 font-mono text-[11px] tracking-wide transition active:scale-95 sm:px-4 sm:text-[12px] ${
+                              i === trackIndex
+                                ? 'border-brass bg-brass text-noir'
+                                : 'border-white/10 bg-white/5 text-parchment/60 hover:bg-white/10'
+                            }`}
+                          >
+                            {t.title}
+                          </button>
+                        ))}
+                      </div>
+                    </div>
+
+                    {/* hide — mobile only */}
                     <button
-                      key={t.title}
-                      onClick={() => selectAndPlay(i)}
-                      className={`shrink-0 rounded-full border px-3.5 py-2 font-mono text-[11px] tracking-wide transition sm:px-4 sm:text-[12px] ${
-                        i === trackIndex
-                          ? 'border-brass bg-brass text-noir'
-                          : 'border-white/10 bg-white/5 text-parchment/60 hover:bg-white/10'
-                      }`}
+                      onClick={() => setMinimized(true)}
+                      className="flex w-full items-center justify-center border-t border-white/5 py-2.5 font-mono text-[10px] tracking-[0.2em] text-white/40 transition hover:text-white/70 sm:hidden"
                     >
-                      {t.title}
+                      — HIDE PLAYER —
                     </button>
-                  ))}
-                </div>
-              </div>
+                  </motion.div>
+                )}
+              </AnimatePresence>
             </motion.div>
           ) : (
             <motion.button
