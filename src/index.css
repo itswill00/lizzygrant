@@ -1,0 +1,154 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+* {
+  scrollbar-width: thin;
+  scrollbar-color: #9E1B1B #F7F4EB;
+  -webkit-tap-highlight-color: transparent;
+}
+
+html {
+  scroll-behavior: smooth;
+  overflow-x: hidden;
+  max-width: 100vw;
+}
+
+body {
+  @apply bg-parchment text-espresso font-body antialiased overflow-x-hidden;
+  background-color: #F7F4EB;
+  background-image: 
+    radial-gradient(ellipse at 20% 30%, rgba(212,175,55,0.08) 0%, transparent 50%),
+    radial-gradient(ellipse at 80% 70%, rgba(158,27,27,0.04) 0%, transparent 50%),
+    linear-gradient(180deg, #F7F4EB 0%, #EDE8D6 100%);
+  max-width: 100vw;
+  position: relative;
+}
+
+/* hide horizontal scrollbar for snap areas */
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+
+.dark body {
+  @apply bg-noir text-parchment;
+  background-color: #1A1A1A;
+  background-image: 
+    radial-gradient(ellipse at 20% 30%, rgba(212,175,55,0.05) 0%, transparent 50%),
+    radial-gradient(ellipse at 80% 70%, rgba(255,255,255,0.02) 0%, transparent 50%);
+}
+
+/* Grain overlay handled by component but also CSS fallback */
+.grain::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.035;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+  z-index: 9999;
+  mix-blend-mode: multiply;
+}
+
+.dark .grain::after {
+  opacity: 0.06;
+  mix-blend-mode: screen;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-track {
+  @apply bg-parchment-dark;
+}
+.dark ::-webkit-scrollbar-track {
+  @apply bg-noir-soft;
+}
+::-webkit-scrollbar-thumb {
+  @apply bg-cherry/60 rounded-full;
+}
+::-webkit-scrollbar-thumb:hover {
+  @apply bg-cherry;
+}
+
+/* Polaroid paper texture */
+.paper {
+  background-color: #FFFEFB;
+  background-image: 
+    linear-gradient(90deg, rgba(0,0,0,0.02) 1px, transparent 1px),
+    linear-gradient(rgba(0,0,0,0.01) 1px, transparent 1px);
+  background-size: 20px 20px;
+  box-shadow: 
+    0 1px 3px rgba(34,32,30,0.12),
+    0 8px 24px rgba(34,32,30,0.08),
+    inset 0 1px 0 rgba(255,255,255,0.8);
+}
+
+.dark .paper {
+  background-color: #232120;
+  background-image: none;
+  box-shadow: 
+    0 1px 3px rgba(0,0,0,0.4),
+    0 8px 24px rgba(0,0,0,0.3);
+}
+
+/* Tape effect - responsive */
+.tape {
+  position: absolute;
+  height: 18px;
+  width: 56px;
+  background: rgba(255,255,255,0.55);
+  backdrop-filter: blur(2px);
+  border-left: 1px dashed rgba(0,0,0,0.08);
+  border-right: 1px dashed rgba(0,0,0,0.08);
+  box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+  opacity: 0.9;
+}
+@media (min-width: 640px) {
+  .tape {
+    height: 22px;
+    width: 70px;
+  }
+}
+.dark .tape {
+  background: rgba(255,255,255,0.12);
+  border-color: rgba(255,255,255,0.1);
+}
+
+.tape::before,
+.tape::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 8px;
+  background: repeating-linear-gradient(
+    -45deg,
+    transparent,
+    transparent 3px,
+    rgba(0,0,0,0.03) 3px,
+    rgba(0,0,0,0.03) 6px
+  );
+}
+.tape::before { left: 0; }
+.tape::after { right: 0; }
+
+/* Selection */
+::selection {
+  @apply bg-cherry text-white;
+}
+
+/* Typewriter underline */
+.typewriter-underline {
+  background-image: linear-gradient(to right, #9E1B1B 0%, #9E1B1B 100%);
+  background-size: 100% 1px;
+  background-position: 0 100%;
+  background-repeat: no-repeat;
+  padding-bottom: 2px;
+}
