@@ -42,23 +42,6 @@ body {
     radial-gradient(ellipse at 80% 70%, rgba(255,255,255,0.02) 0%, transparent 50%);
 }
 
-/* Grain overlay handled by component but also CSS fallback */
-.grain::after {
-  content: '';
-  position: fixed;
-  inset: 0;
-  pointer-events: none;
-  opacity: 0.035;
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
-  z-index: 9999;
-  mix-blend-mode: multiply;
-}
-
-.dark .grain::after {
-  opacity: 0.06;
-  mix-blend-mode: screen;
-}
-
 /* Custom scrollbar */
 ::-webkit-scrollbar {
   width: 8px;
@@ -170,11 +153,4 @@ body {
   .vinyl-spin {
     animation: none;
   }
-}
-.typewriter-underline {
-  background-image: linear-gradient(to right, #9E1B1B 0%, #9E1B1B 100%);
-  background-size: 100% 1px;
-  background-position: 0 100%;
-  background-repeat: no-repeat;
-  padding-bottom: 2px;
 }

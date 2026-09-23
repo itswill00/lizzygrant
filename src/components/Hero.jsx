@@ -43,11 +43,12 @@ export default function Hero({ isPlaying, setIsPlaying, currentTrack, setCurrent
       <div className="mx-auto grid max-w-[1400px] grid-cols-1 gap-6 px-3 py-6 sm:gap-8 sm:px-4 sm:py-10 md:px-6 md:py-14 lg:grid-cols-[1.15fr_0.85fr] lg:py-10">
         {/* LEFT - Typography */}
         <div className="relative min-w-0">
+          <div className="font-mono text-[10px] tracking-[0.2em] text-cherry sm:text-[11px] sm:tracking-[0.25em]">01 — COVER</div>
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, ease: 'easeOut' }}
-            className="inline-flex max-w-full items-center gap-1.5 overflow-hidden border border-espresso/15 bg-white px-2 py-1 text-[9px] font-mono tracking-[0.14em] text-typewriter shadow-sm dark:border-parchment/15 dark:bg-noir-soft dark:text-parchment/60 sm:gap-2 sm:px-3 sm:py-1 sm:text-[10px] sm:tracking-[0.2em]"
+            className="mt-2 inline-flex max-w-full items-center gap-1.5 overflow-hidden border border-espresso/15 bg-white px-2 py-1 text-[9px] font-mono tracking-[0.14em] text-typewriter shadow-sm dark:border-parchment/15 dark:bg-noir-soft dark:text-parchment/60 sm:gap-2 sm:px-3 sm:py-1 sm:text-[10px] sm:tracking-[0.2em]"
           >
             <span className="h-1.5 w-1.5 shrink-0 rounded-full bg-cherry" />
             <span className="truncate">ARCHIVAL CASE FILE № 001 — RESTRICTED</span>
@@ -241,7 +242,7 @@ export default function Hero({ isPlaying, setIsPlaying, currentTrack, setCurrent
             </div>
 
             {/* cassette visual - stack on tiny screens */}
-            <div className="mt-3 flex flex-col gap-3 rounded-lg border border-[#F7F4EB]/10 bg-[#1A1A1A] p-3 text-parchment shadow-inner xs:flex-row xs:items-center xs:gap-3 sm:gap-4">
+            <div className="mt-3 flex flex-col gap-3 rounded-lg border border-[#F7F4EB]/10 bg-[#1A1A1A] p-3 text-parchment shadow-inner sm:gap-4">
               <div className="flex flex-1 items-center gap-2 sm:gap-3">
                 {/* reels - smaller on mobile */}
                 <div className="flex shrink-0 gap-1.5 sm:gap-2">

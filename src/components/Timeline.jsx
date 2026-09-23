@@ -13,7 +13,7 @@ export default function Timeline({ setCurrentTrack, setIsPlaying }) {
         <div className="min-w-0">
           <div className="font-mono text-[10px] tracking-[0.2em] text-cherry sm:text-[11px] sm:tracking-[0.25em]">02 — INTERACTIVE CHRONOLOGY</div>
           <h2 className="mt-1.5 font-display text-[28px] font-bold leading-none tracking-[-0.02em] text-espresso dark:text-parchment sm:mt-2 sm:text-[36px] md:text-[52px]">
-            THE ERAS <span className="font-light italic text-typewriter text-[22px] sm:text-[28px] md:text-[36px]">— 8 chapters</span>
+            THE ERAS <span className="font-light italic text-typewriter text-[22px] sm:text-[28px] md:text-[36px]">— {eras.length} chapters</span>
           </h2>
           <p className="mt-2 max-w-[640px] font-body text-[12.5px] leading-relaxed text-typewriter dark:text-parchment/60 sm:mt-3 sm:text-[13px]">
             Each era is an aesthetic world. Tap the timeline to enter. Songs are <em className="text-espresso dark:text-parchment">archival previews</em> — select one to cue the cassette.

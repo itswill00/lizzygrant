@@ -89,7 +89,7 @@ export default function Footer() {
 
         <div className="mt-10 flex flex-col items-center gap-3 border-t border-[#D4AF37]/15 pt-5 text-center font-mono text-[9px] tracking-[0.14em] text-typewriter/60 dark:border-[#F7F4EB]/10 sm:flex-row sm:justify-between sm:text-left sm:text-[10px]">
           <span className="leading-relaxed">
-            © 2025 THE ARCHIVES — A private pressing for educational remembrance. <span className="hidden sm:inline">•</span> All rights belong to their owners.
+            © 2026 THE ARCHIVES — A private pressing for educational remembrance. <span className="hidden sm:inline">•</span> All rights belong to their owners.
           </span>
           <span className="flex items-center gap-2">
             <span className="h-1.5 w-1.5 rounded-full bg-cherry/80 shadow-[0_0_6px_rgba(158,27,27,0.4)]" />

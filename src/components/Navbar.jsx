@@ -105,7 +105,7 @@ export default function Navbar({ darkMode, setDarkMode }) {
             animate={{ height: 'auto', opacity: 1 }}
             exit={{ height: 0, opacity: 0 }}
             transition={{ duration: 0.25, ease: 'easeOut' }}
-            className="overflow-hidden rounded-b-lg border-t border-[#D4AF37]/15 bg-parchment/95 shadow-xl backdrop-blur-md dark:border-[#F7F4EB]/10 dark:bg-noir/95 md:hidden"
+            className="overflow-hidden rounded-b-lg border-t border-[#D4AF37]/15 bg-parchment/95 shadow-xl dark:border-[#F7F4EB]/10 dark:bg-noir/95 md:hidden"
           >
             <nav className="flex flex-col px-3 py-3 font-mono text-[12px] tracking-[0.15em]">
               <a
@@ -113,7 +113,7 @@ export default function Navbar({ darkMode, setDarkMode }) {
                 onClick={() => setOpen(false)}
                 className="flex items-center justify-between border-b border-espresso/5 py-3 text-espresso dark:border-parchment/5 dark:text-parchment"
               >
-                <span>01 — THE ERAS</span>
+                <span>02 — THE ERAS</span>
                 <span className="text-cherry">→</span>
               </a>
               <a
@@ -121,7 +121,7 @@ export default function Navbar({ darkMode, setDarkMode }) {
                 onClick={() => setOpen(false)}
                 className="flex items-center justify-between border-b border-espresso/5 py-3 text-espresso dark:border-parchment/5 dark:text-parchment"
               >
-                <span>02 — SECRET VAULT</span>
+                <span>03 — SECRET VAULT</span>
                 <span className="text-cherry">→</span>
               </a>
               <a
@@ -129,7 +129,7 @@ export default function Navbar({ darkMode, setDarkMode }) {
                 onClick={() => setOpen(false)}
                 className="flex items-center justify-between border-b border-espresso/5 py-3 text-espresso dark:border-parchment/5 dark:text-parchment"
               >
-                <span>03 — LYRICAL TAROT</span>
+                <span>04 — LYRICAL TAROT</span>
                 <span className="text-cherry">→</span>
               </a>
               <a
@@ -137,7 +137,7 @@ export default function Navbar({ darkMode, setDarkMode }) {
                 onClick={() => setOpen(false)}
                 className="flex items-center justify-between border-b border-espresso/5 py-3 text-espresso dark:border-parchment/5 dark:text-parchment"
               >
-                <span>04 — MUSES & LOVERS</span>
+                <span>05 — MUSES & LOVERS</span>
                 <span className="text-cherry">→</span>
               </a>
               <a
@@ -145,7 +145,7 @@ export default function Navbar({ darkMode, setDarkMode }) {
                 onClick={() => setOpen(false)}
                 className="flex items-center justify-between border-b border-espresso/5 py-3 text-espresso dark:border-parchment/5 dark:text-parchment"
               >
-                <span>05 — LOUISIANA NOW</span>
+                <span>06 — LOUISIANA NOW</span>
                 <span className="text-cherry">→</span>
               </a>
               <a
@@ -153,7 +153,7 @@ export default function Navbar({ darkMode, setDarkMode }) {
                 onClick={() => setOpen(false)}
                 className="flex items-center justify-between border-b border-espresso/5 py-3 text-espresso dark:border-parchment/5 dark:text-parchment"
               >
-                <span>06 — CONTACT SHEET</span>
+                <span>07 — CONTACT SHEET</span>
                 <span className="text-cherry">→</span>
               </a>
               <a

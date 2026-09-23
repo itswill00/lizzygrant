@@ -118,7 +118,6 @@ export default function AudioPlayer({ isPlaying, setIsPlaying, currentTrack, set
   const activeTrack = tracks[trackIndex];
   const displayTitle = currentTrack?.title || activeTrack.title;
   const displayEra = currentTrack?.era || activeTrack.era;
-  const displayYear = activeTrack.year;
   // custom preview from Timeline (Kill Kill, Ride, etc) wins over deck index
   const effectiveSrc = currentTrack?.src || activeTrack.src;
   const effectiveSource = currentTrack?.source || activeTrack.source || 'LOCAL';
@@ -435,7 +434,7 @@ export default function AudioPlayer({ isPlaying, setIsPlaying, currentTrack, set
                       <div className="pointer-events-none absolute left-0 h-1.5 rounded-full bg-brass" style={{ width: `${progress}%` }} />
                     </div>
                     <span className="font-mono text-[9px] tabular-nums text-parchment/50 sm:text-[10px]">
-                      {duration ? formatTime(duration) : activeTrack.duration}
+                      {duration ? formatTime(duration) : '0:30'}
                     </span>
                   </div>
                 </div>

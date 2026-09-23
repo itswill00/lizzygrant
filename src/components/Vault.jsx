@@ -15,7 +15,7 @@ export default function Vault() {
             <div className="font-mono text-[10px] tracking-[0.2em] text-cherry sm:text-[11px] sm:tracking-[0.25em]">03 — SECRET VAULT</div>
             <h2 className="mt-1.5 font-display text-[26px] font-bold leading-none tracking-[-0.02em] text-espresso dark:text-parchment sm:mt-2 sm:text-[34px] md:text-[48px]">
               UNRELEASED <span className="font-light italic text-typewriter"> & LORE</span>
-              <span className="ml-1.5 align-super rounded-full border border-cherry px-1.5 py-0.5 font-mono text-[8px] tracking-[0.15em] text-cherry sm:ml-2 sm:px-2 sm:text-[10px] sm:tracking-[0.2em]">9 FILES</span>
+              <span className="ml-1.5 align-super rounded-full border border-cherry px-1.5 py-0.5 font-mono text-[8px] tracking-[0.15em] text-cherry sm:ml-2 sm:px-2 sm:text-[10px] sm:tracking-[0.2em]">{vaultItems.length} FILES</span>
             </h2>
             <p className="mt-2 max-w-[560px] font-body text-[12.5px] leading-relaxed text-typewriter dark:text-parchment/60 sm:mt-3 sm:text-[13px]">
               Archival case files — cassette tapes, poetry broadsides, and interview lore.
@@ -28,7 +28,7 @@ export default function Vault() {
             <span className="text-cherry">Red stamp = rarity</span> • Brass = poetry
           </div>
           <div className="rounded-lg border border-dashed border-[#D4AF37]/20 bg-parchment-dark/40 px-3 py-2 font-mono text-[10px] tracking-wide text-typewriter shadow-sm dark:border-[#F7F4EB]/10 dark:bg-noir sm:hidden">
-            TAP INSPECT TO OPEN • 9 FILES
+            TAP INSPECT TO OPEN • {vaultItems.length} FILES
           </div>
         </div>
 
@@ -107,7 +107,7 @@ export default function Vault() {
                 </p>
                 <div className="mt-3 flex items-center justify-between border-t border-dashed border-[#D4AF37]/15 pt-2.5 dark:border-[#F7F4EB]/10 sm:mt-4 sm:pt-3">
                   <span className="font-mono text-[9px] tracking-[0.12em] text-typewriter sm:text-[10px] sm:tracking-[0.15em]">
-                    FILE {item.id} / 9
+                    FILE {item.id} / {vaultItems.length}
                   </span>
                   <button
                     onClick={(e) => {
@@ -129,7 +129,7 @@ export default function Vault() {
         </div>
 
         <div className="mt-6 flex flex-col items-center gap-2 border-t border-[#D4AF37]/15 pt-4 dark:border-[#F7F4EB]/10 sm:mt-8 sm:flex-row sm:flex-wrap sm:justify-center sm:gap-3 sm:pt-6">
-          <span className="text-center font-mono text-[9px] tracking-[0.14em] text-typewriter sm:text-[10px] sm:tracking-[0.2em]">END OF VAULT • 9 FILES DISPLAYED • TAP ANY FILE TO INSPECT</span>
+          <span className="text-center font-mono text-[9px] tracking-[0.14em] text-typewriter sm:text-[10px] sm:tracking-[0.2em]">END OF VAULT • {vaultItems.length} FILES DISPLAYED • TAP ANY FILE TO INSPECT</span>
           <span className="hidden h-3 w-px bg-espresso/10 dark:bg-parchment/10 sm:block" />
           <button onClick={() => document.querySelector('#tarot')?.scrollIntoView({ behavior: 'smooth' })} className="font-mono text-[10px] tracking-[0.12em] text-cherry hover:underline sm:text-[11px] sm:tracking-[0.15em]">
             DRAW A LYRIC TAROT ↓
