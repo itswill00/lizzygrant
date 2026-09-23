@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Tilt, Magnetic, FloatingVinyl } from './Fx';
 import SafeImage from './SafeImage';
 import { eras } from '../data/eras';
+import { playAudioDirect, pauseAudioDirect } from '../lib/preview';
 
 const quotes = [
   { text: '"We were born to die."', ref: '— Born to Die, 2012' },
@@ -333,10 +334,10 @@ export default function Hero({ isPlaying, setIsPlaying, currentTrack, setCurrent
                 </div>
                 <div className="min-w-0 flex-1">
                   <div className="truncate font-mono text-[11px] tracking-widest text-brass-light sm:text-[12px]">
-                    {currentTrack?.title || 'Video Games — Born to Die'}
+                    {currentTrack?.title || 'Video Games'}
                   </div>
                   <div className="truncate font-mono text-[9px] tracking-[0.12em] text-parchment/60 sm:text-[10px] sm:tracking-[0.15em]">
-                    LANA DEL REY / {currentTrack?.era || 'BORN TO DIE / PARADISE'}
+                    LANA DEL REY / {currentTrack?.era || 'BORN TO DIE'}
                   </div>
                   <div className="mt-1 h-1 w-full overflow-hidden rounded-full bg-parchment/10">
                     <motion.div
@@ -349,7 +350,16 @@ export default function Hero({ isPlaying, setIsPlaying, currentTrack, setCurrent
               </div>
 
               <button
-                onClick={() => setIsPlaying(!isPlaying)}
+                onClick={() => {
+                  if (isPlaying) {
+                    pauseAudioDirect();
+                    setIsPlaying(false);
+                  } else {
+                    const targetSrc = currentTrack?.src || '/audio/video-games.mp3';
+                    playAudioDirect(targetSrc);
+                    setIsPlaying(true);
+                  }
+                }}
                 aria-label={isPlaying ? 'Pause' : 'Play'}
                 className="flex h-10 w-10 shrink-0 items-center justify-center self-center rounded-full bg-brass text-noir shadow-md transition hover:bg-brass-light active:scale-95 sm:h-11 sm:w-11"
               >
@@ -360,7 +370,7 @@ export default function Hero({ isPlaying, setIsPlaying, currentTrack, setCurrent
             <div className="mt-3 flex flex-wrap items-center justify-between gap-2 font-mono text-[9px] tracking-widest text-typewriter sm:text-[10px]">
               <span>DOLBY B / 90 MIN / CAT. LG-001</span>
               <button
-                onClick={() => setCurrentTrack({ title: 'Select a song from the eras', era: 'ARCHIVE — TAP PLAY' })}
+                onClick={() => document.getElementById('timeline')?.scrollIntoView({ behavior: 'smooth' })}
                 className="text-cherry hover:underline"
               >
                 BROWSE ERAS ↓

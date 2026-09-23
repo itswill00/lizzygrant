@@ -80,11 +80,11 @@ export default function Tarot({ setCurrentTrack, setIsPlaying }) {
     }
   };
 
-  const hearSong = async (card) => {
+  const hearSong = (card) => {
     setHearing(card.id);
     const songTitle = card.song.split('—')[0].replace(/[\.…]+$/, '').trim();
-    await cueSong(songTitle, 'LYRICAL TAROT', setCurrentTrack, setIsPlaying);
-    setHearing(null);
+    cueSong(songTitle, 'LYRICAL TAROT', setCurrentTrack, setIsPlaying);
+    setTimeout(() => setHearing(null), 600);
   };
 
   const copyLyric = async (card) => {

@@ -1,19 +1,22 @@
 import { useEffect, useRef, useState } from 'react';
 import { motion, AnimatePresence, useDragControls, useMotionValue } from 'framer-motion';
+import {
+  registerAudioElement,
+  unregisterAudioElement,
+  playAudioDirect,
+} from '../lib/preview';
 
-// Option B local files (if user drops genuine mp3s into public/audio) — priority if exists
-// Option A iTunes Search API — 30s genuine vocal previews (no key, free, legal)
-// Deezer as secondary fallback for tracks where iTunes search is flaky (Mariners, A&W, Ride, Sweet)
+// Option B local genuine vocal clips (bundled in public/audio) — permanent priority
 const baseTracks = [
-  { title: 'Video Games', slug: 'video-games', era: 'BORN TO DIE', year: '2012', duration: '4:42', src: '/audio/video-games.mp3', local: '/audio/video-games.mp3', query: 'lana del rey video games' },
-  { title: 'West Coast', slug: 'west-coast', era: 'ULTRAVIOLENCE', year: '2014', duration: '4:16', src: '/audio/west-coast.mp3', local: '/audio/west-coast.mp3', query: 'lana del rey west coast' },
-  { title: 'Mariners Apartment Complex', slug: 'mariners-apartment-complex', era: 'NFR!', year: '2019', duration: '4:06', src: '/audio/mariners-apartment-complex.mp3', local: '/audio/mariners-apartment-complex.mp3', query: 'lana del rey mariners apartment complex' },
-  { title: 'Sweet', slug: 'sweet', era: 'OCEAN BLVD', year: '2023', duration: '3:22', src: '/audio/sweet.mp3', local: '/audio/sweet.mp3', query: 'lana del rey sweet' },
-  { title: 'Honeymoon', slug: 'honeymoon', era: 'HONEYMOON', year: '2015', duration: '5:50', src: '/audio/honeymoon.mp3', local: '/audio/honeymoon.mp3', query: 'lana del rey honeymoon' },
-  { title: 'Love', slug: 'love', era: 'LUST FOR LIFE', year: '2017', duration: '4:32', src: '/audio/love.mp3', local: '/audio/love.mp3', query: 'lana del rey love' },
-  { title: 'White Dress', slug: 'white-dress', era: 'CHEMTRAILS', year: '2021', duration: '5:33', src: '/audio/white-dress.mp3', local: '/audio/white-dress.mp3', query: 'lana del rey white dress' },
-  { title: 'A&W', slug: 'a-w', era: 'OCEAN BLVD', year: '2023', duration: '7:13', src: '/audio/a-w.mp3', local: '/audio/a-w.mp3', query: 'lana del rey a&w' },
-  { title: 'Ride', slug: 'ride', era: 'PARADISE', year: '2012', duration: '4:49', src: '/audio/ride.mp3', local: '/audio/ride.mp3', query: 'lana del rey ride' },
+  { title: 'Video Games', slug: 'video-games', era: 'BORN TO DIE', year: '2012', duration: '4:42', src: '/audio/video-games.mp3', local: '/audio/video-games.mp3', source: 'LOCAL' },
+  { title: 'West Coast', slug: 'west-coast', era: 'ULTRAVIOLENCE', year: '2014', duration: '4:16', src: '/audio/west-coast.mp3', local: '/audio/west-coast.mp3', source: 'LOCAL' },
+  { title: 'Mariners Apartment Complex', slug: 'mariners-apartment-complex', era: 'NFR!', year: '2019', duration: '4:06', src: '/audio/mariners-apartment-complex.mp3', local: '/audio/mariners-apartment-complex.mp3', source: 'LOCAL' },
+  { title: 'Sweet', slug: 'sweet', era: 'OCEAN BLVD', year: '2023', duration: '3:22', src: '/audio/sweet.mp3', local: '/audio/sweet.mp3', source: 'LOCAL' },
+  { title: 'Honeymoon', slug: 'honeymoon', era: 'HONEYMOON', year: '2015', duration: '5:50', src: '/audio/honeymoon.mp3', local: '/audio/honeymoon.mp3', source: 'LOCAL' },
+  { title: 'Love', slug: 'love', era: 'LUST FOR LIFE', year: '2017', duration: '4:32', src: '/audio/love.mp3', local: '/audio/love.mp3', source: 'LOCAL' },
+  { title: 'White Dress', slug: 'white-dress', era: 'CHEMTRAILS', year: '2021', duration: '5:33', src: '/audio/white-dress.mp3', local: '/audio/white-dress.mp3', source: 'LOCAL' },
+  { title: 'A&W', slug: 'a-w', era: 'OCEAN BLVD', year: '2023', duration: '7:13', src: '/audio/a-w.mp3', local: '/audio/a-w.mp3', source: 'LOCAL' },
+  { title: 'Ride', slug: 'ride', era: 'PARADISE', year: '2012', duration: '4:49', src: '/audio/ride.mp3', local: '/audio/ride.mp3', source: 'LOCAL' },
 ];
 
 function formatTime(sec) {
@@ -21,17 +24,6 @@ function formatTime(sec) {
   const m = Math.floor(sec / 60);
   const s = Math.floor(sec % 60);
   return `${m}:${String(s).padStart(2, '0')}`;
-}
-
-// helper: check if local file exists via HEAD (no download, reject html fallback)
-async function localExists(url) {
-  try {
-    const r = await fetch(url, { method: 'HEAD' });
-    const ct = r.headers.get('content-type') || '';
-    return r.ok && !ct.includes('text/html') && (ct.includes('audio') || ct.includes('octet-stream') || ct === '');
-  } catch {
-    return false;
-  }
 }
 
 // persisted dock position (draggable player)
@@ -53,12 +45,6 @@ function loadPos() {
 
 export default function AudioPlayer({ isPlaying, setIsPlaying, currentTrack, setCurrentTrack }) {
   const audioRef = useRef(null);
-  // refs to fix double-click race: play() right after load() aborts, and
-  // pause event during src switch was resetting isPlaying to false
-  const switchingRef = useRef(false);
-  const autoplayRef = useRef(false);
-  const isPlayingRef = useRef(isPlaying);
-  useEffect(() => { isPlayingRef.current = isPlaying; }, [isPlaying]);
 
   const [tracks, setTracks] = useState(baseTracks);
   const [trackIndex, setTrackIndex] = useState(0);
@@ -71,6 +57,7 @@ export default function AudioPlayer({ isPlaying, setIsPlaying, currentTrack, set
   const [minimized, setMinimized] = useState(false);
   const [mobileExpanded, setMobileExpanded] = useState(false);
   const [isDesktop, setIsDesktop] = useState(false);
+
   useEffect(() => {
     try {
       const mq = window.matchMedia('(min-width: 640px)');
@@ -80,6 +67,7 @@ export default function AudioPlayer({ isPlaying, setIsPlaying, currentTrack, set
       return () => mq.removeEventListener('change', sync);
     } catch { setIsDesktop(window.innerWidth >= 640); return undefined; }
   }, []);
+
   const showExtras = isDesktop || mobileExpanded;
   const controls = useDragControls();
   const boundsRef = useRef(null);
@@ -96,51 +84,13 @@ export default function AudioPlayer({ isPlaying, setIsPlaying, currentTrack, set
     try { localStorage.removeItem(POS_KEY); } catch {}
   };
   const toastedRef = useRef(null);
-  const [sourceInfo, setSourceInfo] = useState('LOCAL'); // internal only, never shown
 
-  // auto-dismiss error toast so it never blocks the deck
+  // auto-dismiss error toast
   useEffect(() => {
     if (!error) return;
     const t = setTimeout(() => setError(null), 3500);
     return () => clearTimeout(t);
   }, [error]);
-
-  // On mount: Option B priority — if public/audio/{slug}.mp3 exists (genuine), use it; else Option A iTunes 30s preview (legal)
-  useEffect(() => {
-    let cancelled = false;
-    async function hydrate() {
-      const hydrated = await Promise.all(
-        baseTracks.map(async (t) => {
-          // 1) Option B: local genuine file in public/audio/{slug}.mp3 — priority if exists
-          if (await localExists(t.local)) {
-            return { ...t, src: t.local, source: 'LOCAL' };
-          }
-          // 2) Option A: iTunes exact title match only — never a wrong song
-          try {
-            const itRes = await fetch(`https://itunes.apple.com/search?term=${encodeURIComponent(t.query)}&entity=song&limit=5`);
-            const itJson = await itRes.json();
-            const match = itJson.results?.find(
-              (r) => r.previewUrl && r.trackName?.toLowerCase().includes(t.title.toLowerCase()) && r.artistName?.toLowerCase().includes('lana')
-            );
-            if (match?.previewUrl) {
-              return { ...t, src: match.previewUrl, source: 'iTUNES', previewTitle: match.trackName };
-            }
-          } catch {}
-
-          // NOTE: no Deezer here — its API sends no CORS headers so browsers
-          // can never use it; local files above cover every deck track.
-          return t;
-        })
-      );
-      if (!cancelled) {
-        setTracks(hydrated);
-        // update sourceInfo to reflect first track's source
-        if (hydrated[0]?.source) setSourceInfo(hydrated[0].source);
-      }
-    }
-    hydrate();
-    return () => { cancelled = true; };
-  }, []);
 
   const cleanTitle = (raw) => (raw ? raw.split(' —')[0].trim() : '');
   const activeTrack = tracks[trackIndex];
@@ -149,14 +99,22 @@ export default function AudioPlayer({ isPlaying, setIsPlaying, currentTrack, set
   const reqPlayable = !currentTrack || currentTrack.src || (reqBase && matchDeck(reqBase) !== -1);
   const displayTitle = reqPlayable ? cleanTitle(currentTrack?.title || activeTrack.title) : activeTrack.title;
   const displayEra = reqPlayable ? (currentTrack?.era || activeTrack.era) : activeTrack.era;
-  // custom preview from Timeline, Discography, Muses, Tarot wins over deck index
   const effectiveSrc = currentTrack?.src || activeTrack.src;
-  const effectiveSource = currentTrack?.source || activeTrack.source || 'LOCAL';
 
+  // Register direct audio element for gesture-immune synchronous playback
   useEffect(() => {
-    if (effectiveSource) setSourceInfo(effectiveSource);
-  }, [effectiveSource]);
+    if (audioRef.current) {
+      registerAudioElement(audioRef.current);
+      if (effectiveSrc && !audioRef.current.src) {
+        audioRef.current.src = effectiveSrc;
+      }
+    }
+    return () => {
+      unregisterAudioElement();
+    };
+  }, []);
 
+  // Update cassette deck index when currentTrack changes
   useEffect(() => {
     if (!currentTrack) return;
     if (currentTrack.unplayable) {
@@ -173,54 +131,62 @@ export default function AudioPlayer({ isPlaying, setIsPlaying, currentTrack, set
     }
   }, [currentTrack, tracks, trackIndex]);
 
-  // single unified src sync — replaces 2 competing effects that caused glitch.
-  // never calls play() immediately after load(); waits for canplay instead.
+  // Sync audio.src when effectiveSrc changes
   useEffect(() => {
     const audio = audioRef.current;
     if (!audio || !effectiveSrc) return;
     const cur = audio.currentSrc || audio.src || '';
     const curTail = cur.split('/').pop()?.split('?')[0];
     const tgtTail = effectiveSrc.split('/').pop()?.split('?')[0];
-    const same = curTail === tgtTail || (tgtTail && cur.includes(tgtTail));
-    if (!same) {
-      switchingRef.current = true;
-      // remember intent: if user wanted music, autoplay on canplay
-      if (isPlayingRef.current) autoplayRef.current = true;
+    if (curTail !== tgtTail || !cur) {
       audio.src = effectiveSrc;
-      audio.load();
-      setCurrentTime(0);
+      audio.currentTime = 0;
+      if (isPlaying) {
+        const p = audio.play();
+        if (p && typeof p.catch === 'function') {
+          p.catch((err) => {
+            if (err.name !== 'AbortError') {
+              console.warn('[AudioPlayer] switch play error:', err);
+            }
+          });
+        }
+      }
     }
-  }, [effectiveSrc]);
+  }, [effectiveSrc, isPlaying]);
 
-  // play/pause toggle for SAME src — if src is switching, defer to canplay
+  // Sync play/pause state
   useEffect(() => {
     const audio = audioRef.current;
     if (!audio) return;
     if (isPlaying) {
-      if (switchingRef.current) {
-        autoplayRef.current = true;
-        return;
-      }
-      setError(null);
-      const p = audio.play();
-      if (p && typeof p.then === 'function') {
-        p.catch(() => {
-          setError('Tap Play to start — browser blocked autoplay.');
-          setIsPlaying(false);
-        });
+      if (audio.paused) {
+        if (!audio.src && effectiveSrc) {
+          audio.src = effectiveSrc;
+        }
+        const p = audio.play();
+        if (p && typeof p.catch === 'function') {
+          p.catch((err) => {
+            if (err.name !== 'AbortError') {
+              console.warn('[AudioPlayer] isPlaying effect error:', err);
+            }
+          });
+        }
       }
     } else {
-      autoplayRef.current = false;
-      audio.pause();
+      if (!audio.paused) {
+        audio.pause();
+      }
     }
-  }, [isPlaying, setIsPlaying]);
+  }, [isPlaying, effectiveSrc]);
 
+  // Volume
   useEffect(() => {
     const audio = audioRef.current;
     if (!audio) return;
     audio.volume = isMuted ? 0 : volume;
   }, [volume, isMuted]);
 
+  // Audio element events
   useEffect(() => {
     const audio = audioRef.current;
     if (!audio) return;
@@ -232,83 +198,40 @@ export default function AudioPlayer({ isPlaying, setIsPlaying, currentTrack, set
       setDuration(audio.duration || 0);
       setError(null);
     };
-    const onCanPlay = () => {
-      // src finished loading — if user wanted autoplay (track switch), play once here.
-      // this is the fix for "klik 2x": previously play() was called right after
-      // load() when data wasn't ready, promise aborted, isPlaying reset to false.
-      if (autoplayRef.current) {
-        autoplayRef.current = false;
-        const p = audio.play();
-        if (p && typeof p.then === 'function') {
-          p.then(() => {
-            switchingRef.current = false;
-            setIsPlaying(true);
-          }).catch(() => {
-            switchingRef.current = false;
-            setError('Tap Play to start — browser blocked autoplay.');
-            setIsPlaying(false);
-          });
-        } else {
-          switchingRef.current = false;
-        }
-      } else {
-        switchingRef.current = false;
-      }
-    };
     const onPlaying = () => {
-      switchingRef.current = false;
-      autoplayRef.current = false;
       setIsPlaying(true);
-    };
-    const onEnded = () => {
-      // auto-next keeps playing without extra click
-      autoplayRef.current = true;
-      switchingRef.current = true;
-      setTrackIndex((i) => {
-        const n = (i + 1) % tracks.length;
-        setCurrentTrack(tracks[n]);
-        return n;
-      });
-      setCurrentTime(0);
-      setIsPlaying(true);
-    };
-    const onError = () => {
-      // honest failure: never substitute an unrelated instrumental.
-      // just say so — the deck keeps its state, nothing fake plays.
-      setError('That preview would not load — check connection or pick another track.');
-      setIsPlaying(false);
-    };
-    const onPlay = () => {
-      // ignore programmatic blip during switch; real playing confirmed via onPlaying/canplay
-      if (!switchingRef.current) setIsPlaying(true);
+      setError(null);
     };
     const onPause = () => {
-      // ignore transient pause fired by load()/src change — otherwise it kills autoplay
-      // and forces the user to click Play twice
-      if (switchingRef.current || autoplayRef.current) return;
+      if (audio.ended) return;
       setIsPlaying(false);
+    };
+    const onEnded = () => {
+      const nextIdx = (trackIndex + 1) % tracks.length;
+      selectAndPlay(nextIdx);
+    };
+    const onError = () => {
+      if (audio.src && !audio.src.endsWith('/')) {
+        console.warn('[AudioPlayer] Audio load error for', audio.src);
+      }
     };
 
     audio.addEventListener('timeupdate', onTimeUpdate);
     audio.addEventListener('loadedmetadata', onLoadedMetadata);
-    audio.addEventListener('canplay', onCanPlay);
     audio.addEventListener('playing', onPlaying);
+    audio.addEventListener('pause', onPause);
     audio.addEventListener('ended', onEnded);
     audio.addEventListener('error', onError);
-    audio.addEventListener('play', onPlay);
-    audio.addEventListener('pause', onPause);
 
     return () => {
       audio.removeEventListener('timeupdate', onTimeUpdate);
       audio.removeEventListener('loadedmetadata', onLoadedMetadata);
-      audio.removeEventListener('canplay', onCanPlay);
       audio.removeEventListener('playing', onPlaying);
+      audio.removeEventListener('pause', onPause);
       audio.removeEventListener('ended', onEnded);
       audio.removeEventListener('error', onError);
-      audio.removeEventListener('play', onPlay);
-      audio.removeEventListener('pause', onPause);
     };
-  }, [isSeeking, setIsPlaying, setCurrentTrack, tracks, trackIndex]);
+  }, [isSeeking, setIsPlaying, tracks, trackIndex]);
 
   const handleSeek = (e) => {
     const val = parseFloat(e.target.value);
@@ -317,15 +240,36 @@ export default function AudioPlayer({ isPlaying, setIsPlaying, currentTrack, set
   };
 
   const selectAndPlay = (n) => {
-    // one-click track switch: flag intent BEFORE changing src so canplay auto-plays.
-    // previously setIsPlaying(true) was a no-op when already true, so new src never played.
-    autoplayRef.current = true;
-    switchingRef.current = true;
+    const t = tracks[n];
+    if (!t) return;
     setError(null);
     setCurrentTime(0);
     setTrackIndex(n);
-    setCurrentTrack(tracks[n]);
+    setCurrentTrack(t);
     setIsPlaying(true);
+    playAudioDirect(t.src);
+  };
+
+  const togglePlay = () => {
+    const audio = audioRef.current;
+    if (!audio) return;
+    if (isPlaying) {
+      audio.pause();
+      setIsPlaying(false);
+    } else {
+      if (!audio.src && effectiveSrc) {
+        audio.src = effectiveSrc;
+      }
+      setIsPlaying(true);
+      const p = audio.play();
+      if (p && typeof p.catch === 'function') {
+        p.catch((err) => {
+          if (err.name !== 'AbortError') {
+            console.warn('[AudioPlayer] togglePlay error:', err);
+          }
+        });
+      }
+    }
   };
 
   const next = () => {
@@ -342,8 +286,7 @@ export default function AudioPlayer({ isPlaying, setIsPlaying, currentTrack, set
     <>
       <audio
         ref={audioRef}
-        src={effectiveSrc}
-        preload="metadata"
+        preload="auto"
         playsInline
       />
 
@@ -472,7 +415,7 @@ export default function AudioPlayer({ isPlaying, setIsPlaying, currentTrack, set
                     ⏮
                   </button>
                   <button
-                    onClick={() => setIsPlaying(!isPlaying)}
+                    onClick={togglePlay}
                     aria-label={isPlaying ? 'Pause' : 'Play'}
                     className="flex h-11 w-11 items-center justify-center rounded-full bg-brass text-noir shadow-[0_4px_14px_rgba(212,175,55,0.35)] hover:bg-brass-light active:scale-95 sm:h-12 sm:w-12"
                   >
