@@ -56,6 +56,9 @@ export default function Navbar({ darkMode, setDarkMode }) {
           <a href="#gallery" className="hidden py-2 hover:text-cherry transition-colors lg:block">
             PHOTOS
           </a>
+          <a href="#discography" className="hidden py-2 hover:text-cherry transition-colors lg:block">
+            DISCO
+          </a>
           <a
             href="#hero"
             className="rounded-full border border-espresso/15 px-3 py-1.5 text-cherry hover:bg-cherry hover:text-white transition-colors dark:border-parchment/15 lg:px-4"
@@ -154,6 +157,14 @@ export default function Navbar({ darkMode, setDarkMode }) {
                 className="flex items-center justify-between border-b border-espresso/5 py-3 text-espresso dark:border-parchment/5 dark:text-parchment"
               >
                 <span>07 — CONTACT SHEET</span>
+                <span className="text-cherry">→</span>
+              </a>
+              <a
+                href="#discography"
+                onClick={() => setOpen(false)}
+                className="flex items-center justify-between border-b border-espresso/5 py-3 text-espresso dark:border-parchment/5 dark:text-parchment"
+              >
+                <span>08 — DISCOGRAPHY</span>
                 <span className="text-cherry">→</span>
               </a>
               <a

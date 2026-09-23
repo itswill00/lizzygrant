@@ -1,35 +1,9 @@
 import { motion } from 'framer-motion';
 import { muses } from '../data/muses';
-
-async function fetchPreviewFor(songTitle) {
-  const clean = songTitle.split('(')[0].trim();
-  try {
-    const res = await fetch(`https://itunes.apple.com/search?term=${encodeURIComponent(`lana del rey ${clean}`)}&entity=song&limit=5`);
-    const json = await res.json();
-    let m = json.results?.find((r) => r.previewUrl && r.artistName?.toLowerCase().includes('lana'));
-    if (m?.previewUrl) return { src: m.previewUrl, source: 'iTUNES' };
-  } catch {}
-  try {
-    const dz = await fetch(`https://api.deezer.com/search?q=${encodeURIComponent(`Lana Del Rey ${clean}`)}`);
-    const dj = await dz.json();
-    const f = dj.data?.[0];
-    if (f?.preview) return { src: f.preview, source: 'DEEZER' };
-  } catch {}
-  return {};
-}
+import { cueSong } from '../lib/preview';
 
 export default function Muses({ setCurrentTrack, setIsPlaying }) {
-  const playSong = async (song) => {
-    const prev = await fetchPreviewFor(song);
-    if (setCurrentTrack) {
-      setCurrentTrack({
-        title: `${song} — MUSES`,
-        era: 'MUSES & LOVERS',
-        ...(prev.src ? { src: prev.src, source: prev.source } : {}),
-      });
-    }
-    if (setIsPlaying) setIsPlaying(true);
-  };
+  const playSong = (song) => cueSong(song, 'MUSES & LOVERS', setCurrentTrack, setIsPlaying);
 
   const scrollEras = () => document.querySelector('#timeline')?.scrollIntoView({ behavior: 'smooth' });
 

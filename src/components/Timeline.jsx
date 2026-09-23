@@ -1,6 +1,7 @@
 import { useState, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { eras } from '../data/eras';
+import { cueSong } from '../lib/preview';
 import SafeImage from './SafeImage';
 
 export default function Timeline({ setCurrentTrack, setIsPlaying }) {
@@ -151,34 +152,7 @@ export default function Timeline({ setCurrentTrack, setIsPlaying }) {
                     {active.songs.map((s) => (
                       <button
                         key={s.title}
-                        onClick={async () => {
-                          // fetch genuine 30s preview for this exact song title (no more "fake" mismatch)
-                          let preview = null;
-                          try {
-                            const res = await fetch(`https://itunes.apple.com/search?term=${encodeURIComponent(`lana del rey ${s.title}`)}&entity=song&limit=5`);
-                            const json = await res.json();
-                            let m = json.results?.find((r) => r.previewUrl && r.trackName.toLowerCase().includes(s.title.toLowerCase().split(' (')[0].toLowerCase()) && r.artistName.toLowerCase().includes('lana'));
-                            if (m?.previewUrl) preview = m.previewUrl;
-                          } catch {}
-                          if (preview) {
-                            setCurrentTrack({ title: `${s.title} — ${active.title}`, era: active.title.toUpperCase(), src: preview, source: 'iTUNES' });
-                          } else {
-                            // fallback: try Deezer, then just display title with local fallback in AudioPlayer
-                            try {
-                              const dz = await fetch(`https://api.deezer.com/search?q=${encodeURIComponent(`Lana Del Rey ${s.title}`)}`);
-                              const dj = await dz.json();
-                              const f = dj.data?.find((x) => x.title.toLowerCase().includes(s.title.toLowerCase().split(' (')[0].toLowerCase()) && x.artist.name.toLowerCase().includes('lana'));
-                              if (f?.preview) {
-                                setCurrentTrack({ title: `${s.title} — ${active.title}`, era: active.title.toUpperCase(), src: f.preview, source: 'DEEZER' });
-                              } else {
-                                setCurrentTrack({ title: `${s.title} — ${active.title}`, era: active.title.toUpperCase() });
-                              }
-                            } catch {
-                              setCurrentTrack({ title: `${s.title} — ${active.title}`, era: active.title.toUpperCase() });
-                            }
-                          }
-                          setIsPlaying(true);
-                        }}
+                        onClick={() => cueSong(s.title, active.title.toUpperCase(), setCurrentTrack, setIsPlaying)}
                         className="group flex items-center gap-2.5 rounded-lg border border-[#D4AF37]/15 bg-white px-2.5 py-2.5 text-left shadow-sm transition-all duration-300 hover:border-[#D4AF37]/30 hover:shadow-[0_6px_16px_rgba(0,0,0,0.08)] active:scale-[0.99] dark:border-[#F7F4EB]/10 dark:bg-noir-soft sm:gap-3 sm:px-3"
                       >
                         <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-espresso text-[11px] text-white group-hover:bg-cherry dark:bg-parchment dark:text-noir dark:group-hover:bg-cherry dark:group-hover:text-white sm:h-8 sm:w-8 sm:text-[12px]">

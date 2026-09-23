@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { tarotCards } from '../data/tarot';
+import { cueSong } from '../lib/preview';
 
 function shuffle(arr) {
   const a = [...arr];
@@ -9,24 +10,6 @@ function shuffle(arr) {
     [a[i], a[j]] = [a[j], a[i]];
   }
   return a;
-}
-
-async function fetchPreviewFor(songTitle) {
-  const clean = songTitle.split('—')[0].split('(')[0].trim();
-  try {
-    const res = await fetch(`https://itunes.apple.com/search?term=${encodeURIComponent(`lana del rey ${clean}`)}&entity=song&limit=5`);
-    const json = await res.json();
-    let m = json.results?.find((r) => r.previewUrl && r.trackName?.toLowerCase().includes(clean.toLowerCase().split(' ')[0]) && r.artistName?.toLowerCase().includes('lana'));
-    if (!m) m = json.results?.find((r) => r.previewUrl && r.artistName?.toLowerCase().includes('lana'));
-    if (m?.previewUrl) return { src: m.previewUrl, source: 'iTUNES' };
-  } catch {}
-  try {
-    const dz = await fetch(`https://api.deezer.com/search?q=${encodeURIComponent(`Lana Del Rey ${clean}`)}`);
-    const dj = await dz.json();
-    const f = dj.data?.[0];
-    if (f?.preview) return { src: f.preview, source: 'DEEZER' };
-  } catch {}
-  return {};
 }
 
 export default function Tarot({ setCurrentTrack, setIsPlaying }) {
@@ -100,16 +83,8 @@ export default function Tarot({ setCurrentTrack, setIsPlaying }) {
   const hearSong = async (card) => {
     setHearing(card.id);
     const songTitle = card.song.split('—')[0].trim();
-    const prev = await fetchPreviewFor(songTitle);
+    await cueSong(songTitle, 'LYRICAL TAROT', setCurrentTrack, setIsPlaying);
     setHearing(null);
-    if (setCurrentTrack) {
-      setCurrentTrack({
-        title: `${songTitle} — TAROT READING`,
-        era: 'LYRICAL TAROT',
-        ...(prev.src ? { src: prev.src, source: prev.source } : {}),
-      });
-    }
-    if (setIsPlaying) setIsPlaying(true);
   };
 
   const copyLyric = async (card) => {
