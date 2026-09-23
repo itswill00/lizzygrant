@@ -110,20 +110,21 @@ export default function Gallery() {
               onClick={() => setLightbox(null)}
               className="fixed inset-0 z-[70] bg-[#1A1A1A]/80 backdrop-blur-sm"
             />
+            <div className="pointer-events-none fixed inset-0 z-[71] flex items-center justify-center p-3 sm:p-6">
             <motion.div
               initial={{ opacity: 0, scale: 0.97, y: 12 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.97, y: 12 }}
               transition={{ type: 'spring', stiffness: 320, damping: 30 }}
-              className="fixed inset-x-3 bottom-4 top-4 z-[71] mx-auto flex max-w-[900px] flex-col overflow-hidden rounded-xl border border-[#D4AF37]/20 bg-[#FFFEFB] shadow-[0_20px_60px_rgba(0,0,0,0.4)] dark:border-[#F7F4EB]/10 dark:bg-noir sm:inset-x-6 sm:bottom-8 sm:top-8"
+              className="pointer-events-auto max-h-[90vh] w-fit max-w-[92vw] overflow-y-auto rounded-xl border border-[#D4AF37]/20 bg-[#FFFEFB] shadow-[0_20px_60px_rgba(0,0,0,0.4)] dark:border-[#F7F4EB]/10 dark:bg-noir sm:max-w-[860px]"
               role="dialog"
               aria-label={`Frame: ${frame.caption}`}
             >
-              <div className="relative flex min-h-0 flex-1 items-center justify-center bg-[#1A1A1A] p-3 sm:p-6">
+              <div className="relative bg-[#1A1A1A]">
                 <img
                   src={frame.full}
                   alt={`Lana Del Rey — ${frame.caption}`}
-                  className="max-h-full max-w-full rounded-md object-contain shadow-2xl"
+                  className="mx-auto max-h-[62vh] w-auto max-w-full rounded-t-xl object-contain sm:max-h-[68vh]"
                 />
                 <button onClick={() => setLightbox(null)} aria-label="Close" className="absolute right-3 top-3 flex h-9 w-9 items-center justify-center rounded-full bg-black/50 font-mono text-white backdrop-blur hover:bg-black/70 active:scale-95">
                   ✕
@@ -152,6 +153,7 @@ export default function Gallery() {
                 </span>
               </div>
             </motion.div>
+            </div>
           </>
         )}
       </AnimatePresence>

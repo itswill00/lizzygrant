@@ -1,9 +1,24 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { vaultItems } from '../data/vault';
 
 export default function Vault() {
   const [selected, setSelected] = useState(null);
+
+  // lock background scroll while a file is open (matches gallery loupe)
+  useEffect(() => {
+    if (!selected) return;
+    const prev = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
+    const onKey = (e) => {
+      if (e.key === 'Escape') setSelected(null);
+    };
+    window.addEventListener('keydown', onKey);
+    return () => {
+      document.body.style.overflow = prev;
+      window.removeEventListener('keydown', onKey);
+    };
+  }, [selected]);
 
   return (
     <section id="vault" className="relative overflow-x-hidden bg-espresso/[0.02] py-8 dark:bg-parchment/[0.02] sm:py-12 md:py-16">
@@ -149,12 +164,15 @@ export default function Vault() {
               onClick={() => setSelected(null)}
               className="fixed inset-0 z-[70] bg-[#1A1A1A]/60 backdrop-blur-sm"
             />
+            <div className="pointer-events-none fixed inset-0 z-[71] flex items-center justify-center p-3 sm:p-6">
             <motion.div
               initial={{ opacity: 0, y: 16, scale: 0.98 }}
               animate={{ opacity: 1, y: 0, scale: 1 }}
               exit={{ opacity: 0, y: 16, scale: 0.98 }}
               transition={{ type: 'spring', stiffness: 320, damping: 30 }}
-              className="fixed inset-x-3 bottom-3 top-3 z-[71] mx-auto flex max-w-[640px] flex-col overflow-hidden rounded-xl border border-[#D4AF37]/20 bg-[#FFFEFB] shadow-[0_20px_60px_rgba(0,0,0,0.35)] dark:border-[#F7F4EB]/10 dark:bg-noir sm:inset-auto sm:left-1/2 sm:top-1/2 sm:max-h-[85vh] sm:w-[92%] sm:-translate-x-1/2 sm:-translate-y-1/2"
+              className="pointer-events-auto max-h-[88vh] w-full max-w-[640px] overflow-y-auto rounded-xl border border-[#D4AF37]/20 bg-[#FFFEFB] shadow-[0_20px_60px_rgba(0,0,0,0.35)] dark:border-[#F7F4EB]/10 dark:bg-noir"
+              role="dialog"
+              aria-label={`File: ${selected.title}`}
             >
               <div className="relative aspect-[16/9] w-full shrink-0 overflow-hidden bg-parchment-dark">
                 <img src={selected.image} alt={selected.imageAlt} className="h-full w-full object-cover" loading="lazy" decoding="async" />
@@ -175,7 +193,7 @@ export default function Vault() {
                   <h3 className="mt-1 font-display text-[22px] font-bold leading-tight text-white drop-shadow sm:text-[26px]">{selected.title}</h3>
                 </div>
               </div>
-              <div className="flex flex-1 flex-col overflow-y-auto p-4 sm:p-6">
+              <div className="p-4 sm:p-6">
                 <p className="font-body text-[14px] leading-relaxed text-typewriter dark:text-parchment/70">{selected.description}</p>
                 <div className="mt-4 rounded-lg border border-[#D4AF37]/15 bg-parchment/40 p-3 dark:border-[#F7F4EB]/10 dark:bg-white/5">
                   <div className="font-mono text-[10px] tracking-[0.18em] text-typewriter">ARCHIVAL NOTE</div>
@@ -199,6 +217,7 @@ export default function Vault() {
                 </div>
               </div>
             </motion.div>
+            </div>
           </>
         )}
       </AnimatePresence>
