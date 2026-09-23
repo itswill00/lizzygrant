@@ -5,15 +5,15 @@ import { motion, AnimatePresence, useDragControls, useMotionValue } from 'framer
 // Option A iTunes Search API — 30s genuine vocal previews (no key, free, legal)
 // Deezer as secondary fallback for tracks where iTunes search is flaky (Mariners, A&W, Ride, Sweet)
 const baseTracks = [
-  { title: 'Video Games', slug: 'video-games', era: 'BORN TO DIE', year: '2012', duration: '4:42', src: '/audio/video-games.mp3', local: '/audio/video-games.mp3', query: 'lana del rey video games', fallbackLocal: '/audio/track1.mp3' },
-  { title: 'West Coast', slug: 'west-coast', era: 'ULTRAVIOLENCE', year: '2014', duration: '4:16', src: '/audio/west-coast.mp3', local: '/audio/west-coast.mp3', query: 'lana del rey west coast', fallbackLocal: '/audio/track2.mp3' },
-  { title: 'Mariners Apartment Complex', slug: 'mariners-apartment-complex', era: 'NFR!', year: '2019', duration: '4:06', src: '/audio/mariners-apartment-complex.mp3', local: '/audio/mariners-apartment-complex.mp3', query: 'lana del rey mariners apartment complex', fallbackLocal: '/audio/track5.mp3' },
-  { title: 'Sweet', slug: 'sweet', era: 'OCEAN BLVD', year: '2023', duration: '3:22', src: '/audio/sweet.mp3', local: '/audio/sweet.mp3', query: 'lana del rey sweet', fallbackLocal: '/audio/track7.mp3' },
-  { title: 'Honeymoon', slug: 'honeymoon', era: 'HONEYMOON', year: '2015', duration: '5:50', src: '/audio/honeymoon.mp3', local: '/audio/honeymoon.mp3', query: 'lana del rey honeymoon', fallbackLocal: '/audio/track3.mp3' },
-  { title: 'Love', slug: 'love', era: 'LUST FOR LIFE', year: '2017', duration: '4:32', src: '/audio/love.mp3', local: '/audio/love.mp3', query: 'lana del rey love', fallbackLocal: '/audio/track4.mp3' },
-  { title: 'White Dress', slug: 'white-dress', era: 'CHEMTRAILS', year: '2021', duration: '5:33', src: '/audio/white-dress.mp3', local: '/audio/white-dress.mp3', query: 'lana del rey white dress', fallbackLocal: '/audio/track6.mp3' },
-  { title: 'A&W', slug: 'a-w', era: 'OCEAN BLVD', year: '2023', duration: '7:13', src: '/audio/a-w.mp3', local: '/audio/a-w.mp3', query: 'lana del rey a&w', fallbackLocal: '/audio/track8.mp3' },
-  { title: 'Ride', slug: 'ride', era: 'PARADISE', year: '2012', duration: '4:49', src: '/audio/ride.mp3', local: '/audio/ride.mp3', query: 'lana del rey ride', fallbackLocal: '/audio/track8.mp3' },
+  { title: 'Video Games', slug: 'video-games', era: 'BORN TO DIE', year: '2012', duration: '4:42', src: '/audio/video-games.mp3', local: '/audio/video-games.mp3', query: 'lana del rey video games' },
+  { title: 'West Coast', slug: 'west-coast', era: 'ULTRAVIOLENCE', year: '2014', duration: '4:16', src: '/audio/west-coast.mp3', local: '/audio/west-coast.mp3', query: 'lana del rey west coast' },
+  { title: 'Mariners Apartment Complex', slug: 'mariners-apartment-complex', era: 'NFR!', year: '2019', duration: '4:06', src: '/audio/mariners-apartment-complex.mp3', local: '/audio/mariners-apartment-complex.mp3', query: 'lana del rey mariners apartment complex' },
+  { title: 'Sweet', slug: 'sweet', era: 'OCEAN BLVD', year: '2023', duration: '3:22', src: '/audio/sweet.mp3', local: '/audio/sweet.mp3', query: 'lana del rey sweet' },
+  { title: 'Honeymoon', slug: 'honeymoon', era: 'HONEYMOON', year: '2015', duration: '5:50', src: '/audio/honeymoon.mp3', local: '/audio/honeymoon.mp3', query: 'lana del rey honeymoon' },
+  { title: 'Love', slug: 'love', era: 'LUST FOR LIFE', year: '2017', duration: '4:32', src: '/audio/love.mp3', local: '/audio/love.mp3', query: 'lana del rey love' },
+  { title: 'White Dress', slug: 'white-dress', era: 'CHEMTRAILS', year: '2021', duration: '5:33', src: '/audio/white-dress.mp3', local: '/audio/white-dress.mp3', query: 'lana del rey white dress' },
+  { title: 'A&W', slug: 'a-w', era: 'OCEAN BLVD', year: '2023', duration: '7:13', src: '/audio/a-w.mp3', local: '/audio/a-w.mp3', query: 'lana del rey a&w' },
+  { title: 'Ride', slug: 'ride', era: 'PARADISE', year: '2012', duration: '4:49', src: '/audio/ride.mp3', local: '/audio/ride.mp3', query: 'lana del rey ride' },
 ];
 
 function formatTime(sec) {
@@ -128,13 +128,6 @@ export default function AudioPlayer({ isPlaying, setIsPlaying, currentTrack, set
 
           // NOTE: no Deezer here — its API sends no CORS headers so browsers
           // can never use it; local files above cover every deck track.
-          // 3) Final fallback: local trimmed stem (guaranteed to exist)
-          if (await localExists(t.local)) {
-            return { ...t, src: t.local, source: 'LOCAL' };
-          }
-          if (await localExists(t.fallbackLocal)) {
-            return { ...t, src: t.fallbackLocal, source: 'LOCAL' };
-          }
           return t;
         })
       );
@@ -278,20 +271,9 @@ export default function AudioPlayer({ isPlaying, setIsPlaying, currentTrack, set
       setIsPlaying(true);
     };
     const onError = () => {
-      // try fallbackLocal if current is remote and fails
-      const cur = tracks[trackIndex];
-      if (cur?.fallbackLocal && !audio.src.includes('/audio/track')) {
-        audio.src = cur.fallbackLocal;
-        audio.load();
-        const p = audio.play();
-        if (p) p.catch(() => {
-          setError('Audio stream unavailable — try another track.');
-          setIsPlaying(false);
-        });
-        setError('Stream failed — switching to local tape…');
-        return;
-      }
-      setError('Audio stream unavailable — try another track or check connection.');
+      // honest failure: never substitute an unrelated instrumental.
+      // just say so — the deck keeps its state, nothing fake plays.
+      setError('That preview would not load — check connection or pick another track.');
       setIsPlaying(false);
     };
     const onPlay = () => {
