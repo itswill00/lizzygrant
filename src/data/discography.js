@@ -12,7 +12,7 @@ export const discography = [
     palette: ['#9E1B1B', '#2E4057'],
     tracks: [
       T('Born to Die', 1), T('Off to the Races'), T('Blue Jeans', 1), T('Video Games', 1),
-      T('Diet Mountain Dew'), T('National Anthem', 1), T('Dark Paradise'), T('Radio'),
+      T('Diet Mountain Dew'), T('National Anthem', 1), T('Dark Paradise', 1), T('Radio'),
       T('Carmen'), T('Million Dollar Man'), T('Summertime Sadness', 1),
       T('This Is What Makes Us Girls'), T('Without You'), T('Lolita'), T('Lucky Ones'),
     ],
@@ -71,7 +71,7 @@ export const discography = [
     tracks: [
       T('Love', 1), T('Lust for Life (feat. The Weeknd)', 1), T('13 Beaches'), T('Cherry'),
       T('White Mustang'), T('Summer Bummer (feat. A$AP Rocky, Playboi Carti)', 1),
-      T('Groupie Love (feat. A$AP Rocky)'), T('In My Feelings'), T('Coachella – Woodstock in My Mind'),
+      T('Groupie Love (feat. A$AP Rocky)', 1), T('In My Feelings'), T('Coachella – Woodstock in My Mind'),
       T('God Bless America – And All the Beautiful Women in It'),
       T('When the World Was at War We Kept Dancing'),
       T('Beautiful People Beautiful Problems (feat. Stevie Nicks)'),
