@@ -3,7 +3,7 @@ export const nowEntries = [
   {
     date: 'JUL 2023',
     title: 'The Waffle House Shift',
-    text: 'Florence, Alabama. She shows up in the uniform, pours coffee, takes orders — phones come out worldwide. No stunt, no press release. Just Lana doing a shift because she felt like it.',
+    text: 'Florence, Alabama — July 20, 2023. She shows up in the uniform with a "Lana" name tag, pours coffee, sings Amazing Grace with customers. No stunt, no press release. Just Lana doing a shift because she felt like it.',
     tag: 'VIRAL KINDNESS',
   },
   {

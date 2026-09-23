@@ -49,7 +49,7 @@ export const eras = [
     songs: [
       { title: 'Cruel World', note: 'Opening hymn — "shared my body and my mind with you"', duration: '6:39' },
       { title: 'Shades of Cool', note: 'Guitar solo as heartbreak', duration: '5:42' },
-      { title: 'Brooklyn Baby', note: 'Jazz-inflected, adored by Lou Reed', duration: '5:52' },
+      { title: 'Brooklyn Baby', note: 'Written with Reed in mind — she landed at 7am; he died minutes later', duration: '5:52' },
     ],
     mood: 'Rain on Laurel Canyon / Black & white film still',
     image: 'https://commons.wikimedia.org/wiki/Special:FilePath/Lana_Del_Rey_live_in_Seattle_%2802%29.jpg?width=800',
@@ -83,7 +83,7 @@ export const eras = [
     curatorNote: 'The sky cleared. Sequins. Protests. LSD dreams on a Hollywood hill.',
     aesthetic: 'Flower crowns, Space Needle, folk collab album art, Woodstock minus chaos.',
     palette: ['#9E1B1B', '#2E4057', '#EDE8D6', '#A8C3B9'],
-    description: 'Her most collaborative and hopeful record. Stevie Nicks on "Beautiful People," Sean Lennon on "Tomorrow Never Came," A$AP Rocky and Playboi Carti on "Summer Bummer." Lust For Life traded tragedy for tenderness — not naivety, but faith. "Love" and "Cherry" felt like postcards from a future that still believed.',
+    description: 'Her most collaborative and hopeful record. Stevie Nicks on "Beautiful People Beautiful Problems," Sean Lennon on "Tomorrow Never Came," A$AP Rocky and Playboi Carti on "Summer Bummer." Lust For Life traded tragedy for tenderness — not naivety, but faith. "Love" and "Cherry" felt like postcards from a future that still believed.',
     songs: [
       { title: 'Love', note: 'Opening drums — youth as religion', duration: '4:32' },
       { title: 'Cherry', note: 'Jazz + trap + undressing as devotion', duration: '3:00' },

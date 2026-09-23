@@ -43,7 +43,7 @@ export const tarotCards = [
     id: 'the-tower',
     name: 'The Tower — A&W',
     arcana: 'XVI',
-    lyric: '"Jimmy only had love for Jimmy / Jimmy only wanted love from Jimmy"',
+    lyric: '"It\'s not about having someone to love me anymore / This is the experience of being an American whore"',
     song: 'A&W — Ocean Blvd (2023)',
     meaning: 'Seven minutes, two songs, one collapse. The trap section is The Tower itself — structure falling, then a new one (mother, wife, legacy) built from rubble.',
     theme: 'Collapse & Rebirth',

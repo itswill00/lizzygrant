@@ -4,10 +4,10 @@ import { Tilt, Magnetic, FloatingVinyl } from './Fx';
 
 const quotes = [
   { text: '"We were born to die."', ref: '— Born to Die, 2012' },
-  { text: '"I was a cult leader, but I was really a kindergarten teacher."', ref: '— Interview, 2014' },
+  { text: '"I\'m so used to writing for myself. I do it because I feel like I have to."', ref: '— NPR Interview, 2014' },
   { text: '"My pussy tastes like Pepsi Cola."', ref: '— Cola, Paradise' },
-  { text: '"Don\'t you remember? You used to be so sweet."', ref: '— Shades of Cool' },
-  { text: '"God, I love my baby like I love diamonds."', ref: '— Serial Killer (Unreleased)' },
+  { text: '"My baby lives in shades of blue. Blue eyes and jazz and attitude."', ref: '— Shades of Cool, 2014' },
+  { text: '"If he\'s a serial killer, then what\'s the worst that can happen to a girl?"', ref: '— Serial Killer (Unreleased)' },
   { text: '"I\'m your man."', ref: '— Mariners Apartment Complex, NFR!' },
   { text: '"Will you still love me when I\'m no longer young and beautiful?"', ref: '— Young and Beautiful' },
 ];

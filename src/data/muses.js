@@ -4,13 +4,13 @@ export const muses = [
   {
     id: 'barrie',
     name: 'Barrie-James O’Neill',
-    years: '2011 — 2014',
+    years: '2012 — 2014',
     role: 'Scottish musician (Kassidy)',
     era: 'Born to Die / Ultraviolence',
     initials: 'BO',
     color: '#1A1A1A',
     story:
-      'Together through the fame earthquake — from Video Games going viral to the Ultraviolence sessions. A reported engagement in 2013, a quiet split in 2014. The distortion era has his fingerprints all over it.',
+      'Together from the confirmed February 2012 reveal through the fame earthquake — Born to Die going viral to the Ultraviolence sessions he later co-wrote on ("Brooklyn Baby"). Engagement rumors she deflected ("we are currently not together"), a quiet split in 2014. The distortion era has his fingerprints all over it.',
     songs: ['Ultraviolence', 'Shades of Cool', 'Brooklyn Baby'],
   },
   {
@@ -34,7 +34,7 @@ export const muses = [
     initials: 'GE',
     color: '#9E1B1B',
     story:
-      'A paparazzi summer: spotted together through 2017, red carpets and lake houses. Short, loud, tabloid-lit — the exact opposite of the music it orbited.',
+      'A paparazzi spring: first spotted together at Coachella, April 2017, then red carpets and lake houses. Short, loud, tabloid-lit — the exact opposite of the music it orbited. Rumor only, never confirmed — filed as fan reading.',
     songs: ['Summer Bummer', 'In My Feelings', 'Cherry'],
   },
   {
