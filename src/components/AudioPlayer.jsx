@@ -4,6 +4,7 @@ import {
   registerAudioElement,
   unregisterAudioElement,
   playAudioDirect,
+  isAudioSwitching,
 } from '../lib/preview';
 
 // Option B local genuine vocal clips (bundled in public/audio) — permanent priority
@@ -139,30 +140,16 @@ export default function AudioPlayer({ isPlaying, setIsPlaying, currentTrack, set
     const curTail = cur.split('/').pop()?.split('?')[0];
     const tgtTail = effectiveSrc.split('/').pop()?.split('?')[0];
     if (curTail !== tgtTail || !cur) {
-      audio.src = effectiveSrc;
-      audio.currentTime = 0;
-      if (isPlaying) {
-        const p = audio.play();
-        if (p && typeof p.catch === 'function') {
-          p.catch((err) => {
-            if (err.name !== 'AbortError') {
-              console.warn('[AudioPlayer] switch play error:', err);
-            }
-          });
-        }
-      }
+      playAudioDirect(effectiveSrc);
     }
-  }, [effectiveSrc, isPlaying]);
+  }, [effectiveSrc]);
 
   // Sync play/pause state
   useEffect(() => {
     const audio = audioRef.current;
     if (!audio) return;
     if (isPlaying) {
-      if (audio.paused) {
-        if (!audio.src && effectiveSrc) {
-          audio.src = effectiveSrc;
-        }
+      if (audio.paused && !isAudioSwitching()) {
         const p = audio.play();
         if (p && typeof p.catch === 'function') {
           p.catch((err) => {
@@ -173,11 +160,11 @@ export default function AudioPlayer({ isPlaying, setIsPlaying, currentTrack, set
         }
       }
     } else {
-      if (!audio.paused) {
+      if (!audio.paused && !isAudioSwitching()) {
         audio.pause();
       }
     }
-  }, [isPlaying, effectiveSrc]);
+  }, [isPlaying]);
 
   // Volume
   useEffect(() => {
@@ -203,7 +190,7 @@ export default function AudioPlayer({ isPlaying, setIsPlaying, currentTrack, set
       setError(null);
     };
     const onPause = () => {
-      if (audio.ended) return;
+      if (audio.ended || isAudioSwitching()) return;
       setIsPlaying(false);
     };
     const onEnded = () => {

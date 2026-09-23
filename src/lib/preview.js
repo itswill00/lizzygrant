@@ -184,6 +184,7 @@ export function resolveLocalPreview(title) {
 // Allows calling .play() synchronously in the user touch/click gesture stack,
 // guaranteeing 100% immunity to mobile browser autoplay blocks.
 let activeAudioElement = null;
+let isSwitchingSrc = false;
 
 export function registerAudioElement(element) {
   activeAudioElement = element;
@@ -193,6 +194,10 @@ export function unregisterAudioElement() {
   activeAudioElement = null;
 }
 
+export function isAudioSwitching() {
+  return isSwitchingSrc;
+}
+
 export function playAudioDirect(src) {
   if (!activeAudioElement || !src) return;
   try {
@@ -200,19 +205,26 @@ export function playAudioDirect(src) {
     const curTail = cur.split('/').pop()?.split('?')[0];
     const tgtTail = src.split('/').pop()?.split('?')[0];
     if (curTail !== tgtTail || !cur) {
+      isSwitchingSrc = true;
       activeAudioElement.src = src;
       activeAudioElement.currentTime = 0;
     }
     const p = activeAudioElement.play();
-    if (p && typeof p.catch === 'function') {
-      p.catch((err) => {
+    if (p && typeof p.then === 'function') {
+      p.then(() => {
+        isSwitchingSrc = false;
+      }).catch((err) => {
+        isSwitchingSrc = false;
         // AbortError is benign when rapid switching tracks
         if (err.name !== 'AbortError') {
           console.warn('[Audio] play interrupted or rejected:', err);
         }
       });
+    } else {
+      isSwitchingSrc = false;
     }
   } catch (err) {
+    isSwitchingSrc = false;
     console.warn('[Audio] playAudioDirect failed:', err);
   }
 }
