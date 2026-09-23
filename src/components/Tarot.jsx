@@ -117,9 +117,9 @@ export default function Tarot({ setCurrentTrack, setIsPlaying }) {
       </div>
 
       {/* ritual bar */}
-      <div className="mb-6 rounded-lg border border-[#D4AF37]/20 bg-white p-3 shadow-[0_6px_16px_rgba(0,0,0,0.05)] dark:border-[#F7F4EB]/10 dark:bg-noir-soft sm:mb-8 sm:p-4">
+      <div className="mb-6 rounded-2xl border border-[#D4AF37]/20 bg-white p-3 shadow-[0_6px_16px_rgba(0,0,0,0.05)] dark:border-[#F7F4EB]/10 dark:bg-noir-soft sm:mb-8 sm:p-4">
         <div className="flex flex-col gap-3 lg:flex-row lg:items-center">
-          <div className="flex min-w-0 flex-1 items-center gap-2 rounded-lg border border-[#D4AF37]/15 bg-parchment/50 px-3 py-2.5 dark:border-[#F7F4EB]/10 dark:bg-white/5">
+          <div className="flex min-w-0 flex-1 items-center gap-2 rounded-xl border border-[#D4AF37]/15 bg-parchment/50 px-3 py-2.5 dark:border-[#F7F4EB]/10 dark:bg-white/5">
             <span className="shrink-0 font-mono text-[10px] tracking-[0.18em] text-typewriter">✦ INTENTION</span>
             <input
               value={intention}
@@ -158,7 +158,7 @@ export default function Tarot({ setCurrentTrack, setIsPlaying }) {
         <div className="mt-2.5 flex flex-wrap items-center gap-2 font-mono text-[10px] tracking-[0.12em] text-typewriter/70">
           <span>{flippedCount} CARD{flippedCount === 1 ? '' : 'S'} OPEN</span>
           <span className="h-3 w-px bg-espresso/10 dark:bg-parchment/10" />
-          <span>{spread === 'three' ? 'PAST • PRESENT • FUTURE' : 'SINGLE PULL'}</span>
+          <span>{spread === 'three' ? 'PAST / PRESENT / FUTURE' : 'SINGLE PULL'}</span>
           {intention.trim() && (
             <>
               <span className="h-3 w-px bg-espresso/10 dark:bg-parchment/10" />
@@ -192,10 +192,10 @@ export default function Tarot({ setCurrentTrack, setIsPlaying }) {
                     aria-label={`Tarot card ${card.name} - ${isOpen ? 'revealed' : 'face down'}`}
                   >
                     <div
-                      className="absolute inset-0 flex flex-col overflow-hidden rounded-lg border-2 p-2 shadow-[0_8px_20px_rgba(0,0,0,0.15)] transition-all duration-300 hover:shadow-[0_12px_28px_rgba(0,0,0,0.2)] [backface-visibility:hidden] sm:p-3"
+                      className="absolute inset-0 flex flex-col overflow-hidden rounded-2xl border-2 p-2 shadow-[0_8px_20px_rgba(0,0,0,0.15)] transition-all duration-300 hover:shadow-[0_12px_28px_rgba(0,0,0,0.2)] [backface-visibility:hidden] sm:p-3"
                       style={{ background: `linear-gradient(135deg, #1A1A1A 0%, #2E4057 100%)`, borderColor: isOpen ? 'transparent' : '#D4AF37' }}
                     >
-                      <div className="flex h-full flex-col rounded-md border border-brass/25 p-1.5 sm:p-2">
+                      <div className="flex h-full flex-col rounded-xl border border-brass/25 p-1.5 sm:p-2">
                         <div className="flex items-center justify-between font-mono text-[8px] tracking-[0.14em] text-brass/70 sm:text-[9px] sm:tracking-[0.2em]">
                           <span>{card.arcana}</span>
                           <span>LG TAROT</span>
@@ -212,13 +212,13 @@ export default function Tarot({ setCurrentTrack, setIsPlaying }) {
                           </div>
                         </div>
                         <div className="hidden text-center font-mono text-[7px] tracking-[0.18em] text-brass/50 sm:block sm:text-[8px] sm:tracking-[0.2em]">
-                          • ARCHIVES EDITION •
+                          ARCHIVES EDITION
                         </div>
                       </div>
                     </div>
 
                     <div
-                      className="absolute inset-0 flex flex-col overflow-hidden rounded-lg border bg-white p-2 shadow-[0_8px_20px_rgba(0,0,0,0.08)] [backface-visibility:hidden] dark:bg-noir-soft dark:border-[#F7F4EB]/10 sm:p-3"
+                      className="absolute inset-0 flex flex-col overflow-hidden rounded-2xl border bg-white p-2 shadow-[0_8px_20px_rgba(0,0,0,0.08)] [backface-visibility:hidden] dark:bg-noir-soft dark:border-[#F7F4EB]/10 sm:p-3"
                       style={{ transform: 'rotateY(180deg)', borderColor: card.color }}
                     >
                       <div className="flex items-center justify-between border-b border-dashed border-espresso/10 pb-1.5 dark:border-parchment/10 sm:pb-2">
@@ -245,7 +245,7 @@ export default function Tarot({ setCurrentTrack, setIsPlaying }) {
                   </motion.button>
                   <div className="mt-1.5 text-center sm:mt-2">
                     <div className="truncate font-mono text-[9px] tracking-[0.08em] text-typewriter sm:text-[10px] sm:tracking-[0.12em]">
-                      {spread === 'three' && spreadPos !== -1 ? `${['I — PAST', 'II — PRESENT', 'III — FUTURE'][spreadPos]} • ` : `#${i + 1} • `}{card.name.split('—')[0].trim()}
+                      {spread === 'three' && spreadPos !== -1 ? `${['I — PAST', 'II — PRESENT', 'III — FUTURE'][spreadPos]} / ` : `#${i + 1} / `}{card.name.split('—')[0].trim()}
                     </div>
                   </div>
                 </div>
@@ -255,7 +255,7 @@ export default function Tarot({ setCurrentTrack, setIsPlaying }) {
 
           {/* history strip */}
           {history.length > 0 && (
-            <div className="mt-5 rounded-lg border border-dashed border-[#D4AF37]/20 bg-parchment/40 p-3 dark:border-[#F7F4EB]/10 dark:bg-white/5">
+            <div className="mt-5 rounded-2xl border border-dashed border-[#D4AF37]/20 bg-parchment/40 p-3 dark:border-[#F7F4EB]/10 dark:bg-white/5">
               <div className="font-mono text-[10px] tracking-[0.18em] text-typewriter">READING LOG — LAST {history.length}</div>
               <div className="mt-2 flex flex-wrap gap-1.5">
                 {history.map((h, i) => (
@@ -270,7 +270,7 @@ export default function Tarot({ setCurrentTrack, setIsPlaying }) {
                     className="rounded-full border border-[#D4AF37]/20 bg-white px-2.5 py-1 font-mono text-[10px] tracking-wide text-typewriter transition hover:bg-[#F7F4EB] dark:border-[#F7F4EB]/10 dark:bg-noir-soft"
                     title={h.intention || 'no intention'}
                   >
-                    {h.time} • {h.ids.map((id) => tarotCards.find((c) => c.id === id)?.name.split('—')[0].trim()).join(' + ')}
+                    {h.time} / {h.ids.map((id) => tarotCards.find((c) => c.id === id)?.name.split('—')[0].trim()).join(' + ')}
                   </button>
                 ))}
               </div>
@@ -279,11 +279,11 @@ export default function Tarot({ setCurrentTrack, setIsPlaying }) {
         </div>
 
         {/* Reading panel */}
-        <div className="paper min-w-0 overflow-hidden rounded-lg border border-[#D4AF37]/15 shadow-[0_8px_24px_rgba(0,0,0,0.08)] dark:border-[#F7F4EB]/10 lg:sticky lg:top-[88px] lg:self-start">
+        <div className="paper min-w-0 overflow-hidden rounded-2xl border border-[#D4AF37]/15 shadow-[0_8px_24px_rgba(0,0,0,0.08)] dark:border-[#F7F4EB]/10 lg:sticky lg:top-[88px] lg:self-start">
           <div className="border-b border-espresso/10 bg-white px-4 py-3 dark:border-parchment/10 dark:bg-noir-soft sm:px-5">
             <div className="font-mono text-[9px] tracking-[0.18em] text-cherry sm:text-[10px] sm:tracking-[0.2em]">CURRENT READING</div>
             <div className="mt-1 font-display text-[11px] tracking-[0.12em] text-typewriter sm:text-[12px] sm:tracking-[0.15em]">
-              {!active ? 'DRAW A CARD TO BEGIN' : spread === 'three' && drawn.length > 1 ? `${drawn.length}-CARD SPREAD • TAP CARDS TO READ EACH` : 'CARD DRAWN • LISTEN BELOW'}
+              {!active ? 'DRAW A CARD TO BEGIN' : spread === 'three' && drawn.length > 1 ? `${drawn.length}-CARD SPREAD / TAP CARDS TO READ EACH` : 'CARD DRAWN / LISTEN BELOW'}
             </div>
           </div>
 
@@ -313,7 +313,7 @@ export default function Tarot({ setCurrentTrack, setIsPlaying }) {
                         <button
                           key={id}
                           onClick={() => setActiveId(id)}
-                          className={`flex-1 rounded-lg border px-2 py-1.5 font-mono text-[9px] tracking-[0.1em] transition ${id === active.id ? 'border-cherry bg-cherry text-white' : 'border-[#D4AF37]/20 text-typewriter hover:bg-[#F7F4EB] dark:hover:bg-white/5'}`}
+                          className={`flex-1 rounded-xl border px-2 py-1.5 font-mono text-[9px] tracking-[0.1em] transition ${id === active.id ? 'border-cherry bg-cherry text-white' : 'border-[#D4AF37]/20 text-typewriter hover:bg-[#F7F4EB] dark:hover:bg-white/5'}`}
                         >
                           {['PAST', 'PRESENT', 'FUTURE'][i] || `CARD ${i + 1}`}
                         </button>
@@ -323,8 +323,8 @@ export default function Tarot({ setCurrentTrack, setIsPlaying }) {
                   <div className="flex items-start justify-between gap-2 sm:gap-3">
                     <div className="min-w-0">
                       <div className="font-mono text-[9px] tracking-[0.16em] text-typewriter sm:text-[10px] sm:tracking-[0.2em]">
-                        {active.arcana} • {active.theme.toUpperCase()}
-                        {spread === 'three' && drawn.includes(active.id) && ` • ${spreadLabels[drawn.indexOf(active.id)]}`}
+                        {active.arcana} / {active.theme.toUpperCase()}
+                        {spread === 'three' && drawn.includes(active.id) && ` / ${spreadLabels[drawn.indexOf(active.id)]}`}
                       </div>
                       <h3 className="mt-1 font-display text-[16px] font-bold leading-tight text-espresso dark:text-parchment sm:text-[20px]">
                         {active.name}
@@ -333,7 +333,7 @@ export default function Tarot({ setCurrentTrack, setIsPlaying }) {
                     <span className="h-8 w-8 shrink-0 rounded-full border-2 border-white shadow-sm sm:h-9 sm:w-9" style={{ background: active.color }} aria-hidden />
                   </div>
 
-                  <div className="mt-3 rounded-lg border border-[#D4AF37]/15 bg-parchment-dark/40 p-3 shadow-sm dark:border-[#F7F4EB]/10 dark:bg-noir sm:mt-4 sm:p-4">
+                  <div className="mt-3 rounded-xl border border-[#D4AF37]/15 bg-parchment-dark/40 p-3 shadow-sm dark:border-[#F7F4EB]/10 dark:bg-noir sm:mt-4 sm:p-4">
                     <p className="font-display text-[15px] italic leading-snug text-espresso dark:text-parchment sm:text-[18px]">
                       {active.lyric}
                     </p>
@@ -353,16 +353,16 @@ export default function Tarot({ setCurrentTrack, setIsPlaying }) {
                     <button
                       onClick={() => hearSong(active)}
                       disabled={hearing === active.id}
-                      className="col-span-2 flex items-center justify-center gap-2 rounded-lg bg-espresso px-4 py-3 font-mono text-[11px] tracking-[0.14em] text-parchment transition-all duration-300 hover:bg-noir hover:shadow-[0_6px_16px_rgba(0,0,0,0.2)] active:scale-[0.98] dark:bg-parchment dark:text-noir"
+                      className="col-span-2 flex items-center justify-center gap-2 rounded-full bg-espresso px-4 py-3 font-mono text-[11px] tracking-[0.14em] text-parchment transition-all duration-300 hover:bg-noir hover:shadow-[0_6px_16px_rgba(0,0,0,0.2)] active:scale-[0.98] dark:bg-parchment dark:text-noir"
                     >
                       <span>{hearing === active.id ? 'CUEING…' : '▶ HEAR THIS SONG'}</span>
                     </button>
-                    <button onClick={() => copyLyric(active)} className="rounded-lg border border-[#D4AF37]/20 bg-white px-3 py-2.5 font-mono text-[11px] tracking-[0.12em] text-espresso transition hover:bg-[#F7F4EB] active:scale-95 dark:border-[#F7F4EB]/15 dark:bg-noir-soft dark:text-parchment">
+                    <button onClick={() => copyLyric(active)} className="rounded-full border border-[#D4AF37]/20 bg-white px-3 py-2.5 font-mono text-[11px] tracking-[0.12em] text-espresso transition hover:bg-[#F7F4EB] active:scale-95 dark:border-[#F7F4EB]/15 dark:bg-noir-soft dark:text-parchment">
                       {copied ? 'COPIED ✓' : 'COPY LYRIC'}
                     </button>
                     <button
                       onClick={drawRitual}
-                      className="rounded-lg bg-cherry px-3 py-2.5 font-mono text-[11px] tracking-[0.12em] text-white transition hover:bg-cherry-light active:scale-95"
+                      className="rounded-full bg-cherry px-3 py-2.5 font-mono text-[11px] tracking-[0.12em] text-white transition hover:bg-cherry-light active:scale-95"
                     >
                       DRAW AGAIN ✦
                     </button>

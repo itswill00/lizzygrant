@@ -68,11 +68,11 @@ export default function Hero({ isPlaying, setIsPlaying, currentTrack, setCurrent
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, ease: 'easeOut' }}
-            className="mt-2 inline-flex max-w-full items-center gap-1.5 overflow-hidden border border-espresso/15 bg-white px-2 py-1 text-[9px] font-mono tracking-[0.14em] text-typewriter shadow-sm dark:border-parchment/15 dark:bg-noir-soft dark:text-parchment/60 sm:gap-2 sm:px-3 sm:py-1 sm:text-[10px] sm:tracking-[0.2em]"
+            className="mt-2 inline-flex max-w-full items-center gap-1.5 overflow-hidden rounded-full border border-espresso/15 bg-white px-2.5 py-1 text-[9px] font-mono tracking-[0.14em] text-typewriter shadow-sm dark:border-parchment/15 dark:bg-noir-soft dark:text-parchment/60 sm:gap-2 sm:px-3 sm:text-[10px] sm:tracking-[0.2em]"
           >
             <span className="h-1.5 w-1.5 shrink-0 rounded-full bg-cherry" />
             <span className="truncate">ARCHIVAL CASE FILE № 001 — RESTRICTED</span>
-            <span className="hidden shrink-0 sm:inline">• CATALOGUED ANAHEIM → LAKE PLACID</span>
+            <span className="hidden shrink-0 sm:inline">/ CATALOGUED ANAHEIM → LAKE PLACID</span>
           </motion.div>
 
           <div className="mt-4 sm:mt-6">
@@ -90,7 +90,7 @@ export default function Hero({ isPlaying, setIsPlaying, currentTrack, setCurrent
             <div className="mt-3 flex flex-wrap items-center gap-2 sm:mt-4 sm:gap-3">
               <div className="hidden h-px flex-1 max-w-[200px] bg-cherry/30 dark:bg-brass/30 sm:block sm:max-w-[280px]" />
               <span className="rounded-full border border-cherry/20 bg-cherry/5 px-2.5 py-1 font-mono text-[9px] tracking-[0.14em] text-cherry dark:border-brass/20 dark:bg-brass/5 dark:text-brass sm:px-3 sm:text-[10px] sm:tracking-[0.2em]">
-                EST. 1985 — NEW YORK • VOLUME I–VIII
+                EST. 1985 — NEW YORK / VOLUME I–VIII
               </span>
             </div>
           </div>
@@ -110,10 +110,10 @@ export default function Hero({ isPlaying, setIsPlaying, currentTrack, setCurrent
           </div>
 
           {/* rotating quote - CLS locked: fixed min-h so buttons never jitter */}
-          <div className="mt-6 flex min-h-[148px] max-w-[560px] flex-col rounded-lg border border-[#D4AF37]/15 bg-white p-4 shadow-[0_6px_16px_rgba(0,0,0,0.06)] dark:border-[#F7F4EB]/10 dark:bg-noir-soft sm:mt-8 sm:min-h-[148px] sm:p-5">
+          <div className="mt-6 flex min-h-[148px] max-w-[560px] flex-col rounded-2xl border border-[#D4AF37]/15 bg-white p-4 shadow-[0_6px_16px_rgba(0,0,0,0.06)] dark:border-[#F7F4EB]/10 dark:bg-noir-soft sm:mt-8 sm:min-h-[148px] sm:p-5">
             <div className="mb-2 flex shrink-0 items-center gap-2 font-mono text-[9px] tracking-[0.18em] text-cherry sm:text-[10px] sm:tracking-[0.2em]">
               <span className="inline-block h-px w-4 bg-cherry/40 sm:w-6" />
-              ROTATING LYRIC • ARCHIVAL TRANSCRIPT
+              ROTATING LYRIC / ARCHIVAL TRANSCRIPT
             </div>
             {/* fixed height text stage — all quotes occupy same space, no layout shift */}
             <div className="relative flex h-[84px] flex-col justify-center sm:h-[72px]">
@@ -152,7 +152,7 @@ export default function Hero({ isPlaying, setIsPlaying, currentTrack, setCurrent
               <a
                 href="#timeline"
                 onClick={(e) => { e.preventDefault(); document.querySelector('#timeline')?.scrollIntoView({ behavior: 'smooth' }); }}
-                className="group inline-flex w-full items-center justify-center gap-2 rounded-lg bg-cherry px-5 py-3.5 font-mono text-[12px] tracking-[0.14em] text-white shadow-[0_4px_14px_rgba(158,27,27,0.2)] transition-all duration-300 ease-out hover:tracking-[0.16em] hover:bg-cherry-light hover:shadow-[0_8px_20px_rgba(158,27,27,0.3)] active:scale-[0.98] sm:w-auto sm:px-6 sm:py-3 sm:tracking-[0.15em]"
+                className="group inline-flex w-full items-center justify-center gap-2 rounded-full bg-cherry px-5 py-3.5 font-mono text-[12px] tracking-[0.14em] text-white shadow-[0_4px_14px_rgba(158,27,27,0.2)] transition-all duration-300 ease-out hover:tracking-[0.16em] hover:bg-cherry-light hover:shadow-[0_8px_20px_rgba(158,27,27,0.3)] active:scale-[0.98] sm:w-auto sm:px-6 sm:py-3 sm:tracking-[0.15em]"
               >
                 ENTER THE ERAS <span aria-hidden className="transition-transform duration-300 group-hover:translate-x-0.5">—</span> 2005 → 2024
               </a>
@@ -161,7 +161,7 @@ export default function Hero({ isPlaying, setIsPlaying, currentTrack, setCurrent
               <a
                 href="#vault"
                 onClick={(e) => { e.preventDefault(); document.querySelector('#vault')?.scrollIntoView({ behavior: 'smooth' }); }}
-                className="group inline-flex w-full items-center justify-center gap-2 rounded-lg border border-[#D4AF37]/20 bg-white px-5 py-3.5 font-mono text-[12px] tracking-[0.14em] text-espresso shadow-sm transition-all duration-300 ease-out hover:tracking-[0.16em] hover:bg-[#FFFEFB] hover:border-[#D4AF37]/30 hover:shadow-[0_6px_16px_rgba(0,0,0,0.07)] active:scale-[0.98] dark:border-[#F7F4EB]/15 dark:bg-noir-soft dark:text-parchment dark:hover:bg-white/10 sm:w-auto sm:px-6 sm:py-3 sm:tracking-[0.15em]"
+                className="group inline-flex w-full items-center justify-center gap-2 rounded-full border border-[#D4AF37]/20 bg-white px-5 py-3.5 font-mono text-[12px] tracking-[0.14em] text-espresso shadow-sm transition-all duration-300 ease-out hover:tracking-[0.16em] hover:bg-[#FFFEFB] hover:border-[#D4AF37]/30 hover:shadow-[0_6px_16px_rgba(0,0,0,0.07)] active:scale-[0.98] dark:border-[#F7F4EB]/15 dark:bg-noir-soft dark:text-parchment dark:hover:bg-white/10 sm:w-auto sm:px-6 sm:py-3 sm:tracking-[0.15em]"
               >
                 OPEN SECRET VAULT <span className="transition-transform duration-300 group-hover:translate-x-0.5">↗</span>
               </a>
@@ -188,7 +188,7 @@ export default function Hero({ isPlaying, setIsPlaying, currentTrack, setCurrent
               initial={{ rotate: -2, y: 20, opacity: 0 }}
               animate={{ rotate: -1.5, y: 0, opacity: 1 }}
               transition={{ duration: 0.9, delay: 0.1 }}
-              className="relative w-full rounded-lg paper border border-[#D4AF37]/15 p-2 pb-8 shadow-[0_12px_28px_rgba(0,0,0,0.12)] transition-shadow duration-300 hover:shadow-[0_16px_32px_rgba(0,0,0,0.16)] dark:border-[#F7F4EB]/10 sm:p-3 sm:pb-10"
+              className="relative w-full rounded-2xl paper border border-[#D4AF37]/15 p-2 pb-8 shadow-[0_12px_28px_rgba(0,0,0,0.12)] transition-shadow duration-300 hover:shadow-[0_16px_32px_rgba(0,0,0,0.16)] dark:border-[#F7F4EB]/10 sm:p-3 sm:pb-10"
             >
               <div className="tape -top-2 left-4 hidden rotate-[-4deg] sm:block sm:-top-3 sm:left-6" />
               <div className="tape -top-2 right-4 hidden rotate-[5deg] sm:block sm:-top-3 sm:right-6" />
@@ -234,8 +234,8 @@ export default function Hero({ isPlaying, setIsPlaying, currentTrack, setCurrent
                 <div className="pointer-events-none absolute inset-0 opacity-20 mix-blend-overlay" style={{
                   backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence baseFrequency='1.2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.4'/%3E%3C/svg%3E")`
                 }} />
-                <div className="absolute bottom-1.5 left-1.5 rounded-full bg-white/90 px-1.5 py-0.5 font-mono text-[7px] tracking-widest text-espresso sm:bottom-2 sm:left-2 sm:px-2 sm:text-[9px]">
-                  {heroEra.year} • ARCHIVE
+                <div className="absolute bottom-1.5 left-1.5 rounded-full bg-white/90 px-2 py-0.5 font-mono text-[7px] tracking-widest text-espresso sm:bottom-2 sm:left-2 sm:text-[9px]">
+                  {heroEra.year} / ARCHIVE
                 </div>
                 {/* arrows */}
                 <button
@@ -276,7 +276,7 @@ export default function Hero({ isPlaying, setIsPlaying, currentTrack, setCurrent
               initial={{ rotate: 3, y: 20, opacity: 0 }}
               animate={{ rotate: 2, y: 0, opacity: 1 }}
               transition={{ duration: 0.9, delay: 0.3 }}
-              className="hidden rounded-lg paper border border-[#D4AF37]/15 p-2 pb-7 shadow-[0_8px_20px_rgba(0,0,0,0.1)] transition-all duration-300 hover:rotate-[-0.8deg] hover:shadow-[0_12px_24px_rgba(0,0,0,0.14)] md:absolute md:-bottom-1 md:right-1 md:block md:w-[52%] lg:-right-4"
+              className="hidden rounded-2xl paper border border-[#D4AF37]/15 p-2 pb-7 shadow-[0_8px_20px_rgba(0,0,0,0.1)] transition-all duration-300 hover:rotate-[-0.8deg] hover:shadow-[0_12px_24px_rgba(0,0,0,0.14)] md:absolute md:-bottom-1 md:right-1 md:block md:w-[52%] lg:-right-4"
             >
               <div className="tape -top-2 left-1/2 hidden w-12 -translate-x-1/2 rotate-[2deg] md:block" />
               <div className="aspect-[3/4] overflow-hidden rounded-md bg-[#8B7355]">
@@ -299,7 +299,7 @@ export default function Hero({ isPlaying, setIsPlaying, currentTrack, setCurrent
             >
               <div className="text-center leading-none">
                 <div className="font-display text-[9px] font-bold tracking-[0.18em] text-cherry sm:text-[11px] sm:tracking-[0.2em]">ARCHIVED</div>
-                <div className="font-mono text-[6px] tracking-[0.18em] text-typewriter sm:text-[7px] sm:tracking-[0.2em]">AUTHENTIC • 2011</div>
+                <div className="font-mono text-[6px] tracking-[0.18em] text-typewriter sm:text-[7px] sm:tracking-[0.2em]">AUTHENTIC / 2011</div>
               </div>
             </motion.div>
 
@@ -308,15 +308,15 @@ export default function Hero({ isPlaying, setIsPlaying, currentTrack, setCurrent
           </div>
 
           {/* Cassette player hero widget - hidden on mobile (<768px) to avoid duplication with fixed mini-bar */}
-          <div className="paper relative hidden rounded-lg border border-[#D4AF37]/15 p-3 shadow-[0_8px_20px_rgba(0,0,0,0.06)] dark:border-[#F7F4EB]/10 sm:p-4 md:block">
+          <div className="paper relative hidden rounded-2xl border border-[#D4AF37]/15 p-3 shadow-[0_8px_20px_rgba(0,0,0,0.06)] dark:border-[#F7F4EB]/10 sm:p-4 md:block">
             <div className="tape -top-3 left-4 hidden rotate-[-2deg] sm:block" />
             <div className="flex items-center justify-between gap-2">
               <div className="truncate font-mono text-[9px] tracking-[0.14em] text-typewriter sm:text-[10px] sm:tracking-[0.2em]">AMBIENT ARCHIVE PLAYER — SIDE A</div>
-              <span className="shrink-0 rounded-full bg-cherry px-1.5 py-0.5 font-mono text-[8px] tracking-widest text-white sm:px-2 sm:text-[9px]">REC ●</span>
+              <span className="shrink-0 rounded-full bg-cherry px-2 py-0.5 font-mono text-[8px] tracking-widest text-white sm:text-[9px]">REC ●</span>
             </div>
 
             {/* cassette visual - stack on tiny screens */}
-            <div className="mt-3 flex flex-col gap-3 rounded-lg border border-[#F7F4EB]/10 bg-[#1A1A1A] p-3 text-parchment shadow-inner sm:gap-4">
+            <div className="mt-3 flex flex-col gap-3 rounded-2xl border border-[#F7F4EB]/10 bg-[#1A1A1A] p-3 text-parchment shadow-inner sm:gap-4">
               <div className="flex flex-1 items-center gap-2 sm:gap-3">
                 {/* reels - smaller on mobile */}
                 <div className="flex shrink-0 gap-1.5 sm:gap-2">
@@ -336,7 +336,7 @@ export default function Hero({ isPlaying, setIsPlaying, currentTrack, setCurrent
                     {currentTrack?.title || 'Video Games — Born to Die'}
                   </div>
                   <div className="truncate font-mono text-[9px] tracking-[0.12em] text-parchment/60 sm:text-[10px] sm:tracking-[0.15em]">
-                    LANA DEL REY • {currentTrack?.era || 'BORN TO DIE / PARADISE'}
+                    LANA DEL REY / {currentTrack?.era || 'BORN TO DIE / PARADISE'}
                   </div>
                   <div className="mt-1 h-1 w-full overflow-hidden rounded-full bg-parchment/10">
                     <motion.div
@@ -358,7 +358,7 @@ export default function Hero({ isPlaying, setIsPlaying, currentTrack, setCurrent
             </div>
 
             <div className="mt-3 flex flex-wrap items-center justify-between gap-2 font-mono text-[9px] tracking-widest text-typewriter sm:text-[10px]">
-              <span>DOLBY B • 90 MIN • CAT. LG-001</span>
+              <span>DOLBY B / 90 MIN / CAT. LG-001</span>
               <button
                 onClick={() => setCurrentTrack({ title: 'Select a song from the eras', era: 'ARCHIVE — TAP PLAY' })}
                 className="text-cherry hover:underline"

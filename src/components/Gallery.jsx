@@ -82,9 +82,9 @@ export default function Gallery() {
               viewport={{ once: true, margin: '-30px' }}
               transition={{ duration: 0.35 }}
               onClick={() => setLightbox(filtered.indexOf(f))}
-              className="group mb-3 break-inside-avoid cursor-pointer rounded-lg border border-[#D4AF37]/15 bg-white p-1.5 pb-2 shadow-[0_4px_12px_rgba(0,0,0,0.05)] transition-shadow duration-300 hover:shadow-[0_10px_24px_rgba(0,0,0,0.12)] dark:border-[#F7F4EB]/10 dark:bg-noir-soft sm:mb-4"
+              className="group mb-3 break-inside-avoid cursor-pointer rounded-2xl border border-[#D4AF37]/15 bg-white p-1.5 pb-2 shadow-[0_4px_12px_rgba(0,0,0,0.05)] transition-shadow duration-300 hover:shadow-[0_10px_24px_rgba(0,0,0,0.12)] dark:border-[#F7F4EB]/10 dark:bg-noir-soft sm:mb-4"
             >
-              <div className="relative aspect-[3/4] overflow-hidden rounded-md bg-parchment-dark">
+              <div className="relative aspect-[3/4] overflow-hidden rounded-xl bg-parchment-dark">
                 <SafeImage
                   src={f.thumb}
                   alt={`Lana Del Rey — ${f.caption}`}
@@ -143,15 +143,15 @@ export default function Gallery() {
               exit={{ opacity: 0, scale: 0.97, y: 12 }}
               transition={{ type: 'spring', stiffness: 320, damping: 30 }}
               onClick={(e) => e.stopPropagation()}
-              className="w-fit max-w-[92vw] rounded-xl border border-[#D4AF37]/20 bg-[#FFFEFB] shadow-[0_20px_60px_rgba(0,0,0,0.4)] dark:border-[#F7F4EB]/10 dark:bg-noir sm:max-w-[860px]"
+              className="w-fit max-w-[92vw] rounded-2xl border border-[#D4AF37]/20 bg-[#FFFEFB] shadow-[0_20px_60px_rgba(0,0,0,0.4)] dark:border-[#F7F4EB]/10 dark:bg-noir sm:max-w-[860px]"
               role="dialog"
               aria-label={`Frame: ${frame.caption}`}
             >
-              <div className="relative overflow-hidden rounded-t-xl bg-[#1A1A1A]">
+              <div className="relative overflow-hidden rounded-t-2xl bg-[#1A1A1A]">
                 <SafeImage
                   src={frame.full}
                   alt={`Lana Del Rey — ${frame.caption}`}
-                  className="mx-auto max-h-[62vh] w-auto max-w-full rounded-t-xl object-contain sm:max-h-[68vh]"
+                  className="mx-auto max-h-[62vh] w-auto max-w-full rounded-t-2xl object-contain sm:max-h-[68vh]"
                 />
                 <button onClick={() => setLightbox(null)} aria-label="Close" className="absolute right-3 top-3 flex h-9 w-9 items-center justify-center rounded-full bg-black/50 font-mono text-white backdrop-blur hover:bg-black/70 active:scale-95">
                   ✕
@@ -172,7 +172,7 @@ export default function Gallery() {
                     {frame.caption}
                   </div>
                   <div className="font-mono text-[10px] tracking-[0.12em] text-typewriter">
-                    {frame.year} • {frame.credit} • CC-BY-SA
+                    {frame.year} / {frame.credit} / CC-BY-SA
                   </div>
                 </div>
                 <span className="rounded-full bg-cherry px-2.5 py-1 font-mono text-[10px] tracking-[0.12em] text-white">

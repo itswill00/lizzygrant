@@ -22,8 +22,8 @@ export default function Timeline({ setCurrentTrack, setIsPlaying }) {
           </p>
         </div>
         <div className="hidden items-center gap-2 font-mono text-[10px] tracking-[0.15em] text-typewriter md:flex">
-          <span className="h-2 w-2 rounded-full bg-cherry animate-pulse" />
-          {eras.length} ERAS CATALOGUED • 2005 → PRESENT
+          <span className="h-2 w-2 rounded-full bg-cherry" />
+          {eras.length} ERAS CATALOGUED / 2005 → PRESENT
         </div>
       </div>
 
@@ -96,7 +96,7 @@ export default function Timeline({ setCurrentTrack, setIsPlaying }) {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -12 }}
             transition={{ duration: 0.35, ease: 'easeOut' }}
-            className="paper relative min-w-0 overflow-hidden rounded-lg border border-[#D4AF37]/15 shadow-[0_8px_24px_rgba(0,0,0,0.08)] dark:border-[#F7F4EB]/10"
+            className="paper relative min-w-0 overflow-hidden rounded-2xl border border-[#D4AF37]/15 shadow-[0_8px_24px_rgba(0,0,0,0.08)] dark:border-[#F7F4EB]/10"
           >
             {/* top bar - stack on mobile */}
             <div className="flex flex-col gap-2.5 border-b border-espresso/10 bg-white px-3 py-3 dark:border-parchment/10 dark:bg-noir-soft sm:flex-row sm:flex-wrap sm:items-center sm:justify-between sm:gap-3 sm:px-5">
@@ -146,14 +146,14 @@ export default function Timeline({ setCurrentTrack, setIsPlaying }) {
 
               {/* Songs / moodboard */}
               <div className="flex min-w-0 flex-col gap-3 sm:gap-4">
-                <div className="rounded-lg border border-[#D4AF37]/15 bg-parchment-dark/40 p-2.5 shadow-sm dark:border-[#F7F4EB]/10 dark:bg-noir/40 sm:p-3">
+                <div className="rounded-2xl border border-[#D4AF37]/15 bg-parchment-dark/40 p-2.5 shadow-sm dark:border-[#F7F4EB]/10 dark:bg-noir/40 sm:p-3">
                   <div className="font-mono text-[9px] tracking-[0.18em] text-typewriter sm:text-[10px] sm:tracking-[0.2em]">NOTABLE CUTS — TAP TO CUE CASSETTE</div>
                   <div className="mt-2.5 flex flex-col gap-2 sm:mt-3">
                     {active.songs.map((s) => (
                       <button
                         key={s.title}
                         onClick={() => cueSong(s.title, active.title.toUpperCase(), setCurrentTrack, setIsPlaying)}
-                        className="group flex items-center gap-2.5 rounded-lg border border-[#D4AF37]/15 bg-white px-2.5 py-2.5 text-left shadow-sm transition-all duration-300 hover:border-[#D4AF37]/30 hover:shadow-[0_6px_16px_rgba(0,0,0,0.08)] active:scale-[0.99] dark:border-[#F7F4EB]/10 dark:bg-noir-soft sm:gap-3 sm:px-3"
+                        className="group flex items-center gap-2.5 rounded-xl border border-[#D4AF37]/15 bg-white px-2.5 py-2.5 text-left shadow-sm transition-all duration-300 hover:border-[#D4AF37]/30 hover:shadow-[0_6px_16px_rgba(0,0,0,0.08)] active:scale-[0.99] dark:border-[#F7F4EB]/10 dark:bg-noir-soft sm:gap-3 sm:px-3"
                       >
                         <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-espresso text-[11px] text-white group-hover:bg-cherry dark:bg-parchment dark:text-noir dark:group-hover:bg-cherry dark:group-hover:text-white sm:h-8 sm:w-8 sm:text-[12px]">
                           ▶
@@ -163,7 +163,7 @@ export default function Timeline({ setCurrentTrack, setIsPlaying }) {
                             {s.title}
                           </span>
                           <span className="block truncate font-mono text-[9px] tracking-wide text-typewriter sm:text-[10px]">
-                            {s.note} • {s.duration}
+                            {s.note} / {s.duration}
                           </span>
                         </span>
                         <span className="hidden font-mono text-[10px] tracking-widest text-cherry sm:block sm:opacity-0 sm:group-hover:opacity-100">
@@ -175,9 +175,9 @@ export default function Timeline({ setCurrentTrack, setIsPlaying }) {
                 </div>
 
                 {/* Polaroid mini - accurate photography */}
-                <div className="paper relative border border-espresso/5 p-2 pb-6 shadow-md sm:p-2 sm:pb-7">
+                <div className="paper relative rounded-2xl border border-espresso/5 p-2 pb-6 shadow-md sm:p-2 sm:pb-7">
                   <div className="tape -top-2 left-1/2 hidden w-12 -translate-x-1/2 rotate-[1deg] sm:block" />
-                  <div className="relative aspect-[4/3] w-full overflow-hidden bg-typewriter/5">
+                  <div className="relative aspect-[4/3] w-full overflow-hidden rounded-xl bg-typewriter/5">
                     <SafeImage
                       src={active.image}
                       alt={active.imageAlt}
@@ -187,14 +187,14 @@ export default function Timeline({ setCurrentTrack, setIsPlaying }) {
                     <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/65 via-black/10 to-transparent" />
                     <div className="absolute inset-x-0 bottom-0 p-3 sm:p-4">
                       <div className="font-display text-[12px] font-bold tracking-[0.12em] text-white drop-shadow sm:text-[14px]">{active.title.toUpperCase()}</div>
-                      <div className="font-mono text-[8px] tracking-[0.14em] text-white/85 sm:text-[9px]">{active.year} • {active.subtitle}</div>
+                      <div className="font-mono text-[8px] tracking-[0.14em] text-white/85 sm:text-[9px]">{active.year} / {active.subtitle}</div>
                     </div>
                     <div className="absolute right-2 top-2 rounded-full bg-white/90 px-1.5 py-0.5 font-mono text-[7px] tracking-widest text-espresso shadow sm:text-[8px]">
                       FIG. {String(eras.findIndex((e) => e.id === active.id) + 1).padStart(2, '0')}
                     </div>
                   </div>
                   <div className="absolute bottom-1 left-2 right-2 flex justify-between gap-2 font-mono text-[7px] tracking-[0.1em] text-typewriter sm:bottom-1.5 sm:left-3 sm:right-3 sm:text-[8px]">
-                    <span className="truncate">REF. {active.id.toUpperCase()} • {active.imageCredit}</span>
+                    <span className="truncate">REF. {active.id.toUpperCase()} / {active.imageCredit}</span>
                   </div>
                 </div>
               </div>

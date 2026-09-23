@@ -21,7 +21,7 @@ const Discography = lazy(() => import('./components/Discography'));
 function SectionFallback({ label }) {
   return (
     <div className="mx-auto max-w-[1400px] px-4 py-10 md:px-6" aria-hidden>
-      <div className="animate-pulse rounded-lg border border-[#D4AF37]/15 bg-white/60 p-6 dark:bg-white/5">
+      <div className="animate-pulse rounded-2xl border border-[#D4AF37]/15 bg-white/60 p-6 dark:bg-white/5">
         <div className="font-mono text-[10px] tracking-[0.2em] text-typewriter">{label} — LOADING ARCHIVE…</div>
         <div className="mt-3 h-2 w-2/3 rounded-full bg-espresso/10 dark:bg-white/10" />
         <div className="mt-2 h-2 w-1/2 rounded-full bg-espresso/10 dark:bg-white/10" />

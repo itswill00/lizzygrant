@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64">
+  <rect width="64" height="64" rx="14" fill="#1A1A1A"/>
+  <rect x="6" y="10" width="52" height="44" rx="6" fill="#242220" stroke="#D4AF37" stroke-width="1.5" stroke-opacity="0.4"/>
+  <rect x="12" y="15" width="40" height="15" rx="3" fill="#F7F4EB"/>
+  <text x="32" y="25" font-family="-apple-system, system-ui, sans-serif" font-weight="800" font-size="7" fill="#9E1B1B" text-anchor="middle" letter-spacing="1">LIZZY GRANT</text>
+  <rect x="14" y="33" width="36" height="15" rx="4" fill="#151515" stroke="#F7F4EB" stroke-width="1" stroke-opacity="0.2"/>
+  <circle cx="23" cy="40.5" r="5" fill="#2A2A2A" stroke="#D4AF37" stroke-width="1.2"/>
+  <circle cx="23" cy="40.5" r="2" fill="#151515"/>
+  <circle cx="41" cy="40.5" r="5" fill="#2A2A2A" stroke="#D4AF37" stroke-width="1.2"/>
+  <circle cx="41" cy="40.5" r="2" fill="#151515"/>
+  <line x1="28" y1="40.5" x2="36" y2="40.5" stroke="#F7F4EB" stroke-width="1.5" stroke-opacity="0.25"/>
+</svg>

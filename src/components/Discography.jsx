@@ -17,9 +17,9 @@ export default function Discography({ setCurrentTrack, setIsPlaying }) {
           EVERY RECORD <span className="font-light italic text-typewriter text-[20px] sm:text-[26px] md:text-[34px]">every track</span>
         </h2>
         <p className="mt-2 max-w-[640px] font-body text-[14.5px] leading-[1.75] text-typewriter dark:text-parchment/60 sm:mt-3 sm:text-[15px]">
-          {discography.length} releases • {totalTracks} tracks • {totalSingles} singles.
+          {discography.length} releases / {totalTracks} tracks / {totalSingles} singles.
           Expand a record for the full standard tracklist — tap any track to hear its 30-second preview.
-          Dots mark official singles.
+          Badges mark official singles.
         </p>
       </div>
 
@@ -33,7 +33,7 @@ export default function Discography({ setCurrentTrack, setIsPlaying }) {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: '-30px' }}
               transition={{ duration: 0.4, delay: Math.min(ai * 0.03, 0.2) }}
-              className={`overflow-hidden rounded-lg border bg-white shadow-[0_6px_16px_rgba(0,0,0,0.05)] transition-shadow dark:bg-noir-soft ${
+              className={`overflow-hidden rounded-2xl border bg-white shadow-[0_6px_16px_rgba(0,0,0,0.05)] transition-shadow dark:bg-noir-soft ${
                 open ? 'border-[#D4AF37]/30 shadow-[0_10px_28px_rgba(0,0,0,0.1)]' : 'border-[#D4AF37]/15 dark:border-[#F7F4EB]/10'
               }`}
             >
@@ -43,7 +43,7 @@ export default function Discography({ setCurrentTrack, setIsPlaying }) {
                 className="flex w-full items-center gap-3 p-3 text-left sm:gap-4 sm:p-4"
               >
                 <span
-                  className="h-12 w-12 shrink-0 overflow-hidden rounded-md shadow-md sm:h-14 sm:w-14"
+                  className="h-12 w-12 shrink-0 overflow-hidden rounded-xl shadow-md sm:h-14 sm:w-14"
                   style={{ background: `linear-gradient(135deg, ${album.palette[0]}, ${album.palette[1]})` }}
                 >
                   <SafeImage
@@ -58,7 +58,7 @@ export default function Discography({ setCurrentTrack, setIsPlaying }) {
                     {ai + 1}. {album.title}
                   </span>
                   <span className="block truncate font-mono text-[9px] tracking-[0.1em] text-typewriter sm:text-[10px]">
-                    {album.year} • {album.producer} • {album.tracks.length} TRACKS
+                    {album.year} / {album.producer} / {album.tracks.length} TRACKS
                   </span>
                 </span>
                 <motion.span
@@ -85,7 +85,7 @@ export default function Discography({ setCurrentTrack, setIsPlaying }) {
                         <button
                           key={t.t}
                           onClick={() => cueSong(t.t, album.title.toUpperCase(), setCurrentTrack, setIsPlaying)}
-                          className="group flex items-center gap-2.5 rounded-md px-2 py-2 text-left transition hover:bg-parchment-dark/60 active:scale-[0.99] dark:hover:bg-white/5"
+                          className="group flex items-center gap-2.5 rounded-xl px-2 py-2 text-left transition hover:bg-parchment-dark/60 active:scale-[0.99] dark:hover:bg-white/5"
                         >
                           <span className="w-6 shrink-0 text-right font-mono text-[10px] tabular-nums text-typewriter/60">
                             {String(i + 1).padStart(2, '0')}
@@ -113,7 +113,7 @@ export default function Discography({ setCurrentTrack, setIsPlaying }) {
       </div>
 
       <p className="mx-auto mt-6 max-w-[900px] text-center font-mono text-[10px] tracking-[0.14em] text-typewriter/60">
-        STANDARD EDITIONS • PREVIEWS ARE 30S • FULL SONGS BELONG TO THEIR OWNERS
+        STANDARD EDITIONS / PREVIEWS ARE 30S / FULL SONGS BELONG TO THEIR OWNERS
       </p>
     </section>
   );

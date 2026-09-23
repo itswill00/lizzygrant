@@ -39,13 +39,13 @@ export default function Vault() {
               Each card is a <em className="text-espresso dark:text-parchment">tape to peel</em>. Tap <span className="font-mono text-cherry">INSPECT</span> to open the file.
             </p>
           </div>
-          <div className="hidden rounded-lg border border-[#D4AF37]/15 bg-white px-4 py-3 font-mono text-[11px] leading-relaxed tracking-wide text-typewriter shadow-[0_4px_12px_rgba(0,0,0,0.04)] dark:border-[#F7F4EB]/10 dark:bg-noir-soft sm:block">
+          <div className="hidden rounded-2xl border border-[#D4AF37]/15 bg-white px-4 py-3 font-mono text-[11px] leading-relaxed tracking-wide text-typewriter shadow-[0_4px_12px_rgba(0,0,0,0.04)] dark:border-[#F7F4EB]/10 dark:bg-noir-soft sm:block">
             <div className="font-semibold tracking-[0.15em] text-espresso dark:text-parchment">ACCESS INSTRUCTIONS</div>
-            Hover to lift • Tap INSPECT to open<br />
-            <span className="text-cherry">Red stamp = rarity</span> • Brass = poetry
+            Hover to lift / Tap INSPECT to open<br />
+            <span className="text-cherry">Red stamp = rarity</span> / Brass = poetry
           </div>
-          <div className="rounded-lg border border-dashed border-[#D4AF37]/20 bg-parchment-dark/40 px-3 py-2 font-mono text-[10px] tracking-wide text-typewriter shadow-sm dark:border-[#F7F4EB]/10 dark:bg-noir sm:hidden">
-            TAP INSPECT TO OPEN • {vaultItems.length} FILES
+          <div className="rounded-full border border-dashed border-[#D4AF37]/20 bg-parchment-dark/40 px-3 py-2 font-mono text-[10px] tracking-wide text-typewriter shadow-sm dark:border-[#F7F4EB]/10 dark:bg-noir sm:hidden">
+            TAP INSPECT TO OPEN / {vaultItems.length} FILES
           </div>
         </div>
 
@@ -59,11 +59,11 @@ export default function Vault() {
               transition={{ duration: 0.45, delay: idx * 0.04 }}
               whileHover={{ y: -4, rotate: idx % 2 === 0 ? 0.7 : -0.7 }}
               onClick={() => setSelected(item)}
-              className="group relative flex min-w-0 cursor-pointer flex-col overflow-hidden rounded-lg border border-[#D4AF37]/15 bg-white shadow-[0_6px_16px_rgba(0,0,0,0.06)] transition-all duration-300 hover:shadow-[0_12px_28px_rgba(0,0,0,0.12)] active:scale-[0.99] dark:border-[#F7F4EB]/10 dark:bg-noir-soft"
+              className="group relative flex min-w-0 cursor-pointer flex-col overflow-hidden rounded-2xl border border-[#D4AF37]/15 bg-white shadow-[0_6px_16px_rgba(0,0,0,0.06)] transition-all duration-300 hover:shadow-[0_12px_28px_rgba(0,0,0,0.12)] active:scale-[0.99] dark:border-[#F7F4EB]/10 dark:bg-noir-soft"
             >
               <div className="flex items-center justify-between gap-2 border-b border-dashed border-[#D4AF37]/15 bg-parchment-dark/50 px-2.5 py-2 dark:border-[#F7F4EB]/10 dark:bg-noir sm:px-3">
                 <span className="truncate font-mono text-[9px] tracking-[0.12em] text-typewriter sm:text-[10px] sm:tracking-[0.2em]">
-                  {item.catalog} • {item.type}
+                  {item.catalog} / {item.type}
                 </span>
                 <span
                   className="shrink-0 rounded-full px-1.5 py-0.5 font-mono text-[8px] font-bold tracking-[0.12em] text-white sm:px-2 sm:text-[9px] sm:tracking-[0.15em]"
@@ -111,7 +111,7 @@ export default function Vault() {
                   className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-[1.03]"
                 />
                 <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-transparent opacity-60" />
-                <div className="absolute bottom-1.5 left-2 rounded-full bg-white/90 px-1.5 py-0.5 font-mono text-[7px] tracking-widest text-espresso shadow sm:bottom-2 sm:left-2">POLAROID • LIVE</div>
+                <div className="absolute bottom-1.5 left-2 rounded-full bg-white/90 px-1.5 py-0.5 font-mono text-[7px] tracking-widest text-espresso shadow sm:bottom-2 sm:left-2">POLAROID / LIVE</div>
               </div>
 
               <div className="flex flex-1 flex-col p-3 sm:p-4">
@@ -145,7 +145,7 @@ export default function Vault() {
         </div>
 
         <div className="mt-6 flex flex-col items-center gap-2 border-t border-[#D4AF37]/15 pt-4 dark:border-[#F7F4EB]/10 sm:mt-8 sm:flex-row sm:flex-wrap sm:justify-center sm:gap-3 sm:pt-6">
-          <span className="text-center font-mono text-[9px] tracking-[0.14em] text-typewriter sm:text-[10px] sm:tracking-[0.2em]">END OF VAULT • {vaultItems.length} FILES DISPLAYED • TAP ANY FILE TO INSPECT</span>
+          <span className="text-center font-mono text-[9px] tracking-[0.14em] text-typewriter sm:text-[10px] sm:tracking-[0.2em]">END OF VAULT / {vaultItems.length} FILES DISPLAYED / TAP ANY FILE TO INSPECT</span>
           <span className="hidden h-3 w-px bg-espresso/10 dark:bg-parchment/10 sm:block" />
           <button onClick={() => document.querySelector('#tarot')?.scrollIntoView({ behavior: 'smooth' })} className="font-mono text-[10px] tracking-[0.12em] text-cherry hover:underline sm:text-[11px] sm:tracking-[0.15em]">
             DRAW A LYRIC TAROT ↓
@@ -178,11 +178,11 @@ export default function Vault() {
               exit={{ opacity: 0, y: 16, scale: 0.98 }}
               transition={{ type: 'spring', stiffness: 320, damping: 30 }}
               onClick={(e) => e.stopPropagation()}
-              className="w-full max-w-[640px] rounded-xl border border-[#D4AF37]/20 bg-[#FFFEFB] shadow-[0_20px_60px_rgba(0,0,0,0.35)] dark:border-[#F7F4EB]/10 dark:bg-noir"
+              className="w-full max-w-[640px] rounded-2xl border border-[#D4AF37]/20 bg-[#FFFEFB] shadow-[0_20px_60px_rgba(0,0,0,0.35)] dark:border-[#F7F4EB]/10 dark:bg-noir"
               role="dialog"
               aria-label={`File: ${selected.title}`}
             >
-              <div className="relative aspect-[16/9] w-full shrink-0 overflow-hidden rounded-t-xl bg-parchment-dark">
+              <div className="relative aspect-[16/9] w-full shrink-0 overflow-hidden rounded-t-2xl bg-parchment-dark">
                 <SafeImage src={selected.image} alt={selected.imageAlt} loading="lazy" className="h-full w-full object-cover" />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent" />
                 <div className="absolute left-3 top-3 flex items-center gap-2">
@@ -197,20 +197,20 @@ export default function Vault() {
                   ✕
                 </button>
                 <div className="absolute bottom-0 left-0 right-0 p-4 sm:p-5">
-                  <div className="font-mono text-[10px] tracking-[0.18em] text-white/80">{selected.type} • {selected.year}</div>
+                  <div className="font-mono text-[10px] tracking-[0.18em] text-white/80">{selected.type} / {selected.year}</div>
                   <h3 className="mt-1 font-display text-[22px] font-bold leading-tight text-white drop-shadow sm:text-[26px]">{selected.title}</h3>
                 </div>
               </div>
               <div className="p-4 sm:p-6">
                 <p className="font-body text-[15px] leading-[1.75] text-typewriter dark:text-parchment/70">{selected.description}</p>
-                <div className="mt-4 rounded-lg border border-[#D4AF37]/15 bg-parchment/40 p-3 dark:border-[#F7F4EB]/10 dark:bg-white/5">
+                <div className="mt-4 rounded-xl border border-[#D4AF37]/15 bg-parchment/40 p-3 dark:border-[#F7F4EB]/10 dark:bg-white/5">
                   <div className="font-mono text-[10px] tracking-[0.18em] text-typewriter">ARCHIVAL NOTE</div>
                   <p className="mt-1 font-body text-[14px] italic leading-[1.7] text-typewriter/80 dark:text-parchment/60">
-                    Filed under {selected.type} • {selected.catalog}. Photograph: {selected.imageAlt}. This is a fan-made archival entry — not official, just reverent.
+                    Filed under {selected.type} / {selected.catalog}. Photograph: {selected.imageAlt}. This is a fan-made archival entry — not official, just reverent.
                   </p>
                 </div>
                 <div className="mt-6 flex gap-2">
-                  <button onClick={() => setSelected(null)} className="flex-1 rounded-lg border border-[#D4AF37]/20 bg-white px-4 py-3 font-mono text-[11px] tracking-[0.14em] text-espresso transition hover:bg-[#F7F4EB] dark:border-[#F7F4EB]/15 dark:bg-noir-soft dark:text-parchment">
+                  <button onClick={() => setSelected(null)} className="flex-1 rounded-full border border-[#D4AF37]/20 bg-white px-4 py-3 font-mono text-[11px] tracking-[0.14em] text-espresso transition hover:bg-[#F7F4EB] dark:border-[#F7F4EB]/15 dark:bg-noir-soft dark:text-parchment">
                     CLOSE FILE ✕
                   </button>
                   <button
@@ -218,7 +218,7 @@ export default function Vault() {
                       setSelected(null);
                       setTimeout(() => document.querySelector('#tarot')?.scrollIntoView({ behavior: 'smooth' }), 120);
                     }}
-                    className="flex-1 rounded-lg bg-cherry px-4 py-3 font-mono text-[11px] tracking-[0.14em] text-white transition hover:bg-cherry-light"
+                    className="flex-1 rounded-full bg-cherry px-4 py-3 font-mono text-[11px] tracking-[0.14em] text-white transition hover:bg-cherry-light"
                   >
                     DRAW TAROT →
                   </button>

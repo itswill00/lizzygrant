@@ -29,7 +29,7 @@ export default function Muses({ setCurrentTrack, setIsPlaying }) {
             viewport={{ once: true, margin: '-40px' }}
             transition={{ duration: 0.45, delay: (idx % 3) * 0.06 }}
             whileHover={{ y: -4 }}
-            className="group relative flex min-w-0 flex-col overflow-hidden rounded-lg border border-[#D4AF37]/15 bg-white shadow-[0_6px_16px_rgba(0,0,0,0.06)] transition-all duration-300 hover:shadow-[0_12px_28px_rgba(0,0,0,0.12)] dark:border-[#F7F4EB]/10 dark:bg-noir-soft"
+            className="group relative flex min-w-0 flex-col overflow-hidden rounded-2xl border border-[#D4AF37]/15 bg-white shadow-[0_6px_16px_rgba(0,0,0,0.06)] transition-all duration-300 hover:shadow-[0_12px_28px_rgba(0,0,0,0.12)] dark:border-[#F7F4EB]/10 dark:bg-noir-soft"
           >
             <div className="flex items-center gap-3 p-3.5 sm:p-4">
               <span
@@ -43,7 +43,7 @@ export default function Muses({ setCurrentTrack, setIsPlaying }) {
                   {m.name}
                 </h3>
                 <div className="mt-0.5 truncate font-mono text-[10px] tracking-[0.1em] text-typewriter">
-                  {m.years} • {m.role}
+                  {m.years} / {m.role}
                 </div>
               </div>
             </div>
@@ -62,7 +62,7 @@ export default function Muses({ setCurrentTrack, setIsPlaying }) {
             </p>
 
             <div className="p-3.5 sm:p-4">
-              <div className="font-mono text-[9px] tracking-[0.18em] text-typewriter/70">SONGS WHISPERED ABOUT • FAN READING</div>
+              <div className="font-mono text-[9px] tracking-[0.18em] text-typewriter/70">SONGS WHISPERED ABOUT / FAN READING</div>
               <div className="mt-2 flex flex-wrap gap-1.5">
                 {m.songs.map((s) => (
                   <button

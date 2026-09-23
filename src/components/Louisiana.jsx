@@ -25,7 +25,7 @@ export default function Louisiana() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: '-40px' }}
                 transition={{ duration: 0.45, delay: Math.min(idx * 0.04, 0.2) }}
-                className={`relative rounded-lg border bg-white p-4 shadow-[0_6px_16px_rgba(0,0,0,0.05)] dark:bg-noir-soft sm:p-5 ${
+                className={`relative rounded-2xl border bg-white p-4 shadow-[0_6px_16px_rgba(0,0,0,0.05)] dark:bg-noir-soft sm:p-5 ${
                   e.featured
                     ? 'border-[#D4AF37]/40 shadow-[0_10px_28px_rgba(212,175,55,0.15)]'
                     : 'border-[#D4AF37]/15 dark:border-[#F7F4EB]/10'
@@ -62,7 +62,7 @@ export default function Louisiana() {
         </div>
 
         <p className="mx-auto mt-6 max-w-[760px] text-center font-mono text-[10px] tracking-[0.14em] text-typewriter/60 sm:mt-8">
-          DEVELOPING STORY • LAST CHECKED THIS WEEK — THE TAPE IS STILL RUNNING ●
+          DEVELOPING STORY / LAST CHECKED THIS WEEK — THE TAPE IS STILL RUNNING
         </p>
       </div>
     </section>

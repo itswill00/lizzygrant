@@ -65,7 +65,7 @@ export const muses = [
     id: 'jeremy',
     name: 'Jeremy Dufrene',
     years: '2024 — now',
-    role: 'Louisiana airboat captain • husband',
+    role: 'Louisiana airboat captain / husband',
     era: 'Ocean Blvd & beyond',
     initials: 'JD',
     color: '#D4AF37',

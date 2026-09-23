@@ -38,7 +38,7 @@ export default function LoadingScreen({ onDone }) {
         transition={{ duration: 0.8, ease: 'easeOut' }}
         className="relative text-center"
       >
-        <div className="font-mono text-[10px] tracking-[0.3em] text-typewriter">ARCHIVAL ACCESS • CAT. LG-1955—2024</div>
+        <div className="font-mono text-[10px] tracking-[0.3em] text-typewriter">ARCHIVAL ACCESS / CAT. LG-1985—2024</div>
         <div className="mt-3 font-display text-[28px] font-black tracking-[0.14em] text-espresso dark:text-parchment sm:text-[34px]">
           LIZZY GRANT <span className="font-light">: ARCHIVES</span>
         </div>
@@ -63,7 +63,7 @@ export default function LoadingScreen({ onDone }) {
 
       {/* footer */}
       <div className="absolute bottom-6 font-mono text-[9px] tracking-[0.2em] text-typewriter/50">
-        EST. LAKE PLACID → LOS ANGELES • 2005 → 2024
+        EST. LAKE PLACID → LOS ANGELES / 2005 → 2026
       </div>
     </motion.div>
   );

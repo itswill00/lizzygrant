@@ -18,7 +18,7 @@ export default function Footer() {
               LIZZY GRANT — THE ARCHIVES
             </div>
             <div className="mt-1.5 font-mono text-[10px] tracking-[0.18em] text-[#9E1B1B]/70 dark:text-[#E8C76A]/60">
-              VOLUME I — VIII • FIRST LIMITED EDITION
+              VOLUME I — VIII / FIRST LIMITED EDITION
             </div>
             <p className="mt-4 max-w-[38ch] font-body text-[14px] leading-[1.75] text-typewriter dark:text-parchment/70">
               A fan archival project dedicated to <em className="font-display italic text-espresso dark:text-parchment">Elizabeth Woolridge Grant</em>.
@@ -34,9 +34,9 @@ export default function Footer() {
           </div>
 
           {/* middle — vinyl sleeve colophon */}
-          <div className="relative min-w-0 rounded-lg border border-[#D4AF37]/20 bg-parchment/40 p-4 shadow-[0_8px_24px_rgba(212,175,55,0.08)] backdrop-blur-sm dark:border-[#F7F4EB]/10 dark:bg-white/[0.04] sm:p-5">
+          <div className="relative min-w-0 rounded-2xl border border-[#D4AF37]/20 bg-parchment/40 p-4 shadow-[0_8px_24px_rgba(212,175,55,0.08)] backdrop-blur-sm dark:border-[#F7F4EB]/10 dark:bg-white/[0.04] sm:p-5">
             {/* subtle paper glow */}
-            <div className="pointer-events-none absolute inset-0 rounded-lg bg-gradient-to-br from-[#D4AF37]/5 via-transparent to-transparent" />
+            <div className="pointer-events-none absolute inset-0 rounded-2xl bg-gradient-to-br from-[#D4AF37]/5 via-transparent to-transparent" />
             <div className="relative">
               <div className="font-mono text-[10px] tracking-[0.22em] text-[#9E1B1B] dark:text-[#E8C76A]">COLOPHON — SLEEVE NOTES</div>
               <div className="mt-3 space-y-2 font-body text-[13.5px] leading-[1.75] text-typewriter dark:text-parchment/70">
@@ -58,7 +58,7 @@ export default function Footer() {
 
           {/* right — actions tactile */}
           <div className="flex min-w-0 flex-col gap-4">
-            <div className="rounded-lg border border-[#D4AF37]/15 bg-white p-4 shadow-[0_4px_16px_rgba(0,0,0,0.04)] dark:border-[#F7F4EB]/10 dark:bg-noir">
+            <div className="rounded-2xl border border-[#D4AF37]/15 bg-white p-4 shadow-[0_4px_16px_rgba(0,0,0,0.04)] dark:border-[#F7F4EB]/10 dark:bg-noir">
               <div className="font-mono text-[10px] tracking-[0.18em] text-typewriter">KEEP LISTENING</div>
               <p className="mt-1.5 font-body text-[14px] leading-[1.75] text-typewriter dark:text-parchment/70">
                 The tape never really ends. Flip it, rewind it, stay a little longer in the haze.
@@ -66,14 +66,14 @@ export default function Footer() {
               <div className="mt-4 flex flex-col gap-2.5">
                 <button
                   onClick={() => scrollTo('#hero')}
-                  className="group flex w-full items-center justify-center gap-2 rounded-lg border border-[#D4AF37]/20 bg-[#FFFEFB] px-4 py-3 font-mono text-[11px] tracking-[0.14em] text-espresso shadow-sm transition-all duration-300 ease-out hover:tracking-[0.16em] hover:bg-[#F7F4EB] hover:shadow-[0_4px_12px_rgba(212,175,55,0.15)] active:scale-[0.98] dark:border-[#F7F4EB]/15 dark:bg-noir-soft dark:text-parchment dark:hover:bg-white/10"
+                  className="group flex w-full items-center justify-center gap-2 rounded-full border border-[#D4AF37]/20 bg-[#FFFEFB] px-4 py-3 font-mono text-[11px] tracking-[0.14em] text-espresso shadow-sm transition-all duration-300 ease-out hover:tracking-[0.16em] hover:bg-[#F7F4EB] hover:shadow-[0_4px_12px_rgba(212,175,55,0.15)] active:scale-[0.98] dark:border-[#F7F4EB]/15 dark:bg-noir-soft dark:text-parchment dark:hover:bg-white/10"
                 >
                   <span>BACK TO TOP</span>
                   <span className="transition-transform duration-300 group-hover:-translate-y-0.5">↑</span>
                 </button>
                 <button
                   onClick={() => scrollTo('#timeline')}
-                  className="group flex w-full items-center justify-center gap-2 rounded-lg bg-cherry px-4 py-3 font-mono text-[11px] tracking-[0.14em] text-white shadow-[0_4px_12px_rgba(158,27,27,0.2)] transition-all duration-300 ease-out hover:tracking-[0.16em] hover:bg-[#B83232] hover:shadow-[0_6px_16px_rgba(158,27,27,0.3)] active:scale-[0.98]"
+                  className="group flex w-full items-center justify-center gap-2 rounded-full bg-cherry px-4 py-3 font-mono text-[11px] tracking-[0.14em] text-white shadow-[0_4px_12px_rgba(158,27,27,0.2)] transition-all duration-300 ease-out hover:tracking-[0.16em] hover:bg-[#B83232] hover:shadow-[0_6px_16px_rgba(158,27,27,0.3)] active:scale-[0.98]"
                 >
                   <span>RE-ENTER THE ERAS</span>
                   <span className="transition-transform duration-300 group-hover:translate-x-0.5">→</span>
@@ -82,18 +82,18 @@ export default function Footer() {
             </div>
 
             <div className="text-center font-mono text-[10px] tracking-[0.12em] text-typewriter/50">
-              Press <span className="rounded-md bg-[#F7F4EB] px-1.5 py-0.5 text-cherry dark:bg-white/10 dark:text-[#E8C76A]">Play</span> and let it run.
+              Press <span className="rounded-full bg-[#F7F4EB] px-2 py-0.5 text-cherry dark:bg-white/10 dark:text-[#E8C76A]">Play</span> and let it run.
             </div>
           </div>
         </div>
 
         <div className="mt-10 flex flex-col items-center gap-3 border-t border-[#D4AF37]/15 pt-5 text-center font-mono text-[9px] tracking-[0.14em] text-typewriter/60 dark:border-[#F7F4EB]/10 sm:flex-row sm:justify-between sm:text-left sm:text-[10px]">
           <span className="leading-relaxed">
-            © 2026 THE ARCHIVES — A private pressing for educational remembrance. <span className="hidden sm:inline">•</span> All rights belong to their owners.
+            © 2026 THE ARCHIVES — A private pressing for educational remembrance. <span className="hidden sm:inline">/</span> All rights belong to their owners.
           </span>
           <span className="flex items-center gap-2">
             <span className="h-1.5 w-1.5 rounded-full bg-cherry/80 shadow-[0_0_6px_rgba(158,27,27,0.4)]" />
-            CATALOGUED WITH CARE • “Keep the tapes running” — LDR
+            CATALOGUED WITH CARE / “Keep the tapes running” — LDR
           </span>
         </div>
       </div>

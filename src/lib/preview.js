@@ -19,7 +19,10 @@ async function localPreview(title) {
   try {
     const url = `/audio/${slugify(title)}.mp3`;
     const r = await fetch(url, { method: 'HEAD' });
-    if (r.ok) return { src: url, source: 'LOCAL' };
+    const ct = r.headers.get('content-type') || '';
+    if (r.ok && !ct.includes('text/html') && (ct.includes('audio') || ct.includes('octet-stream') || ct === '')) {
+      return { src: url, source: 'LOCAL' };
+    }
   } catch {}
   return null;
 }
@@ -39,15 +42,31 @@ export async function fetchExactPreview(title) {
 }
 
 // Cue a song on the cassette: exact preview when found,
-// otherwise title-only so AudioPlayer maps it to the deck or says so honestly.
+// otherwise honest fallback (never plays an unrelated track).
 export async function cueSong(title, era, setCurrentTrack, setIsPlaying) {
   const prev = await fetchExactPreview(title);
-  if (setCurrentTrack) {
-    setCurrentTrack({
-      title: `${title} — ${era}`,
-      era,
-      ...(prev.src ? { src: prev.src, source: prev.source } : {}),
-    });
+  if (prev?.src) {
+    if (setCurrentTrack) {
+      setCurrentTrack({
+        title: `${title} — ${era}`,
+        era,
+        src: prev.src,
+        source: prev.source,
+      });
+    }
+    if (setIsPlaying) setIsPlaying(true);
+    return true;
+  } else {
+    // Honest: no preview anywhere — do NOT trigger play on a wrong song!
+    if (setCurrentTrack) {
+      setCurrentTrack({
+        title: `${title} — ${era}`,
+        era,
+        src: null,
+        unplayable: true,
+      });
+    }
+    if (setIsPlaying) setIsPlaying(false);
+    return false;
   }
-  if (setIsPlaying) setIsPlaying(true);
 }

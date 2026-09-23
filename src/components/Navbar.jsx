@@ -9,12 +9,12 @@ export default function Navbar({ darkMode, setDarkMode }) {
       {/* top archival bar - hide on mobile */}
       <div className="hidden border-b border-espresso/5 bg-espresso/[0.02] dark:border-parchment/5 dark:bg-parchment/[0.02] lg:block">
         <div className="mx-auto flex max-w-[1400px] items-center justify-between px-6 py-1.5 font-mono text-[10px] tracking-[0.2em] text-typewriter dark:text-parchment/50">
-          <span>CATALOG № LG-1955—2024 • ARCHIVAL EDITION • VOL. I–VIII</span>
+          <span>CATALOG № LG-1985—2024 / ARCHIVAL EDITION / VOL. I–VIII</span>
           <span className="flex items-center gap-4">
-            <span className="hidden xl:inline">EST. LAKE PLACID, NY • 1985 →</span>
+            <span className="hidden xl:inline">EST. LAKE PLACID, NY / 1985 →</span>
             <span className="h-3 w-px bg-espresso/10 dark:bg-parchment/10" />
             <span className="flex items-center gap-1.5">
-              <span className="h-1.5 w-1.5 rounded-full bg-cherry animate-pulse" />
+              <span className="h-1.5 w-1.5 rounded-full bg-cherry" />
               ARCHIVE LIVE
             </span>
           </span>
@@ -175,7 +175,7 @@ export default function Navbar({ darkMode, setDarkMode }) {
                 LISTEN NOW — SIDE A ▶
               </a>
               <div className="pt-3 text-center font-mono text-[10px] tracking-[0.15em] text-typewriter">
-                CATALOG № LG-1955—2024 • TAP ANYWHERE TO CLOSE
+                CATALOG № LG-1985—2024 / TAP ANYWHERE TO CLOSE
               </div>
             </nav>
           </motion.div>

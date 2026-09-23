@@ -23,11 +23,12 @@ function formatTime(sec) {
   return `${m}:${String(s).padStart(2, '0')}`;
 }
 
-// helper: check if local file exists via HEAD (no download)
+// helper: check if local file exists via HEAD (no download, reject html fallback)
 async function localExists(url) {
   try {
     const r = await fetch(url, { method: 'HEAD' });
-    return r.ok;
+    const ct = r.headers.get('content-type') || '';
+    return r.ok && !ct.includes('text/html') && (ct.includes('audio') || ct.includes('octet-stream') || ct === '');
   } catch {
     return false;
   }
@@ -157,15 +158,23 @@ export default function AudioPlayer({ isPlaying, setIsPlaying, currentTrack, set
 
   useEffect(() => {
     if (!currentTrack) return;
+    if (currentTrack.unplayable) {
+      if (toastedRef.current !== currentTrack.title) {
+        toastedRef.current = currentTrack.title;
+        setError('Archived demo unreleased — no audio available in archive');
+      }
+      return;
+    }
     const base = currentTrack.title.split(' —')[0].trim().toLowerCase();
-    // only auto-map to deck index when there's NO custom src (deck songs).
-    // custom Timeline previews (Kill Kill etc) keep current index and play their own src.
-    if (currentTrack.src) return; // exact remote preview — always playable
+    if (currentTrack.src) {
+      const idx = matchDeck(base);
+      if (idx !== -1 && idx !== trackIndex) setTrackIndex(idx);
+      return;
+    }
     const idx = matchDeck(base);
     if (idx !== -1) {
       if (idx !== trackIndex) setTrackIndex(idx);
     } else if (toastedRef.current !== currentTrack.title) {
-      // honest fallback: no preview anywhere — say so instead of playing a wrong song
       toastedRef.current = currentTrack.title;
       setError('No preview for this one yet — pick from the deck');
     }
@@ -342,7 +351,6 @@ export default function AudioPlayer({ isPlaying, setIsPlaying, currentTrack, set
         ref={audioRef}
         src={activeTrack.src}
         preload="metadata"
-        crossOrigin="anonymous"
         playsInline
       />
 
@@ -353,25 +361,25 @@ export default function AudioPlayer({ isPlaying, setIsPlaying, currentTrack, set
         <AnimatePresence>
           {!minimized ? (
             <motion.div
-              drag
+              drag={isDesktop}
               dragListener={false}
               dragControls={controls}
               dragConstraints={boundsRef}
               dragMomentum={false}
               dragElastic={0.08}
               onDragEnd={savePos}
-              style={{ x, y }}
-              initial={initialPos.saved ? { opacity: 0 } : { y: 80, opacity: 0 }}
-              animate={{ opacity: 1, y: initialPos.y }}
+              style={isDesktop ? { x, y } : undefined}
+              initial={initialPos.saved && isDesktop ? { opacity: 0 } : { y: 80, opacity: 0 }}
+              animate={{ opacity: 1, y: isDesktop ? initialPos.y : 0 }}
               exit={{ opacity: 0 }}
               transition={{ type: 'spring', stiffness: 300, damping: 30 }}
-              className="pointer-events-auto absolute bottom-2 left-2 right-2 overflow-hidden rounded-xl border border-[#F7F4EB]/10 bg-[#1A1A1A] shadow-[0_16px_40px_rgba(0,0,0,0.35)] dark:border-[#F7F4EB]/10 sm:bottom-4 sm:left-0 sm:right-0 sm:mx-auto sm:w-full sm:max-w-[620px] sm:shadow-[0_20px_48px_rgba(0,0,0,0.4)] lg:bottom-6 lg:max-w-[680px]"
+              className="pointer-events-auto absolute bottom-2 left-2 right-2 overflow-hidden rounded-2xl border border-[#F7F4EB]/10 bg-[#1A1A1A] shadow-[0_16px_40px_rgba(0,0,0,0.35)] dark:border-[#F7F4EB]/10 pb-[env(safe-area-inset-bottom,0px)] sm:bottom-4 sm:left-0 sm:right-0 sm:mx-auto sm:w-full sm:max-w-[620px] sm:shadow-[0_20px_48px_rgba(0,0,0,0.4)] lg:bottom-6 lg:max-w-[680px]"
             >
               {/* drag grip — mobile only (desktop uses top bar) */}
               <div
                 onPointerDown={(e) => controls.start(e)}
                 onDoubleClick={resetPos}
-                title="Drag to move • double-click to reset"
+                title="Double-tap to reset position"
                 className="flex touch-none cursor-grab justify-center pb-1 pt-2 active:cursor-grabbing sm:hidden"
               >
                 <span className="h-1 w-14 rounded-full bg-white/15" />
@@ -379,11 +387,11 @@ export default function AudioPlayer({ isPlaying, setIsPlaying, currentTrack, set
               <div
                 onPointerDown={(e) => controls.start(e)}
                 onDoubleClick={resetPos}
-                title="Drag to move • double-click to reset"
-                className="hidden cursor-grab touch-none select-none items-center justify-between gap-2 bg-[#22201E] px-2.5 py-1.5 active:cursor-grabbing sm:flex sm:px-3"
+                title="Drag to reposition / Double-click to reset"
+                className="hidden cursor-grab touch-none select-none items-center justify-between gap-2 bg-[#22201E] px-3 py-1.5 active:cursor-grabbing sm:flex"
               >
                 <div className="flex min-w-0 items-center gap-1.5 sm:gap-2">
-                  <span className={`h-1.5 w-1.5 shrink-0 rounded-full ${isPlaying && !error ? 'bg-brass animate-pulse' : 'bg-cherry'}`} />
+                  <span className={`h-1.5 w-1.5 shrink-0 rounded-full ${isPlaying && !error ? 'bg-brass' : 'bg-cherry'}`} />
                   <span className="truncate font-mono text-[9px] tracking-[0.12em] text-parchment/60 sm:text-[10px] sm:tracking-[0.2em]">
                     ARCHIVE CASSETTE DECK — {isPlaying ? 'PLAYING' : 'STANDBY'}
                   </span>
@@ -445,7 +453,7 @@ export default function AudioPlayer({ isPlaying, setIsPlaying, currentTrack, set
                       {displayTitle}
                     </span>
                     <span className="block truncate font-mono text-[10px] tracking-[0.12em] text-brass-light">
-                      LANA DEL REY • {displayEra}
+                      LANA DEL REY / {displayEra}
                     </span>
                   </span>
                 </button>
@@ -456,7 +464,7 @@ export default function AudioPlayer({ isPlaying, setIsPlaying, currentTrack, set
                     {displayTitle}
                   </div>
                   <div className="truncate font-mono text-[12px] tracking-[0.15em] text-brass-light">
-                    LANA DEL REY • {displayEra}
+                    LANA DEL REY / {displayEra}
                   </div>
                 </div>
 
