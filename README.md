@@ -22,6 +22,7 @@ Retro Americana · 70s editorial nostalgia · cinematic melancholy.
 - **Lyrical Tarot** — flip vintage tarot cards to reveal a lyric + thematic breakdown
 - **Muses & Lovers** — public relationship chapters (Barrie → Jeremy Dufrene), each mapped to songs as marked fan readings
 - **Louisiana Now** — living journal: Waffle House shift, Coachella headline, the 2024 wedding, developing entries
+- **Contact Sheet** — 21 numbered proof-print frames (Bowery 2011 → Dublin 2025), era filters, loupe lightbox
 - **Cassette deck** — persistent bottom player with genuine 30-second vocal previews, seek tape-counter, volume, track pills, slim mini-bar on mobile (`▴` to expand)
 
 ## Music & photos (legal)

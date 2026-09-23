@@ -15,6 +15,7 @@ const Vault = lazy(() => import('./components/Vault'));
 const Tarot = lazy(() => import('./components/Tarot'));
 const Muses = lazy(() => import('./components/Muses'));
 const Louisiana = lazy(() => import('./components/Louisiana'));
+const Gallery = lazy(() => import('./components/Gallery'));
 
 function SectionFallback({ label }) {
   return (
@@ -91,6 +92,11 @@ export default function App() {
           <div className="cv-auto">
             <Suspense fallback={<SectionFallback label="06 — LOUISIANA NOW" />}>
               <Louisiana />
+            </Suspense>
+          </div>
+          <div className="cv-auto">
+            <Suspense fallback={<SectionFallback label="07 — CONTACT SHEET" />}>
+              <Gallery />
             </Suspense>
           </div>
         </main>
