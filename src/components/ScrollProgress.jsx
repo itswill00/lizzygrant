@@ -5,12 +5,21 @@ export default function ScrollProgress() {
   const [progress, setProgress] = useState(0);
 
   useEffect(() => {
-    const onScroll = () => {
+    let ticking = false;
+    const update = () => {
+      ticking = false;
       const doc = document.documentElement;
       const scrollTop = window.scrollY;
       const scrollHeight = doc.scrollHeight - window.innerHeight;
       const p = scrollHeight > 0 ? (scrollTop / scrollHeight) * 100 : 0;
       setProgress(Math.min(100, Math.max(0, p)));
+    };
+    // rAF-throttled: setState per scroll event re-renders every frame while scrolling
+    const onScroll = () => {
+      if (!ticking) {
+        ticking = true;
+        requestAnimationFrame(update);
+      }
     };
     onScroll();
     window.addEventListener('scroll', onScroll, { passive: true });

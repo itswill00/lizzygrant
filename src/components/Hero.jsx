@@ -28,18 +28,14 @@ export default function Hero({ isPlaying, setIsPlaying, currentTrack, setCurrent
         backgroundImage: `repeating-linear-gradient(90deg, #22201E 0 1px, transparent 1px 40px), repeating-linear-gradient(0deg, #22201E 0 1px, transparent 1px 40px)`
       }} />
 
-      {/* ambient blobs — slow GPU-friendly float (transform only) */}
-      <motion.div
+      {/* ambient blobs — static (animating huge blurs janks mobile GPUs) */}
+      <div
         aria-hidden
         className="pointer-events-none absolute -right-20 -top-20 h-[400px] w-[400px] rounded-full bg-cherry/5 blur-[60px] dark:bg-cherry/10 sm:h-[600px] sm:w-[600px] sm:blur-[80px]"
-        animate={{ y: [0, -18, 0], x: [0, 10, 0] }}
-        transition={{ duration: 11, repeat: Infinity, ease: 'easeInOut' }}
       />
-      <motion.div
+      <div
         aria-hidden
         className="pointer-events-none absolute -left-20 bottom-0 h-[300px] w-[300px] rounded-full bg-brass/10 blur-[60px] dark:bg-brass/5 sm:h-[500px] sm:w-[500px] sm:blur-[80px]"
-        animate={{ y: [0, 14, 0], x: [0, -12, 0] }}
-        transition={{ duration: 13, repeat: Infinity, ease: 'easeInOut' }}
       />
       {/* floating vinyl 3D object behind collage */}
       <FloatingVinyl size={280} className="-left-24 top-16 hidden opacity-50 md:block lg:left-auto lg:-right-10 lg:top-8 lg:opacity-70" />

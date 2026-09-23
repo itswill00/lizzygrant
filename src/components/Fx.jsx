@@ -22,11 +22,12 @@ export function DustCanvas() {
     const ctx = canvas.getContext('2d');
     let raf = 0;
     let running = true;
+    let frame = 0;
     let w = 0;
     let h = 0;
-    const DPR = Math.min(window.devicePixelRatio || 1, 1.5);
+    const DPR = Math.min(window.devicePixelRatio || 1, 1.25);
     const isMobile = window.innerWidth < 640;
-    const N = isMobile ? 28 : 70;
+    const N = isMobile ? 18 : 42;
     const parts = Array.from({ length: N }, () => ({
       x: Math.random(),
       y: Math.random(),
@@ -58,7 +59,10 @@ export function DustCanvas() {
 
     const loop = () => {
       if (!running) return;
-      ctx.clearRect(0, 0, w, h);
+      // throttle to ~30fps: full-screen canvas at 60fps janks low-end GPUs
+      frame++;
+      if (frame % 2 === 0) {
+        ctx.clearRect(0, 0, w, h);
       const dark = document.documentElement.classList.contains('dark');
       for (const p of parts) {
         p.y -= p.s;
@@ -75,6 +79,7 @@ export function DustCanvas() {
         ctx.arc(x, y, p.r, 0, Math.PI * 2);
         ctx.fillStyle = dark ? `rgba(232,199,106,${alpha})` : `rgba(120,90,40,${alpha})`;
         ctx.fill();
+        }
       }
       raf = requestAnimationFrame(loop);
     };

@@ -5,7 +5,7 @@ export default function Navbar({ darkMode, setDarkMode }) {
   const [open, setOpen] = useState(false);
 
   return (
-    <header className="sticky top-0 z-40 border-b border-espresso/10 bg-parchment/80 backdrop-blur-md dark:border-parchment/10 dark:bg-noir/80">
+    <header className="sticky top-0 z-40 border-b border-espresso/10 bg-parchment/95 dark:border-parchment/10 dark:bg-noir/95">
       {/* top archival bar - hide on mobile */}
       <div className="hidden border-b border-espresso/5 bg-espresso/[0.02] dark:border-parchment/5 dark:bg-parchment/[0.02] lg:block">
         <div className="mx-auto flex max-w-[1400px] items-center justify-between px-6 py-1.5 font-mono text-[10px] tracking-[0.2em] text-typewriter dark:text-parchment/50">
