@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Tilt, Magnetic, FloatingVinyl } from './Fx';
+import { eras } from '../data/eras';
 
 const quotes = [
   { text: '"We were born to die."', ref: '— Born to Die, 2012' },
@@ -14,11 +15,29 @@ const quotes = [
 
 export default function Hero({ isPlaying, setIsPlaying, currentTrack, setCurrentTrack }) {
   const [qIndex, setQIndex] = useState(0);
+  // swipeable era deck: 8 frames, one myth
+  const [heroIndex, setHeroIndex] = useState(1); // Born to Die default
+  const [heroDir, setHeroDir] = useState(1);
+  const [deckPaused, setDeckPaused] = useState(false);
+  const heroEra = eras[heroIndex];
+
+  const paginateDeck = (dir) => {
+    setHeroDir(dir);
+    setHeroIndex((i) => (i + dir + eras.length) % eras.length);
+  };
 
   useEffect(() => {
     const id = setInterval(() => setQIndex((i) => (i + 1) % quotes.length), 3200);
     return () => clearInterval(id);
   }, []);
+
+  // gentle auto-rotate; resets on every manual swipe, pauses on hover/touch, off for reduced motion
+  useEffect(() => {
+    if (deckPaused) return;
+    if (typeof window !== 'undefined' && window.matchMedia?.('(prefers-reduced-motion: reduce)').matches) return;
+    const id = setInterval(() => paginateDeck(1), 6500);
+    return () => clearInterval(id);
+  }, [heroIndex, deckPaused]);
 
   return (
     <section id="hero" className="relative overflow-x-hidden border-b border-espresso/10 dark:border-parchment/10">
@@ -162,7 +181,7 @@ export default function Hero({ isPlaying, setIsPlaying, currentTrack, setCurrent
             {/* card 1 - main, 3D tilt on desktop pointers */}
             <Tilt
               max={6}
-              className="relative w-full md:absolute md:left-1/2 md:top-2 md:w-[88%] md:-translate-x-1/2"
+              className="relative mb-6 w-full sm:mb-7 md:absolute md:left-1/2 md:top-2 md:mb-0 md:w-[88%] md:-translate-x-1/2"
             >
             <motion.div
               initial={{ rotate: -2, y: 20, opacity: 0 }}
@@ -172,26 +191,78 @@ export default function Hero({ isPlaying, setIsPlaying, currentTrack, setCurrent
             >
               <div className="tape -top-2 left-4 hidden rotate-[-4deg] sm:block sm:-top-3 sm:left-6" />
               <div className="tape -top-2 right-4 hidden rotate-[5deg] sm:block sm:-top-3 sm:right-6" />
-              <div className="relative aspect-[4/3] overflow-hidden rounded-md bg-[#2E4057]">
-                <img
-                  src="https://commons.wikimedia.org/wiki/Special:FilePath/Lana%20Del%20Rey%20at%20Irving%20Plaza%208.jpg?width=800"
-                  alt="Lana Del Rey — Born to Die era, vintage editorial portrait, Irving Plaza 2012"
-                  className="h-full w-full object-cover"
-                  loading="eager"
-                  fetchpriority="high"
-                  decoding="async"
-                />
+              {/* swipeable era deck — drag, arrows, or dots */}
+              <motion.div
+                drag="x"
+                dragConstraints={{ left: 0, right: 0 }}
+                dragElastic={0.55}
+                onDragEnd={(_, info) => {
+                  if (info.offset.x < -60) paginateDeck(1);
+                  else if (info.offset.x > 60) paginateDeck(-1);
+                }}
+                onMouseEnter={() => setDeckPaused(true)}
+                onMouseLeave={() => setDeckPaused(false)}
+                onTouchStart={() => setDeckPaused(true)}
+                onTouchEnd={() => setTimeout(() => setDeckPaused(false), 4000)}
+                className="relative aspect-[4/3] cursor-grab touch-pan-y overflow-hidden rounded-md bg-[#2E4057] active:cursor-grabbing"
+                role="region"
+                aria-roledescription="carousel"
+                aria-label={`Era photographs, frame ${heroIndex + 1} of ${eras.length}: ${heroEra.title}`}
+              >
+                <AnimatePresence mode="popLayout" custom={heroDir} initial={false}>
+                  <motion.img
+                    key={heroEra.id}
+                    src={heroEra.image}
+                    alt={heroEra.imageAlt}
+                    custom={heroDir}
+                    initial={{ x: heroDir * 70, opacity: 0 }}
+                    animate={{ x: 0, opacity: 1 }}
+                    exit={{ x: heroDir * -70, opacity: 0 }}
+                    transition={{ duration: 0.35, ease: 'easeOut' }}
+                    className="absolute inset-0 h-full w-full object-cover"
+                    loading={heroIndex === 1 ? 'eager' : 'lazy'}
+                    fetchpriority={heroIndex === 1 ? 'high' : undefined}
+                    decoding="async"
+                    draggable={false}
+                  />
+                </AnimatePresence>
                 <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-transparent" />
                 <div className="pointer-events-none absolute inset-0 opacity-20 mix-blend-overlay" style={{
                   backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence baseFrequency='1.2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.4'/%3E%3C/svg%3E")`
                 }} />
                 <div className="absolute bottom-1.5 left-1.5 rounded-full bg-white/90 px-1.5 py-0.5 font-mono text-[7px] tracking-widest text-espresso sm:bottom-2 sm:left-2 sm:px-2 sm:text-[9px]">
-                  BORN TO DIE — 2012 • TAKE 04
+                  {heroEra.year} • ARCHIVE
                 </div>
+                {/* arrows */}
+                <button
+                  onClick={() => paginateDeck(-1)}
+                  aria-label="Previous era photo"
+                  className="absolute left-1.5 top-1/2 flex h-9 w-9 -translate-y-1/2 items-center justify-center rounded-full bg-white/90 font-mono text-[15px] text-espresso shadow-md transition hover:bg-white active:scale-90 sm:left-2"
+                >
+                  ←
+                </button>
+                <button
+                  onClick={() => paginateDeck(1)}
+                  aria-label="Next era photo"
+                  className="absolute right-1.5 top-1/2 flex h-9 w-9 -translate-y-1/2 items-center justify-center rounded-full bg-white/90 font-mono text-[15px] text-espresso shadow-md transition hover:bg-white active:scale-90 sm:right-2"
+                >
+                  →
+                </button>
+              </motion.div>
+              <div className="absolute bottom-1.5 left-2 right-2 flex items-end justify-between gap-2 sm:bottom-3 sm:left-3 sm:right-3">
+                <span className="truncate font-script text-[13px] leading-none text-espresso dark:text-parchment sm:text-[17px]">{heroEra.title.toLowerCase()} —</span>
+                <span className="shrink-0 font-mono text-[8px] tracking-[0.15em] text-typewriter sm:text-[9px]">FIG. {String(heroIndex + 1).padStart(2, '0')}/{String(eras.length).padStart(2, '0')}</span>
               </div>
-              <div className="absolute bottom-1.5 left-2 right-2 flex items-end justify-between sm:bottom-3 sm:left-3 sm:right-3">
-                <span className="font-script text-[13px] leading-none text-espresso dark:text-parchment sm:text-[17px]">chemtrails & cherry chapstick —</span>
-                <span className="font-mono text-[8px] tracking-[0.15em] text-typewriter sm:text-[9px]">FIG. 07</span>
+              {/* dots */}
+              <div className="absolute -bottom-0 left-1/2 flex -translate-x-1/2 translate-y-5 gap-1 sm:translate-y-6">
+                {eras.map((e, i) => (
+                  <button
+                    key={e.id}
+                    onClick={() => { setHeroDir(i > heroIndex ? 1 : -1); setHeroIndex(i); }}
+                    aria-label={`Go to ${e.title}`}
+                    className={`h-1.5 rounded-full transition-all ${i === heroIndex ? 'w-5 bg-cherry' : 'w-1.5 bg-espresso/20 hover:bg-espresso/40 dark:bg-parchment/20'}`}
+                  />
+                ))}
               </div>
             </motion.div>
             </Tilt>
