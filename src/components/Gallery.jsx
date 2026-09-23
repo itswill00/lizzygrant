@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useState } from 'react';
+import { createPortal } from 'react-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { galleryFrames, galleryEras } from '../data/gallery';
 
@@ -98,7 +99,8 @@ export default function Gallery() {
         </AnimatePresence>
       </motion.div>
 
-      {/* lightbox loupe */}
+      {/* lightbox loupe — portalled to body, overlay scrolls on small screens */}
+      {typeof document !== 'undefined' && createPortal(
       <AnimatePresence>
         {frame && (
           <>
@@ -110,13 +112,18 @@ export default function Gallery() {
               onClick={() => setLightbox(null)}
               className="fixed inset-0 z-[70] bg-[#1A1A1A]/80 backdrop-blur-sm"
             />
-            <div className="pointer-events-none fixed inset-0 z-[71] flex items-center justify-center p-3 sm:p-6">
+            <div
+              className="fixed inset-0 z-[71] overflow-y-auto"
+              onClick={() => setLightbox(null)}
+            >
+            <div className="flex min-h-full items-center justify-center p-3 sm:p-6">
             <motion.div
               initial={{ opacity: 0, scale: 0.97, y: 12 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.97, y: 12 }}
               transition={{ type: 'spring', stiffness: 320, damping: 30 }}
-              className="pointer-events-auto max-h-[90vh] w-fit max-w-[92vw] overflow-y-auto rounded-xl border border-[#D4AF37]/20 bg-[#FFFEFB] shadow-[0_20px_60px_rgba(0,0,0,0.4)] dark:border-[#F7F4EB]/10 dark:bg-noir sm:max-w-[860px]"
+              onClick={(e) => e.stopPropagation()}
+              className="w-fit max-w-[92vw] rounded-xl border border-[#D4AF37]/20 bg-[#FFFEFB] shadow-[0_20px_60px_rgba(0,0,0,0.4)] dark:border-[#F7F4EB]/10 dark:bg-noir sm:max-w-[860px]"
               role="dialog"
               aria-label={`Frame: ${frame.caption}`}
             >
@@ -154,9 +161,11 @@ export default function Gallery() {
               </div>
             </motion.div>
             </div>
+            </div>
           </>
         )}
       </AnimatePresence>
+      , document.body)}
     </section>
   );
 }

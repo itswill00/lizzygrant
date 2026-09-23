@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { createPortal } from 'react-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { vaultItems } from '../data/vault';
 
@@ -152,7 +153,9 @@ export default function Vault() {
         </div>
       </div>
 
-      {/* Vault Detail Modal — actual inspect functionality */}
+      {/* Vault Detail Modal — portalled to body so no ancestor transform
+          can hijack `fixed` positioning; overlay itself scrolls on small screens */}
+      {typeof document !== 'undefined' && createPortal(
       <AnimatePresence>
         {selected && (
           <>
@@ -164,13 +167,18 @@ export default function Vault() {
               onClick={() => setSelected(null)}
               className="fixed inset-0 z-[70] bg-[#1A1A1A]/60 backdrop-blur-sm"
             />
-            <div className="pointer-events-none fixed inset-0 z-[71] flex items-center justify-center p-3 sm:p-6">
+            <div
+              className="fixed inset-0 z-[71] overflow-y-auto"
+              onClick={() => setSelected(null)}
+            >
+            <div className="flex min-h-full items-center justify-center p-3 sm:p-6">
             <motion.div
               initial={{ opacity: 0, y: 16, scale: 0.98 }}
               animate={{ opacity: 1, y: 0, scale: 1 }}
               exit={{ opacity: 0, y: 16, scale: 0.98 }}
               transition={{ type: 'spring', stiffness: 320, damping: 30 }}
-              className="pointer-events-auto max-h-[88vh] w-full max-w-[640px] overflow-y-auto rounded-xl border border-[#D4AF37]/20 bg-[#FFFEFB] shadow-[0_20px_60px_rgba(0,0,0,0.35)] dark:border-[#F7F4EB]/10 dark:bg-noir"
+              onClick={(e) => e.stopPropagation()}
+              className="w-full max-w-[640px] rounded-xl border border-[#D4AF37]/20 bg-[#FFFEFB] shadow-[0_20px_60px_rgba(0,0,0,0.35)] dark:border-[#F7F4EB]/10 dark:bg-noir"
               role="dialog"
               aria-label={`File: ${selected.title}`}
             >
@@ -218,9 +226,11 @@ export default function Vault() {
               </div>
             </motion.div>
             </div>
+            </div>
           </>
         )}
       </AnimatePresence>
+      , document.body)}
     </section>
   );
 }
