@@ -51,7 +51,7 @@ export default function Louisiana() {
                     {e.text}
                   </p>
                   {e.featured && (
-                    <p className="mt-3 border-t border-dashed border-[#D4AF37]/25 pt-2.5 font-script text-[13px] text-typewriter/70 dark:text-parchment/50">
+                    <p className="mt-3 border-t border-dashed border-[#D4AF37]/25 pt-2.5 font-body text-[14px] italic text-typewriter/70 dark:text-parchment/50">
                       “The Louisiana peace” — filed forever ✎
                     </p>
                   )}

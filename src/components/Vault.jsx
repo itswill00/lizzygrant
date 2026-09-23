@@ -205,7 +205,7 @@ export default function Vault() {
                 <p className="font-body text-[15px] leading-[1.75] text-typewriter dark:text-parchment/70">{selected.description}</p>
                 <div className="mt-4 rounded-lg border border-[#D4AF37]/15 bg-parchment/40 p-3 dark:border-[#F7F4EB]/10 dark:bg-white/5">
                   <div className="font-mono text-[10px] tracking-[0.18em] text-typewriter">ARCHIVAL NOTE</div>
-                  <p className="mt-1 font-script text-[13px] leading-snug text-typewriter/80 dark:text-parchment/60">
+                  <p className="mt-1 font-body text-[14px] italic leading-[1.7] text-typewriter/80 dark:text-parchment/60">
                     Filed under {selected.type} • {selected.catalog}. Photograph: {selected.imageAlt}. This is a fan-made archival entry — not official, just reverent.
                   </p>
                 </div>

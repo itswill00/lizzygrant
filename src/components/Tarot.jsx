@@ -393,7 +393,7 @@ export default function Tarot({ setCurrentTrack, setIsPlaying }) {
                     </button>
                   </div>
 
-                  <p className="mt-3 text-center font-script text-[12.5px] text-typewriter/60 dark:text-parchment/50 sm:mt-4 sm:text-[13px]">
+                  <p className="mt-3 text-center font-body text-[13px] italic text-typewriter/60 dark:text-parchment/50 sm:mt-4 sm:text-[13.5px]">
                     “you write what you live” — scrawled on the back of the deck ✎
                   </p>
                 </>

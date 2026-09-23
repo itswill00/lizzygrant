@@ -24,7 +24,7 @@ export default function Footer() {
               A fan archival project dedicated to <em className="font-display italic text-espresso dark:text-parchment">Elizabeth Woolridge Grant</em>.
               Compiled with love, reverence, and continuous tape loops — from a trailer in Lake Placid to the tunnel under Ocean Blvd.
             </p>
-            <p className="mt-3 font-script text-[13px] leading-snug text-typewriter/70 dark:text-parchment/50">
+            <p className="mt-3 font-body text-[13.5px] italic leading-[1.7] text-typewriter/70 dark:text-parchment/50">
               “We were born to die, but we were born to remember.”
             </p>
             <div className="mt-4 flex items-center gap-2 font-mono text-[10px] tracking-[0.14em] text-typewriter/50">

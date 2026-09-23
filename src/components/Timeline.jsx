@@ -80,7 +80,7 @@ export default function Timeline({ setCurrentTrack, setIsPlaying }) {
 
           <div className="mt-3 hidden rounded-lg border border-dashed border-[#D4AF37]/20 bg-parchment-dark/40 p-3 shadow-sm dark:border-[#F7F4EB]/10 dark:bg-noir-soft/50 lg:block">
             <div className="font-mono text-[10px] tracking-[0.2em] text-typewriter">CURATOR NOTE</div>
-            <p className="mt-1 font-script text-[13px] leading-snug text-typewriter dark:text-parchment/70">
+            <p className="mt-1 font-body text-[13.5px] italic leading-[1.7] text-typewriter dark:text-parchment/70">
               Click any era — the board updates like a lightbox. The cassette follows you.
             </p>
           </div>
@@ -123,7 +123,7 @@ export default function Timeline({ setCurrentTrack, setIsPlaying }) {
                 </h3>
 
                 <div className="mt-3 border-l-2 border-brass/40 pl-3 dark:border-brass/30 sm:mt-4 sm:pl-4">
-                  <p className="font-script text-[13px] leading-snug text-cherry/80 dark:text-brass/80 sm:text-[15px]">
+                  <p className="font-body text-[14px] italic leading-[1.7] text-cherry/80 dark:text-brass/80 sm:text-[15px]">
                     {active.curatorNote}
                   </p>
                 </div>
