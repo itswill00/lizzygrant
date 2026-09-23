@@ -78,13 +78,13 @@ export default function Gallery() {
               onClick={() => setLightbox(i)}
               className="group mb-3 break-inside-avoid cursor-pointer rounded-lg border border-[#D4AF37]/15 bg-white p-1.5 pb-2 shadow-[0_4px_12px_rgba(0,0,0,0.05)] transition-shadow duration-300 hover:shadow-[0_10px_24px_rgba(0,0,0,0.12)] dark:border-[#F7F4EB]/10 dark:bg-noir-soft sm:mb-4"
             >
-              <div className="relative overflow-hidden rounded-md bg-parchment-dark">
+              <div className="relative aspect-[3/4] overflow-hidden rounded-md bg-parchment-dark">
                 <img
                   src={f.thumb}
                   alt={`Lana Del Rey — ${f.caption}`}
                   loading="lazy"
                   decoding="async"
-                  className="w-full object-cover transition-transform duration-500 group-hover:scale-[1.04]"
+                  className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-[1.04]"
                 />
                 <span className="absolute left-1.5 top-1.5 rounded-full bg-black/55 px-1.5 py-0.5 font-mono text-[8px] tracking-[0.12em] text-white backdrop-blur-sm">
                   FR.{String(galleryFrames.indexOf(f) + 1).padStart(2, '0')}

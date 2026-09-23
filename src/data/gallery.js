@@ -18,6 +18,7 @@ export const galleryEras = [
   { id: 'all', label: 'ALL FRAMES' },
   { id: 'early', label: '2011 — 2013' },
   { id: 'ultra', label: '2014' },
+  { id: 'honey', label: '2015 — 2016' },
   { id: 'lust', label: '2017' },
   { id: 'nfr', label: '2019' },
   { id: 'now', label: '2023 →' },
@@ -42,7 +43,8 @@ export const galleryFrames = [
   F('seattle-01', 'Lana Del Rey live in Seattle (01).jpg', 'WaMu Theater, Seattle — close quarters', '2014', 'ultra', 'Wikimedia Commons'),
   F('flow-crop', 'Lana Del Rey at Flow Festival 2017 (5) (cropped).jpg', 'Flow Festival, Helsinki — Lust for Life in bloom', '2017', 'lust', 'Wikimedia Commons'),
   F('flow-01', 'Lana Del Rey at Flow Festival 2017 (1).jpg', 'Flow Festival, Helsinki — sequins and peace signs', '2017', 'lust', 'Wikimedia Commons'),
+  F('corona', 'Lana Del Rey Corona Capital 2016.jpg', 'Corona Capital, Mexico City — Honeymoon on tour', '2016', 'honey', 'Wikimedia Commons'),
   F('ldr2019', 'LDR2019-cr.jpg', '2019 — the laureate year, NFR! season', '2019', 'nfr', 'Wikimedia Commons'),
   F('mita-crop', 'Lana del rey MITA.jpg (cropped).jpg', 'MITA Festival, Brazil — southern summer', '2023', 'now', 'Wikimedia Commons'),
-  F('dublin', 'Lana Del Rey Dublin 2025.jpg', 'Dublin 2025 — the archive continues', '2025', 'now', 'Wikimedia Commons'),
+  F('dublin', 'LanaDelReySingingDublin25.jpg', 'Dublin 2025 — singing, the archive continues', '2025', 'now', 'Wikimedia Commons'),
 ];
