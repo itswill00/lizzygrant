@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion, AnimatePresence, useDragControls, useMotionValue } from 'framer-motion';
 
 // Option B local files (if user drops genuine mp3s into public/audio) — priority if exists
 // Option A iTunes Search API — 30s genuine vocal previews (no key, free, legal)
@@ -13,6 +13,7 @@ const baseTracks = [
   { title: 'Love', slug: 'love', era: 'LUST FOR LIFE', year: '2017', duration: '4:32', src: '/audio/love.mp3', local: '/audio/love.mp3', query: 'lana del rey love', fallbackLocal: '/audio/track4.mp3' },
   { title: 'White Dress', slug: 'white-dress', era: 'CHEMTRAILS', year: '2021', duration: '5:33', src: '/audio/white-dress.mp3', local: '/audio/white-dress.mp3', query: 'lana del rey white dress', fallbackLocal: '/audio/track6.mp3' },
   { title: 'A&W', slug: 'a-w', era: 'OCEAN BLVD', year: '2023', duration: '7:13', src: '/audio/a-w.mp3', local: '/audio/a-w.mp3', query: 'lana del rey a&w', fallbackLocal: '/audio/track8.mp3' },
+  { title: 'Ride', slug: 'ride', era: 'PARADISE', year: '2012', duration: '4:49', src: '/audio/ride.mp3', local: '/audio/ride.mp3', query: 'lana del rey ride', fallbackLocal: '/audio/track8.mp3' },
 ];
 
 function formatTime(sec) {
@@ -29,6 +30,23 @@ async function localExists(url) {
     return r.ok;
   } catch {
     return false;
+  }
+}
+
+// persisted dock position (draggable player)
+const POS_KEY = 'lg-player-pos';
+function loadPos() {
+  try {
+    const raw = localStorage.getItem(POS_KEY);
+    if (!raw) return { x: 0, y: 0, saved: false };
+    const p = JSON.parse(raw);
+    const vw = window.innerWidth || 400;
+    const vh = window.innerHeight || 700;
+    const x = Math.max(-(vw - 160), Math.min(vw - 160, +p.x || 0));
+    const y = Math.max(-(vh - 260), Math.min(0, +p.y || 0));
+    return { x, y, saved: x !== 0 || y !== 0 };
+  } catch {
+    return { x: 0, y: 0, saved: false };
   }
 }
 
@@ -62,6 +80,21 @@ export default function AudioPlayer({ isPlaying, setIsPlaying, currentTrack, set
     } catch { setIsDesktop(window.innerWidth >= 640); return undefined; }
   }, []);
   const showExtras = isDesktop || mobileExpanded;
+  const controls = useDragControls();
+  const boundsRef = useRef(null);
+  const [initialPos] = useState(loadPos);
+  const x = useMotionValue(initialPos.x);
+  const y = useMotionValue(initialPos.y);
+  const savePos = () => {
+    try {
+      localStorage.setItem(POS_KEY, JSON.stringify({ x: Math.round(x.get()), y: Math.round(y.get()) }));
+    } catch {}
+  };
+  const resetPos = () => {
+    x.set(0); y.set(0);
+    try { localStorage.removeItem(POS_KEY); } catch {}
+  };
+  const toastedRef = useRef(null);
   const [sourceInfo, setSourceInfo] = useState('LOCAL'); // internal only, never shown
 
   // auto-dismiss error toast so it never blocks the deck
@@ -127,8 +160,11 @@ export default function AudioPlayer({ isPlaying, setIsPlaying, currentTrack, set
   }, []);
 
   const activeTrack = tracks[trackIndex];
-  const displayTitle = currentTrack?.title || activeTrack.title;
-  const displayEra = currentTrack?.era || activeTrack.era;
+  const matchDeck = (base) => tracks.findIndex((t) => t.title.toLowerCase() === base || base.includes(t.title.toLowerCase()) || t.title.toLowerCase().includes(base));
+  const reqBase = currentTrack && !currentTrack.src ? currentTrack.title.split(' —')[0].trim().toLowerCase() : null;
+  const reqPlayable = !currentTrack || currentTrack.src || (reqBase && matchDeck(reqBase) !== -1);
+  const displayTitle = reqPlayable ? (currentTrack?.title || activeTrack.title) : activeTrack.title;
+  const displayEra = reqPlayable ? (currentTrack?.era || activeTrack.era) : activeTrack.era;
   // custom preview from Timeline (Kill Kill, Ride, etc) wins over deck index
   const effectiveSrc = currentTrack?.src || activeTrack.src;
   const effectiveSource = currentTrack?.source || activeTrack.source || 'LOCAL';
@@ -142,9 +178,15 @@ export default function AudioPlayer({ isPlaying, setIsPlaying, currentTrack, set
     const base = currentTrack.title.split(' —')[0].trim().toLowerCase();
     // only auto-map to deck index when there's NO custom src (deck songs).
     // custom Timeline previews (Kill Kill etc) keep current index and play their own src.
-    if (currentTrack.src) return;
-    const idx = tracks.findIndex((t) => t.title.toLowerCase() === base || base.includes(t.title.toLowerCase()) || t.title.toLowerCase().includes(base));
-    if (idx !== -1 && idx !== trackIndex) setTrackIndex(idx);
+    if (currentTrack.src) return; // exact remote preview — always playable
+    const idx = matchDeck(base);
+    if (idx !== -1) {
+      if (idx !== trackIndex) setTrackIndex(idx);
+    } else if (toastedRef.current !== currentTrack.title) {
+      // honest fallback: no preview anywhere — say so instead of playing a wrong song
+      toastedRef.current = currentTrack.title;
+      setError('No preview for this one yet — pick from the deck');
+    }
   }, [currentTrack, tracks, trackIndex]);
 
   // single unified src sync — replaces 2 competing effects that caused glitch.
@@ -333,20 +375,42 @@ export default function AudioPlayer({ isPlaying, setIsPlaying, currentTrack, set
         playsInline
       />
 
-      <div className={`sm:hidden ${minimized ? 'h-[56px]' : mobileExpanded ? 'h-[270px]' : 'h-[76px]'}`} />
+      <div className={`sm:hidden ${minimized ? 'h-[56px]' : mobileExpanded ? 'h-[290px]' : 'h-[100px]'}`} />
       <div className={`hidden sm:block ${minimized ? 'h-[56px]' : 'h-[300px]'}`} />
 
-      <div className="fixed inset-x-2 bottom-2 z-50 mx-auto w-full max-w-[520px] sm:bottom-4 sm:max-w-[620px] lg:bottom-6 lg:max-w-[680px]">
+      <div ref={boundsRef} className="pointer-events-none fixed inset-0 z-50">
         <AnimatePresence>
           {!minimized ? (
             <motion.div
-              initial={{ y: 80, opacity: 0 }}
-              animate={{ y: 0, opacity: 1 }}
-              exit={{ y: 80, opacity: 0 }}
+              drag
+              dragListener={false}
+              dragControls={controls}
+              dragConstraints={boundsRef}
+              dragMomentum={false}
+              dragElastic={0.08}
+              onDragEnd={savePos}
+              style={{ x, y }}
+              initial={initialPos.saved ? { opacity: 0 } : { y: 80, opacity: 0 }}
+              animate={{ opacity: 1, y: initialPos.y }}
+              exit={{ opacity: 0 }}
               transition={{ type: 'spring', stiffness: 300, damping: 30 }}
-              className="overflow-hidden rounded-xl border border-[#F7F4EB]/10 bg-[#1A1A1A] shadow-[0_16px_40px_rgba(0,0,0,0.35)] dark:border-[#F7F4EB]/10 sm:shadow-[0_20px_48px_rgba(0,0,0,0.4)]"
+              className="pointer-events-auto absolute bottom-2 left-2 right-2 overflow-hidden rounded-xl border border-[#F7F4EB]/10 bg-[#1A1A1A] shadow-[0_16px_40px_rgba(0,0,0,0.35)] dark:border-[#F7F4EB]/10 sm:bottom-4 sm:left-0 sm:right-0 sm:mx-auto sm:w-full sm:max-w-[620px] sm:shadow-[0_20px_48px_rgba(0,0,0,0.4)] lg:bottom-6 lg:max-w-[680px]"
             >
-              <div className="hidden items-center justify-between gap-2 bg-[#22201E] px-2.5 py-1.5 sm:flex sm:px-3">
+              {/* drag grip — mobile only (desktop uses top bar) */}
+              <div
+                onPointerDown={(e) => controls.start(e)}
+                onDoubleClick={resetPos}
+                title="Drag to move • double-click to reset"
+                className="flex touch-none cursor-grab justify-center pb-1 pt-2 active:cursor-grabbing sm:hidden"
+              >
+                <span className="h-1 w-14 rounded-full bg-white/15" />
+              </div>
+              <div
+                onPointerDown={(e) => controls.start(e)}
+                onDoubleClick={resetPos}
+                title="Drag to move • double-click to reset"
+                className="hidden cursor-grab touch-none select-none items-center justify-between gap-2 bg-[#22201E] px-2.5 py-1.5 active:cursor-grabbing sm:flex sm:px-3"
+              >
                 <div className="flex min-w-0 items-center gap-1.5 sm:gap-2">
                   <span className={`h-1.5 w-1.5 shrink-0 rounded-full ${isPlaying && !error ? 'bg-brass animate-pulse' : 'bg-cherry'}`} />
                   <span className="truncate font-mono text-[9px] tracking-[0.12em] text-parchment/60 sm:text-[10px] sm:tracking-[0.2em]">
@@ -413,13 +477,6 @@ export default function AudioPlayer({ isPlaying, setIsPlaying, currentTrack, set
                       LANA DEL REY • {displayEra}
                     </span>
                   </span>
-                  <motion.span
-                    animate={{ rotate: mobileExpanded ? 180 : 0 }}
-                    transition={{ duration: 0.25 }}
-                    className="shrink-0 font-mono text-[12px] text-white/50"
-                  >
-                    ▴
-                  </motion.span>
                 </button>
 
                 {/* desktop title */}
@@ -536,7 +593,7 @@ export default function AudioPlayer({ isPlaying, setIsPlaying, currentTrack, set
                     <div className="border-t border-white/5 bg-[#1f1e1c] px-3 py-2.5 sm:px-4">
                       <div className="mb-1.5 flex items-center justify-between font-mono text-[10px] tracking-[0.15em] text-white/40">
                         <span>CHOOSE A TRACK</span>
-                        <span className="text-white/20">8 TRACKS</span>
+                        <span className="text-white/20">{tracks.length} TRACKS</span>
                       </div>
                       <div className="flex gap-2 overflow-x-auto [-ms-overflow-style:none] [scrollbar-width:none] sm:gap-2">
                         <style>{`[scrollbar-width:none]::-webkit-scrollbar{display:none}`}</style>
@@ -573,7 +630,7 @@ export default function AudioPlayer({ isPlaying, setIsPlaying, currentTrack, set
               animate={{ scale: 1, opacity: 1 }}
               exit={{ scale: 0.8, opacity: 0 }}
               onClick={() => setMinimized(false)}
-              className="ml-auto flex max-w-full items-center gap-2 rounded-full border border-white/10 bg-[#1A1A1A]/80 px-3 py-2.5 text-parchment shadow-[0_8px_24px_rgba(0,0,0,0.25)] backdrop-blur-md transition-all duration-300 hover:bg-[#232120]/90 hover:shadow-[0_12px_32px_rgba(0,0,0,0.3)] active:scale-[0.98] dark:border-[#F7F4EB]/10 sm:px-4"
+              className="absolute bottom-2 right-2 flex max-w-[calc(100%-1rem)] items-center gap-2 rounded-full border border-white/10 bg-[#1A1A1A]/80 px-3 py-2.5 text-parchment shadow-[0_8px_24px_rgba(0,0,0,0.25)] backdrop-blur-md transition-all duration-300 hover:bg-[#232120]/90 hover:shadow-[0_12px_32px_rgba(0,0,0,0.3)] active:scale-[0.98] dark:border-[#F7F4EB]/10 sm:bottom-4 sm:right-4 sm:px-4 pointer-events-auto"
             >
               <span className={`h-6 w-6 shrink-0 rounded-full border border-white/15 bg-[#2a2a2a] p-1 sm:h-7 sm:w-7 ${reelsSpin ? 'animate-tape-reel' : ''}`}>
                 <span className="block h-full w-full rounded-full bg-white/10" />

@@ -157,7 +157,6 @@ export default function Timeline({ setCurrentTrack, setIsPlaying }) {
                             const res = await fetch(`https://itunes.apple.com/search?term=${encodeURIComponent(`lana del rey ${s.title}`)}&entity=song&limit=5`);
                             const json = await res.json();
                             let m = json.results?.find((r) => r.previewUrl && r.trackName.toLowerCase().includes(s.title.toLowerCase().split(' (')[0].toLowerCase()) && r.artistName.toLowerCase().includes('lana'));
-                            if (!m) m = json.results?.find((r) => r.previewUrl && r.artistName.toLowerCase().includes('lana'));
                             if (m?.previewUrl) preview = m.previewUrl;
                           } catch {}
                           if (preview) {
@@ -167,7 +166,7 @@ export default function Timeline({ setCurrentTrack, setIsPlaying }) {
                             try {
                               const dz = await fetch(`https://api.deezer.com/search?q=${encodeURIComponent(`Lana Del Rey ${s.title}`)}`);
                               const dj = await dz.json();
-                              const f = dj.data?.find((x) => x.title.toLowerCase().includes(s.title.toLowerCase().split(' (')[0].toLowerCase()) && x.artist.name.toLowerCase().includes('lana')) || dj.data?.[0];
+                              const f = dj.data?.find((x) => x.title.toLowerCase().includes(s.title.toLowerCase().split(' (')[0].toLowerCase()) && x.artist.name.toLowerCase().includes('lana'));
                               if (f?.preview) {
                                 setCurrentTrack({ title: `${s.title} — ${active.title}`, era: active.title.toUpperCase(), src: f.preview, source: 'DEEZER' });
                               } else {
