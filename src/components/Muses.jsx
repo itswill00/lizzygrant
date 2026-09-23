@@ -40,7 +40,7 @@ export default function Muses({ setCurrentTrack, setIsPlaying }) {
         <h2 className="mt-1.5 font-display text-[26px] font-bold leading-none tracking-[-0.02em] text-espresso dark:text-parchment sm:mt-2 sm:text-[34px] md:text-[48px]">
           EVERY LOVE <span className="font-light italic text-typewriter text-[20px] sm:text-[26px] md:text-[34px]">left a song</span>
         </h2>
-        <p className="mt-2 max-w-[640px] font-body text-[12.5px] leading-relaxed text-typewriter dark:text-parchment/60 sm:mt-3 sm:text-[13px]">
+        <p className="mt-2 max-w-[640px] font-body text-[14.5px] leading-[1.75] text-typewriter dark:text-parchment/60 sm:mt-3 sm:text-[15px]">
           Public chapters only, told with care. Song links are <em className="text-espresso dark:text-parchment">fan readings</em> —
           where listeners hear a relationship inside the music — never stated as fact. Tap a song to hear it.
         </p>
@@ -83,7 +83,7 @@ export default function Muses({ setCurrentTrack, setIsPlaying }) {
               </button>
             </div>
 
-            <p className="flex-1 px-3.5 pt-2.5 font-body text-[12.5px] leading-relaxed text-typewriter dark:text-parchment/70 sm:px-4 sm:text-[13px]">
+            <p className="flex-1 px-3.5 pt-2.5 font-body text-[14px] leading-[1.75] text-typewriter dark:text-parchment/70 sm:px-4 sm:text-[15px]">
               {m.story}
             </p>
 

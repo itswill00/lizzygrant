@@ -20,7 +20,7 @@ export default function Footer() {
             <div className="mt-1.5 font-mono text-[10px] tracking-[0.18em] text-[#9E1B1B]/70 dark:text-[#E8C76A]/60">
               VOLUME I — VIII • FIRST LIMITED EDITION
             </div>
-            <p className="mt-4 max-w-[38ch] font-body text-[13px] leading-relaxed text-typewriter dark:text-parchment/70">
+            <p className="mt-4 max-w-[38ch] font-body text-[14px] leading-[1.75] text-typewriter dark:text-parchment/70">
               A fan archival project dedicated to <em className="font-display italic text-espresso dark:text-parchment">Elizabeth Woolridge Grant</em>.
               Compiled with love, reverence, and continuous tape loops — from a trailer in Lake Placid to the tunnel under Ocean Blvd.
             </p>
@@ -39,7 +39,7 @@ export default function Footer() {
             <div className="pointer-events-none absolute inset-0 rounded-lg bg-gradient-to-br from-[#D4AF37]/5 via-transparent to-transparent" />
             <div className="relative">
               <div className="font-mono text-[10px] tracking-[0.22em] text-[#9E1B1B] dark:text-[#E8C76A]">COLOPHON — SLEEVE NOTES</div>
-              <div className="mt-3 space-y-2 font-body text-[12.5px] leading-relaxed text-typewriter dark:text-parchment/70">
+              <div className="mt-3 space-y-2 font-body text-[13.5px] leading-[1.75] text-typewriter dark:text-parchment/70">
                 <p>
                   <span className="font-mono text-[11px] tracking-[0.12em] text-espresso dark:text-parchment">Typography</span> — Set in Playfair Display & Courier Prime, with handwritten marginalia in Dancing Script.
                 </p>
@@ -60,7 +60,7 @@ export default function Footer() {
           <div className="flex min-w-0 flex-col gap-4">
             <div className="rounded-lg border border-[#D4AF37]/15 bg-white p-4 shadow-[0_4px_16px_rgba(0,0,0,0.04)] dark:border-[#F7F4EB]/10 dark:bg-noir">
               <div className="font-mono text-[10px] tracking-[0.18em] text-typewriter">KEEP LISTENING</div>
-              <p className="mt-1.5 font-body text-[13px] leading-relaxed text-typewriter dark:text-parchment/70">
+              <p className="mt-1.5 font-body text-[14px] leading-[1.75] text-typewriter dark:text-parchment/70">
                 The tape never really ends. Flip it, rewind it, stay a little longer in the haze.
               </p>
               <div className="mt-4 flex flex-col gap-2.5">

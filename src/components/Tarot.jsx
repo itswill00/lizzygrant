@@ -134,7 +134,7 @@ export default function Tarot({ setCurrentTrack, setIsPlaying }) {
           <h2 className="mt-1.5 font-display text-[26px] font-bold leading-none tracking-[-0.02em] text-espresso dark:text-parchment sm:mt-2 sm:text-[34px] md:text-[48px]">
             ASK. SHUFFLE. <span className="font-light italic text-typewriter text-[20px] sm:text-[26px] md:text-[34px]">draw your lyric</span>
           </h2>
-          <p className="mt-2 max-w-[640px] font-body text-[12.5px] leading-relaxed text-typewriter dark:text-parchment/60 sm:mt-3 sm:text-[13px]">
+          <p className="mt-2 max-w-[640px] font-body text-[14.5px] leading-[1.75] text-typewriter dark:text-parchment/60 sm:mt-3 sm:text-[15px]">
             Not decoration — a reading. Set an intention, shuffle the deck, draw. Each card answers
             with a real lyric, its meaning, and the song itself on the cassette.
           </p>
@@ -151,7 +151,7 @@ export default function Tarot({ setCurrentTrack, setIsPlaying }) {
               onChange={(e) => setIntention(e.target.value)}
               placeholder="e.g. what should I let go of? (optional)"
               maxLength={80}
-              className="min-w-0 flex-1 bg-transparent font-body text-[13px] text-espresso outline-none placeholder:text-typewriter/40 dark:text-parchment"
+              className="min-w-0 flex-1 bg-transparent font-body text-[14px] text-espresso outline-none placeholder:text-typewriter/40 dark:text-parchment"
             />
           </div>
           <div className="flex items-center gap-2">
@@ -259,7 +259,7 @@ export default function Tarot({ setCurrentTrack, setIsPlaying }) {
                         <p className="mt-1 font-mono text-[9px] tracking-wide text-cherry sm:mt-1.5 sm:text-[10px]">
                           {card.song}
                         </p>
-                        <p className="mt-1.5 line-clamp-3 font-body text-[10.5px] leading-relaxed text-typewriter dark:text-parchment/70 sm:mt-2 sm:line-clamp-4 sm:text-[11.5px]">
+                        <p className="mt-1.5 line-clamp-3 font-body text-[12px] leading-[1.7] text-typewriter dark:text-parchment/70 sm:mt-2 sm:line-clamp-4 sm:text-[13px]">
                           {card.meaning}
                         </p>
                       </div>
@@ -325,7 +325,7 @@ export default function Tarot({ setCurrentTrack, setIsPlaying }) {
                 <div className="py-6 text-center">
                   <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-full border border-[#D4AF37]/25 bg-brass/10 font-display text-[22px] text-brass">✦</div>
                   <p className="mt-3 font-display text-[16px] italic text-espresso dark:text-parchment">The deck is waiting.</p>
-                  <p className="mt-1 font-body text-[12.5px] leading-relaxed text-typewriter">Set an intention above, hit <span className="font-mono text-cherry">DRAW ✦</span>, and the lyric will answer.</p>
+                  <p className="mt-1 font-body text-[13.5px] leading-[1.75] text-typewriter">Set an intention above, hit <span className="font-mono text-cherry">DRAW ✦</span>, and the lyric will answer.</p>
                   <button onClick={drawRitual} className="mt-4 rounded-full bg-cherry px-5 py-2.5 font-mono text-[11px] tracking-[0.14em] text-white transition hover:bg-cherry-light active:scale-95">
                     DRAW MY CARD ✦
                   </button>
@@ -369,7 +369,7 @@ export default function Tarot({ setCurrentTrack, setIsPlaying }) {
 
                   <div className="mt-3 sm:mt-4">
                     <div className="font-mono text-[9px] tracking-[0.18em] text-typewriter sm:text-[10px] sm:tracking-[0.2em]">THEMATIC BREAKDOWN</div>
-                    <p className="mt-1 font-body text-[12.5px] leading-relaxed text-typewriter dark:text-parchment/70 sm:mt-1.5 sm:text-[13px]">
+                    <p className="mt-1 font-body text-[14px] leading-[1.75] text-typewriter dark:text-parchment/70 sm:mt-1.5 sm:text-[15px]">
                       {active.meaning}
                     </p>
                   </div>
@@ -393,7 +393,7 @@ export default function Tarot({ setCurrentTrack, setIsPlaying }) {
                     </button>
                   </div>
 
-                  <p className="mt-3 text-center font-script text-[11px] text-typewriter/60 dark:text-parchment/50 sm:mt-4 sm:text-[12px]">
+                  <p className="mt-3 text-center font-script text-[12.5px] text-typewriter/60 dark:text-parchment/50 sm:mt-4 sm:text-[13px]">
                     “you write what you live” — scrawled on the back of the deck ✎
                   </p>
                 </>

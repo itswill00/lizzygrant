@@ -15,7 +15,7 @@ export default function Timeline({ setCurrentTrack, setIsPlaying }) {
           <h2 className="mt-1.5 font-display text-[28px] font-bold leading-none tracking-[-0.02em] text-espresso dark:text-parchment sm:mt-2 sm:text-[36px] md:text-[52px]">
             THE ERAS <span className="font-light italic text-typewriter text-[22px] sm:text-[28px] md:text-[36px]">— {eras.length} chapters</span>
           </h2>
-          <p className="mt-2 max-w-[640px] font-body text-[12.5px] leading-relaxed text-typewriter dark:text-parchment/60 sm:mt-3 sm:text-[13px]">
+          <p className="mt-2 max-w-[640px] font-body text-[14.5px] leading-[1.75] text-typewriter dark:text-parchment/60 sm:mt-3 sm:text-[15px]">
             Each era is an aesthetic world. Tap the timeline to enter. Songs are <em className="text-espresso dark:text-parchment">archival previews</em> — select one to cue the cassette.
           </p>
         </div>
@@ -117,7 +117,7 @@ export default function Timeline({ setCurrentTrack, setIsPlaying }) {
               <div className="min-w-0">
                 <h3 className="font-display text-[24px] font-bold leading-none tracking-[-0.02em] text-espresso dark:text-parchment sm:text-[30px] md:text-[36px]">
                   {active.title}
-                  <span className="mt-1 block font-body text-[13px] font-normal italic tracking-normal text-cherry sm:text-[14px]">
+                  <span className="mt-1 block font-body text-[14px] font-normal italic tracking-normal text-cherry sm:text-[15px]">
                     {active.subtitle}
                   </span>
                 </h3>
@@ -128,7 +128,7 @@ export default function Timeline({ setCurrentTrack, setIsPlaying }) {
                   </p>
                 </div>
 
-                <p className="mt-3 font-body text-[13px] leading-relaxed text-typewriter dark:text-parchment/70 sm:mt-4 sm:text-[13.5px]">
+                <p className="mt-3 font-body text-[15px] leading-[1.75] text-typewriter dark:text-parchment/70 sm:mt-4">
                   {active.description}
                 </p>
 

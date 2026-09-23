@@ -10,7 +10,7 @@ export default function Louisiana() {
           <h2 className="mt-1.5 font-display text-[26px] font-bold leading-none tracking-[-0.02em] text-espresso dark:text-parchment sm:mt-2 sm:text-[34px] md:text-[48px]">
             THE PEACE <span className="font-light italic text-typewriter text-[20px] sm:text-[26px] md:text-[34px]">is not a metaphor anymore</span>
           </h2>
-          <p className="mt-2 max-w-[640px] font-body text-[12.5px] leading-relaxed text-typewriter dark:text-parchment/60 sm:mt-3 sm:text-[13px]">
+          <p className="mt-2 max-w-[640px] font-body text-[14.5px] leading-[1.75] text-typewriter dark:text-parchment/60 sm:mt-3 sm:text-[15px]">
             A living journal — between Los Angeles and the bayou. Newest first, updated as the tape keeps running.
           </p>
         </div>
@@ -47,7 +47,7 @@ export default function Louisiana() {
                   <h3 className="mt-2 font-display text-[17px] font-bold leading-tight text-espresso dark:text-parchment sm:text-[20px]">
                     {e.title}
                   </h3>
-                  <p className="mt-1.5 font-body text-[12.5px] leading-relaxed text-typewriter dark:text-parchment/70 sm:text-[13px]">
+                  <p className="mt-1.5 font-body text-[14px] leading-[1.75] text-typewriter dark:text-parchment/70 sm:text-[15px]">
                     {e.text}
                   </p>
                   {e.featured && (

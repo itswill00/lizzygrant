@@ -37,7 +37,7 @@ export default function Gallery() {
         <h2 className="mt-1.5 font-display text-[26px] font-bold leading-none tracking-[-0.02em] text-espresso dark:text-parchment sm:mt-2 sm:text-[34px] md:text-[48px]">
           EVERY FRAME <span className="font-light italic text-typewriter text-[20px] sm:text-[26px] md:text-[34px]">filed & numbered</span>
         </h2>
-        <p className="mt-2 max-w-[640px] font-body text-[12.5px] leading-relaxed text-typewriter dark:text-parchment/60 sm:mt-3 sm:text-[13px]">
+        <p className="mt-2 max-w-[640px] font-body text-[14.5px] leading-[1.75] text-typewriter dark:text-parchment/60 sm:mt-3 sm:text-[15px]">
           The proof prints — {galleryFrames.length} frames from Bowery ballrooms to Dublin, 2011 → 2025.
           Tap any frame for the loupe. Photographs: Wikimedia Commons contributors.
         </p>

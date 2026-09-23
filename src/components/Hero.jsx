@@ -76,7 +76,7 @@ export default function Hero({ isPlaying, setIsPlaying, currentTrack, setCurrent
           </div>
 
           <div className="mt-6 max-w-[560px] border-l-2 border-brass/40 pl-3 dark:border-brass/30 sm:mt-8 sm:pl-5">
-            <p className="font-body text-[13px] leading-relaxed text-typewriter dark:text-parchment/70 sm:text-[14px]">
+            <p className="font-body text-[15px] leading-[1.75] text-typewriter dark:text-parchment/70 sm:text-[16px]">
               An atmospheric anthology of a girl who turned Americana into mythology.
               <span className="font-semibold text-espresso dark:text-parchment"> Trailer parks to Chateau Marmont, </span>
               8mm grain to 70s editorial — from the first Kill Kill demo in 2008 to the tunnel under Ocean Blvd.
@@ -151,7 +151,7 @@ export default function Hero({ isPlaying, setIsPlaying, currentTrack, setCurrent
           <p className="mt-3 hidden font-script text-[14px] text-typewriter dark:text-parchment/50 sm:block sm:text-[15px]">
             * hand-annotated by E.W.G — “keep the tapes running” ✎
           </p>
-          <p className="mt-3 font-script text-[12px] text-typewriter/70 dark:text-parchment/50 sm:hidden">
+          <p className="mt-3 font-script text-[13px] text-typewriter/70 dark:text-parchment/50 sm:hidden">
             * E.W.G — “keep the tapes running” ✎
           </p>
         </div>

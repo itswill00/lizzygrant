@@ -24,7 +24,7 @@ export default {
       },
       fontFamily: {
         display: ['"Playfair Display"', 'Georgia', 'serif'],
-        body: ['"Courier Prime"', '"Courier New"', 'monospace'],
+        body: ['"Source Serif 4"', 'Georgia', 'serif'],
         mono: ['"Courier Prime"', '"Courier New"', 'monospace'],
         script: ['"Dancing Script"', 'cursive'],
       },

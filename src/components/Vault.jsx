@@ -33,7 +33,7 @@ export default function Vault() {
               UNRELEASED <span className="font-light italic text-typewriter"> & LORE</span>
               <span className="ml-1.5 align-super rounded-full border border-cherry px-1.5 py-0.5 font-mono text-[8px] tracking-[0.15em] text-cherry sm:ml-2 sm:px-2 sm:text-[10px] sm:tracking-[0.2em]">{vaultItems.length} FILES</span>
             </h2>
-            <p className="mt-2 max-w-[560px] font-body text-[12.5px] leading-relaxed text-typewriter dark:text-parchment/60 sm:mt-3 sm:text-[13px]">
+            <p className="mt-2 max-w-[560px] font-body text-[14.5px] leading-[1.75] text-typewriter dark:text-parchment/60 sm:mt-3 sm:text-[15px]">
               Archival case files — cassette tapes, poetry broadsides, and interview lore.
               Each card is a <em className="text-espresso dark:text-parchment">tape to peel</em>. Tap <span className="font-mono text-cherry">INSPECT</span> to open the file.
             </p>
@@ -118,7 +118,7 @@ export default function Vault() {
                 <h3 className="font-display text-[15px] font-bold leading-tight text-espresso dark:text-parchment sm:text-[16px]">
                   {item.title}
                 </h3>
-                <p className="mt-1.5 line-clamp-3 flex-1 font-body text-[12.5px] leading-relaxed text-typewriter dark:text-parchment/70 sm:mt-2 sm:line-clamp-4 sm:text-[13px]">
+                <p className="mt-1.5 line-clamp-3 flex-1 font-body text-[14px] leading-[1.75] text-typewriter dark:text-parchment/70 sm:mt-2 sm:line-clamp-4 sm:text-[15px]">
                   {item.description}
                 </p>
                 <div className="mt-3 flex items-center justify-between border-t border-dashed border-[#D4AF37]/15 pt-2.5 dark:border-[#F7F4EB]/10 sm:mt-4 sm:pt-3">
@@ -202,7 +202,7 @@ export default function Vault() {
                 </div>
               </div>
               <div className="p-4 sm:p-6">
-                <p className="font-body text-[14px] leading-relaxed text-typewriter dark:text-parchment/70">{selected.description}</p>
+                <p className="font-body text-[15px] leading-[1.75] text-typewriter dark:text-parchment/70">{selected.description}</p>
                 <div className="mt-4 rounded-lg border border-[#D4AF37]/15 bg-parchment/40 p-3 dark:border-[#F7F4EB]/10 dark:bg-white/5">
                   <div className="font-mono text-[10px] tracking-[0.18em] text-typewriter">ARCHIVAL NOTE</div>
                   <p className="mt-1 font-script text-[13px] leading-snug text-typewriter/80 dark:text-parchment/60">
