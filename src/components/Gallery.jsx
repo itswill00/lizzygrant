@@ -127,7 +127,7 @@ export default function Gallery() {
               role="dialog"
               aria-label={`Frame: ${frame.caption}`}
             >
-              <div className="relative bg-[#1A1A1A]">
+              <div className="relative overflow-hidden rounded-t-xl bg-[#1A1A1A]">
                 <img
                   src={frame.full}
                   alt={`Lana Del Rey — ${frame.caption}`}

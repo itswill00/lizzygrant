@@ -182,7 +182,7 @@ export default function Vault() {
               role="dialog"
               aria-label={`File: ${selected.title}`}
             >
-              <div className="relative aspect-[16/9] w-full shrink-0 overflow-hidden bg-parchment-dark">
+              <div className="relative aspect-[16/9] w-full shrink-0 overflow-hidden rounded-t-xl bg-parchment-dark">
                 <img src={selected.image} alt={selected.imageAlt} className="h-full w-full object-cover" loading="lazy" decoding="async" />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent" />
                 <div className="absolute left-3 top-3 flex items-center gap-2">
