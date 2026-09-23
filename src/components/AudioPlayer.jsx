@@ -114,32 +114,21 @@ export default function AudioPlayer({ isPlaying, setIsPlaying, currentTrack, set
           if (await localExists(t.local)) {
             return { ...t, src: t.local, source: 'LOCAL' };
           }
-          // 2) Option A: iTunes Search API — genuine 30s vocal preview (recommended)
+          // 2) Option A: iTunes exact title match only — never a wrong song
           try {
             const itRes = await fetch(`https://itunes.apple.com/search?term=${encodeURIComponent(t.query)}&entity=song&limit=5`);
             const itJson = await itRes.json();
-            let match = itJson.results?.find(
+            const match = itJson.results?.find(
               (r) => r.previewUrl && r.trackName?.toLowerCase().includes(t.title.toLowerCase()) && r.artistName?.toLowerCase().includes('lana')
             );
-            if (!match) {
-              match = itJson.results?.find((r) => r.previewUrl && r.artistName?.toLowerCase().includes('lana') && r.previewUrl.includes('audio-ssl'));
-            }
             if (match?.previewUrl) {
               return { ...t, src: match.previewUrl, source: 'iTUNES', previewTitle: match.trackName };
             }
           } catch {}
 
-          // 2) Secondary: Deezer (also genuine, CORS *)
-          try {
-            const dzRes = await fetch(`https://api.deezer.com/search?q=${encodeURIComponent(t.query)}`);
-            const dzJson = await dzRes.json();
-            const found = dzJson.data?.find((x) => x.title.toLowerCase().includes(t.title.toLowerCase()) && x.artist?.name?.toLowerCase().includes('lana')) || dzJson.data?.[0];
-            if (found?.preview) {
-              return { ...t, src: found.preview, source: 'DEEZER' };
-            }
-          } catch {}
-
-          // 4) Final fallback: local trimmed stem (guaranteed to exist)
+          // NOTE: no Deezer here — its API sends no CORS headers so browsers
+          // can never use it; local files above cover every deck track.
+          // 3) Final fallback: local trimmed stem (guaranteed to exist)
           if (await localExists(t.local)) {
             return { ...t, src: t.local, source: 'LOCAL' };
           }

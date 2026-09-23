@@ -1,21 +1,39 @@
 // Shared genuine-preview resolver — single source of truth for every
 // tap-to-play on the site (Timeline, Muses, Tarot, Discography).
+// ORDER: local file first (instant, same-origin, works offline), then iTunes.
 // STRICT: exact title match only. Never attaches a wrong song;
 // returns {} when nothing exact exists so callers can fall back honestly.
+// (Deezer is intentionally absent: its API sends no CORS headers,
+// so browsers can never use it — only local files and iTunes work client-side.)
+function slugify(title) {
+  const base = title.split(' (')[0].trim().toLowerCase();
+  return base
+    .replace(/&/g, '-')
+    .replace(/[^a-z0-9\s-]/g, '')
+    .trim()
+    .replace(/[\s_]+/g, '-')
+    .replace(/-+/g, '-');
+}
+
+async function localPreview(title) {
+  try {
+    const url = `/audio/${slugify(title)}.mp3`;
+    const r = await fetch(url, { method: 'HEAD' });
+    if (r.ok) return { src: url, source: 'LOCAL' };
+  } catch {}
+  return null;
+}
+
 export async function fetchExactPreview(title) {
   const base = title.split(' (')[0].trim();
   const q = (t) => (t || '').toLowerCase();
+  const local = await localPreview(title);
+  if (local) return local;
   try {
     const res = await fetch(`https://itunes.apple.com/search?term=${encodeURIComponent(`lana del rey ${base}`)}&entity=song&limit=5`);
     const json = await res.json();
     const m = json.results?.find((r) => r.previewUrl && q(r.trackName).includes(q(base)) && q(r.artistName).includes('lana'));
     if (m?.previewUrl) return { src: m.previewUrl, source: 'iTUNES' };
-  } catch {}
-  try {
-    const dz = await fetch(`https://api.deezer.com/search?q=${encodeURIComponent(`Lana Del Rey ${base}`)}`);
-    const dj = await dz.json();
-    const f = dj.data?.find((x) => q(x.title).includes(q(base)) && q(x.artist?.name).includes('lana'));
-    if (f?.preview) return { src: f.preview, source: 'DEEZER' };
   } catch {}
   return {};
 }
