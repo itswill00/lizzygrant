@@ -1,6 +1,7 @@
 import { useState, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { eras } from '../data/eras';
+import SafeImage from './SafeImage';
 
 export default function Timeline({ setCurrentTrack, setIsPlaying }) {
   const [activeId, setActiveId] = useState(eras[1].id); // Born to Die default
@@ -203,12 +204,11 @@ export default function Timeline({ setCurrentTrack, setIsPlaying }) {
                 <div className="paper relative border border-espresso/5 p-2 pb-6 shadow-md sm:p-2 sm:pb-7">
                   <div className="tape -top-2 left-1/2 hidden w-12 -translate-x-1/2 rotate-[1deg] sm:block" />
                   <div className="relative aspect-[4/3] w-full overflow-hidden bg-typewriter/5">
-                    <img
+                    <SafeImage
                       src={active.image}
                       alt={active.imageAlt}
-                      className="h-full w-full object-cover"
                       loading="lazy"
-                      decoding="async"
+                      className="h-full w-full object-cover"
                     />
                     <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/65 via-black/10 to-transparent" />
                     <div className="absolute inset-x-0 bottom-0 p-3 sm:p-4">

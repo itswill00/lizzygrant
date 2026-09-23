@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Tilt, Magnetic, FloatingVinyl } from './Fx';
+import SafeImage from './SafeImage';
 import { eras } from '../data/eras';
 
 const quotes = [
@@ -210,21 +211,24 @@ export default function Hero({ isPlaying, setIsPlaying, currentTrack, setCurrent
                 aria-label={`Era photographs, frame ${heroIndex + 1} of ${eras.length}: ${heroEra.title}`}
               >
                 <AnimatePresence mode="popLayout" custom={heroDir} initial={false}>
-                  <motion.img
+                  <motion.div
                     key={heroEra.id}
-                    src={heroEra.image}
-                    alt={heroEra.imageAlt}
                     custom={heroDir}
                     initial={{ x: heroDir * 70, opacity: 0 }}
                     animate={{ x: 0, opacity: 1 }}
                     exit={{ x: heroDir * -70, opacity: 0 }}
                     transition={{ duration: 0.35, ease: 'easeOut' }}
-                    className="absolute inset-0 h-full w-full object-cover"
-                    loading={heroIndex === 1 ? 'eager' : 'lazy'}
-                    fetchpriority={heroIndex === 1 ? 'high' : undefined}
-                    decoding="async"
-                    draggable={false}
-                  />
+                    className="absolute inset-0"
+                  >
+                    <SafeImage
+                      src={heroEra.image}
+                      alt={heroEra.imageAlt}
+                      loading={heroIndex === 1 ? 'eager' : 'lazy'}
+                      fetchpriority={heroIndex === 1 ? 'high' : undefined}
+                      draggable={false}
+                      className="h-full w-full object-cover"
+                    />
+                  </motion.div>
                 </AnimatePresence>
                 <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-transparent" />
                 <div className="pointer-events-none absolute inset-0 opacity-20 mix-blend-overlay" style={{
@@ -276,12 +280,11 @@ export default function Hero({ isPlaying, setIsPlaying, currentTrack, setCurrent
             >
               <div className="tape -top-2 left-1/2 hidden w-12 -translate-x-1/2 rotate-[2deg] md:block" />
               <div className="aspect-[3/4] overflow-hidden rounded-md bg-[#8B7355]">
-                <img
+                <SafeImage
                   src="https://commons.wikimedia.org/wiki/Special:FilePath/Lana%20Del%20Rey%20live%20in%20Seattle%20%2802%29.jpg?width=400"
                   alt="Lana Del Rey — Ultraviolence era candid, Seattle 2014"
-                  className="h-full w-full object-cover"
                   loading="lazy"
-                  decoding="async"
+                  className="h-full w-full object-cover"
                 />
               </div>
               <p className="mt-2 text-center font-script text-[13px] text-espresso dark:text-parchment">ultraviolence babe ♡</p>

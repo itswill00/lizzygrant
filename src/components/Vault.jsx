@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { createPortal } from 'react-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { vaultItems } from '../data/vault';
+import SafeImage from './SafeImage';
 
 export default function Vault() {
   const [selected, setSelected] = useState(null);
@@ -103,12 +104,11 @@ export default function Vault() {
               </div>
 
               <div className="relative aspect-[16/10] w-full overflow-hidden bg-parchment-dark">
-                <img
+                <SafeImage
                   src={item.image}
                   alt={item.imageAlt}
-                  className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-[1.03]"
                   loading="lazy"
-                  decoding="async"
+                  className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-[1.03]"
                 />
                 <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-transparent opacity-60" />
                 <div className="absolute bottom-1.5 left-2 rounded-full bg-white/90 px-1.5 py-0.5 font-mono text-[7px] tracking-widest text-espresso shadow sm:bottom-2 sm:left-2">POLAROID • LIVE</div>
@@ -183,7 +183,7 @@ export default function Vault() {
               aria-label={`File: ${selected.title}`}
             >
               <div className="relative aspect-[16/9] w-full shrink-0 overflow-hidden rounded-t-xl bg-parchment-dark">
-                <img src={selected.image} alt={selected.imageAlt} className="h-full w-full object-cover" loading="lazy" decoding="async" />
+                <SafeImage src={selected.image} alt={selected.imageAlt} loading="lazy" className="h-full w-full object-cover" />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent" />
                 <div className="absolute left-3 top-3 flex items-center gap-2">
                   <span className="rounded-full bg-white/90 px-2 py-1 font-mono text-[10px] tracking-[0.12em] text-espresso shadow">{selected.catalog}</span>

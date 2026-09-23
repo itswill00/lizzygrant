@@ -2,15 +2,21 @@ import { useEffect, useMemo, useState } from 'react';
 import { createPortal } from 'react-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { galleryFrames, galleryEras } from '../data/gallery';
+import SafeImage from './SafeImage';
+
+const PAGE = 8;
 
 export default function Gallery() {
   const [filter, setFilter] = useState('all');
   const [lightbox, setLightbox] = useState(null); // index into filtered
+  const [visible, setVisible] = useState(PAGE);
 
   const filtered = useMemo(
     () => (filter === 'all' ? galleryFrames : galleryFrames.filter((f) => f.era === filter)),
     [filter]
   );
+  // paginate: 8 frames at a time so one scroll never fires 20+ requests at Wikimedia
+  const shown = filtered.slice(0, visible);
 
   // keyboard nav for lightbox
   useEffect(() => {
@@ -48,7 +54,7 @@ export default function Gallery() {
         {galleryEras.map((e) => (
           <button
             key={e.id}
-            onClick={() => { setFilter(e.id); setLightbox(null); }}
+            onClick={() => { setFilter(e.id); setLightbox(null); setVisible(PAGE); }}
             className={`rounded-full border px-3.5 py-2 font-mono text-[11px] tracking-[0.1em] transition-all duration-300 active:scale-95 ${
               filter === e.id
                 ? 'border-cherry bg-cherry text-white shadow-[0_4px_12px_rgba(158,27,27,0.25)]'
@@ -66,7 +72,7 @@ export default function Gallery() {
       {/* masonry contact sheet */}
       <motion.div layout className="columns-2 gap-3 sm:columns-3 sm:gap-4 lg:columns-4">
         <AnimatePresence mode="popLayout">
-          {filtered.map((f, i) => (
+          {shown.map((f, i) => (
             <motion.figure
               layout
               key={f.id}
@@ -75,15 +81,14 @@ export default function Gallery() {
               exit={{ opacity: 0, scale: 0.96 }}
               viewport={{ once: true, margin: '-30px' }}
               transition={{ duration: 0.35 }}
-              onClick={() => setLightbox(i)}
+              onClick={() => setLightbox(filtered.indexOf(f))}
               className="group mb-3 break-inside-avoid cursor-pointer rounded-lg border border-[#D4AF37]/15 bg-white p-1.5 pb-2 shadow-[0_4px_12px_rgba(0,0,0,0.05)] transition-shadow duration-300 hover:shadow-[0_10px_24px_rgba(0,0,0,0.12)] dark:border-[#F7F4EB]/10 dark:bg-noir-soft sm:mb-4"
             >
               <div className="relative aspect-[3/4] overflow-hidden rounded-md bg-parchment-dark">
-                <img
+                <SafeImage
                   src={f.thumb}
                   alt={`Lana Del Rey — ${f.caption}`}
                   loading="lazy"
-                  decoding="async"
                   className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-[1.04]"
                 />
                 <span className="absolute left-1.5 top-1.5 rounded-full bg-black/55 px-1.5 py-0.5 font-mono text-[8px] tracking-[0.12em] text-white backdrop-blur-sm">
@@ -98,6 +103,21 @@ export default function Gallery() {
           ))}
         </AnimatePresence>
       </motion.div>
+
+      {/* progressive load — keeps request bursts small for throttled CDNs */}
+      <div className="mt-6 flex flex-col items-center gap-2">
+        <span className="font-mono text-[10px] tracking-[0.15em] text-typewriter/70">
+          SHOWING {shown.length} / {filtered.length} FRAMES
+        </span>
+        {visible < filtered.length && (
+          <button
+            onClick={() => setVisible((v) => v + PAGE)}
+            className="rounded-full bg-cherry px-6 py-2.5 font-mono text-[11px] tracking-[0.15em] text-white shadow-[0_4px_12px_rgba(158,27,27,0.25)] transition-all duration-300 hover:bg-cherry-light active:scale-95"
+          >
+            LOAD MORE FRAMES ↓
+          </button>
+        )}
+      </div>
 
       {/* lightbox loupe — portalled to body, overlay scrolls on small screens */}
       {typeof document !== 'undefined' && createPortal(
@@ -128,7 +148,7 @@ export default function Gallery() {
               aria-label={`Frame: ${frame.caption}`}
             >
               <div className="relative overflow-hidden rounded-t-xl bg-[#1A1A1A]">
-                <img
+                <SafeImage
                   src={frame.full}
                   alt={`Lana Del Rey — ${frame.caption}`}
                   className="mx-auto max-h-[62vh] w-auto max-w-full rounded-t-xl object-contain sm:max-h-[68vh]"
