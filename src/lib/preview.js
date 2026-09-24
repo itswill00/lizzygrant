@@ -199,11 +199,15 @@ export function isAudioSwitching() {
 }
 
 export function playAudioDirect(src) {
-  if (!activeAudioElement || !src) return;
+  if (!activeAudioElement || !src) {
+    console.warn('[Audio] playAudioDirect no element or src', src, !!activeAudioElement);
+    return;
+  }
   try {
     const cur = activeAudioElement.currentSrc || activeAudioElement.src || '';
     const curTail = cur.split('/').pop()?.split('?')[0];
     const tgtTail = src.split('/').pop()?.split('?')[0];
+    console.log('[Audio] playAudioDirect', src, 'cur', curTail, 'tgt', tgtTail);
     if (curTail !== tgtTail || !cur) {
       isSwitchingSrc = true;
       activeAudioElement.src = src;
@@ -213,11 +217,14 @@ export function playAudioDirect(src) {
     if (p && typeof p.then === 'function') {
       p.then(() => {
         isSwitchingSrc = false;
+        console.log('[Audio] play ok', src);
       }).catch((err) => {
         isSwitchingSrc = false;
         // AbortError is benign when rapid switching tracks
         if (err.name !== 'AbortError') {
           console.warn('[Audio] play interrupted or rejected:', err);
+        } else {
+          console.log('[Audio] AbortError benign', src);
         }
       });
     } else {

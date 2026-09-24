@@ -3,7 +3,12 @@ import { muses } from '../data/muses';
 import { cueSong } from '../lib/preview';
 
 export default function Muses({ setCurrentTrack, setIsPlaying }) {
-  const playSong = (song) => cueSong(song, 'MUSES & LOVERS', setCurrentTrack, setIsPlaying);
+  const playSong = (song) => {
+    console.log('[Muses] play', song);
+    const ok = cueSong(song, 'MUSES & LOVERS', setCurrentTrack, setIsPlaying);
+    console.log('[Muses] cueSong', song, '=>', ok);
+    return ok;
+  };
 
   const scrollEras = () => document.querySelector('#timeline')?.scrollIntoView({ behavior: 'smooth' });
 
