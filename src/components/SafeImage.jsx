@@ -9,7 +9,7 @@ export default function SafeImage({
   className = '',
   loading,
   decoding = 'async',
-  fetchpriority,
+  fetchPriority,
   draggable,
   style,
 }) {
@@ -51,7 +51,7 @@ export default function SafeImage({
       className={className}
       loading={loading}
       decoding={decoding}
-      fetchpriority={fetchpriority}
+      fetchPriority={fetchPriority}
       draggable={draggable}
       style={style}
       onError={() => {

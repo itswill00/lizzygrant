@@ -4,11 +4,8 @@ import { cueSong } from '../lib/preview';
 
 export default function Muses({ setCurrentTrack, setIsPlaying }) {
   const playSong = (song) => {
-    const ok = cueSong(song, 'MUSES & LOVERS', setCurrentTrack, setIsPlaying);
-    return ok;
+    cueSong(song, 'MUSES & LOVERS', setCurrentTrack, setIsPlaying);
   };
-
-  const scrollEras = () => document.querySelector('#timeline')?.scrollIntoView({ behavior: 'smooth' });
 
   return (
     <section id="muses" className="relative mx-auto max-w-[1400px] overflow-x-hidden px-3 py-8 sm:px-4 sm:py-12 md:px-6 md:py-16">
@@ -51,12 +48,12 @@ export default function Muses({ setCurrentTrack, setIsPlaying }) {
             </div>
 
             <div className="px-3.5 sm:px-4">
-              <button
-                onClick={scrollEras}
-                className="rounded-full border border-[#D4AF37]/20 bg-parchment/60 px-2.5 py-1 font-sans text-[9px] tracking-[0.14em] text-zinc-500 transition hover:bg-[#F7F4EB] hover:text-espresso dark:border-[#F7F4EB]/10 dark:bg-white/5"
+              <a
+                href="/eras"
+                className="inline-block rounded-full border border-[#D4AF37]/20 bg-parchment/60 px-2.5 py-1 font-sans text-[10px] tracking-[0.14em] text-zinc-600 transition hover:bg-[#F7F4EB] hover:text-espresso dark:border-[#F7F4EB]/10 dark:bg-white/5"
               >
                 ERA: {m.era.toUpperCase()} →
-              </button>
+              </a>
             </div>
 
             <p className="flex-1 px-3.5 pt-2.5 font-body text-[14px] leading-[1.75] text-zinc-500 dark:text-parchment/70 sm:px-4 sm:text-[15px]">

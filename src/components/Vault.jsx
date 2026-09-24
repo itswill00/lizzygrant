@@ -31,10 +31,10 @@ export default function Vault() {
           <div className="min-w-0">
             <div className="font-sans text-[11px] font-medium tracking-[0.1em] text-cherry">03 · SECRET VAULT</div>
             <h2 className="mt-1.5 font-display text-[26px] font-bold leading-none tracking-[-0.02em] text-zinc-900 dark:text-white sm:mt-2 sm:text-[34px] md:text-[48px]">
-              UNRELEASED <span className="font-light italic text-zinc-500"> & LORE</span>
-              <span className="ml-1.5 align-super rounded-full border border-cherry px-1.5 py-0.5 font-sans text-[10px] font-medium tracking-[0.08em] text-cherry sm:ml-2 sm:px-2 sm:text-[11px]">17 FILES</span>
+              UNRELEASED <span className="font-light italic text-zinc-600"> & LORE</span>
+              <span className="ml-1.5 align-super rounded-full border border-cherry px-1.5 py-0.5 font-sans text-[10px] font-medium tracking-[0.08em] text-cherry dark:text-brass-light sm:ml-2 sm:px-2 sm:text-[11px]">{vaultItems.length} FILES</span>
             </h2>
-            <p className="mt-2 max-w-[560px] font-body text-[14.5px] leading-[1.75] text-zinc-500 dark:text-parchment/60 sm:mt-3 sm:text-[15px]">
+            <p className="mt-2 max-w-[560px] font-body text-[14.5px] leading-[1.75] text-zinc-600 dark:text-parchment/75 sm:mt-3 sm:text-[15px]">
               Archival case files, cassette tapes, poetry broadsides, and interview lore.
               Each card is a <em className="text-espresso dark:text-parchment">tape to peel</em>. Tap <span className="font-sans text-cherry">INSPECT</span> to open the file.
             </p>
@@ -147,9 +147,9 @@ export default function Vault() {
         <div className="mt-6 flex flex-col items-center gap-2 border-t border-[#D4AF37]/15 pt-4 dark:border-[#F7F4EB]/10 sm:mt-8 sm:flex-row sm:flex-wrap sm:justify-center sm:gap-3 sm:pt-6">
           <span className="text-center font-sans text-[9px] tracking-[0.14em] text-zinc-500 sm:text-[10px] sm:tracking-[0.2em]">END OF VAULT / {vaultItems.length} FILES DISPLAYED / TAP ANY FILE TO INSPECT</span>
           <span className="hidden h-3 w-px bg-espresso/10 dark:bg-parchment/10 sm:block" />
-          <button onClick={() => document.querySelector('#tarot')?.scrollIntoView({ behavior: 'smooth' })} className="font-sans text-[10px] tracking-[0.12em] text-cherry hover:underline sm:text-[11px] sm:tracking-[0.08em]">
+          <a href="/tarot" className="font-sans text-[11px] tracking-[0.12em] text-cherry dark:text-brass-light hover:underline sm:text-[11px] sm:tracking-[0.08em]">
             DRAW A LYRIC TAROT ↓
-          </button>
+          </a>
         </div>
       </div>
 
@@ -216,7 +216,7 @@ export default function Vault() {
                   <button
                     onClick={() => {
                       setSelected(null);
-                      setTimeout(() => document.querySelector('#tarot')?.scrollIntoView({ behavior: 'smooth' }), 120);
+                      setTimeout(() => { window.location.href = '/tarot'; }, 120);
                     }}
                     className="flex-1 rounded-full bg-cherry px-4 py-3 font-sans text-[11px] tracking-[0.14em] text-white transition hover:bg-cherry-light"
                   >

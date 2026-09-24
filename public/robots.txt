@@ -1,4 +1,15 @@
 User-agent: *
 Allow: /
+Allow: /llms.txt
 
 Sitemap: https://lizzygrant.vercel.app/sitemap.xml
+
+# AI crawlers: fan archive allows indexing with attribution
+User-agent: GPTBot
+Allow: /
+
+User-agent: CCBot
+Allow: /
+
+User-agent: Google-Extended
+Allow: /

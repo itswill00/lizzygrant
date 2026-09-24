@@ -1,5 +1,5 @@
 import { Suspense, lazy, useEffect, useState } from 'react';
-const GrainOverlay = lazy(() => import('./components/GrainOverlay'));
+import GrainOverlay from './components/GrainOverlay';
 import { DustCanvas } from './components/Fx';
 import ScrollProgress from './components/ScrollProgress';
 import Navbar from './components/Navbar';
@@ -30,13 +30,13 @@ function SectionFallback({ label }) {
 
 function Hub({ onNavigate }) {
   const cards = [
-    { href: '/eras', k: '02', label: 'The Eras', sub: '2005 → 2024 · 8 chapters', desc: 'Interactive chronology, tap timeline, enter an era.' },
+    { href: '/eras', k: '02', label: 'The Eras', sub: '2005 → 2025 · 8 chapters', desc: 'Interactive chronology, tap timeline, enter an era.' },
     { href: '/vault', k: '03', label: 'Secret Vault', sub: '17 files · unreleased & lore', desc: 'Case files, tapes, poetry, interview lore.' },
     { href: '/tarot', k: '04', label: 'Lyrical Tarot', sub: 'Ask · Shuffle · Draw', desc: 'Lyric as reading, shuffle and draw.' },
     { href: '/muses', k: '05', label: 'Muses & Lovers', sub: 'Barrie → Jeremy · fan readings', desc: 'Every love left a song, public chapters only.' },
     { href: '/louisiana', k: '06', label: 'Louisiana Now', sub: 'Journal · Waffle House → Wedding', desc: 'Living journal, newest first, developing.' },
     { href: '/gallery', k: '07', label: 'Contact Sheet', sub: '22 frames · loupe', desc: 'Proof prints 2011 → 2025, tap for loupe.' },
-    { href: '/discography', k: '08', label: 'Discography', sub: '9 releases · 122 tracks', desc: 'Every record, every standard track, tap to preview.' },
+    { href: '/discography', k: '08', label: 'Discography', sub: '9 releases · 123 tracks', desc: 'Every record, every standard track, tap to preview.' },
     { href: '/jeremy', k: '09', label: 'Lana + Jeremy', sub: 'New · photos & timeline', desc: 'The Louisiana peace, how they met, married.' },
   ];
   return (
@@ -73,16 +73,19 @@ function Hub({ onNavigate }) {
 }
 
 export default function App() {
-  const [darkMode, setDarkMode] = useState(false);
+  const [darkMode, setDarkMode] = useState(() => typeof window !== 'undefined' && window.matchMedia?.('(prefers-color-scheme: dark)').matches);
   const [isPlaying, setIsPlaying] = useState(false);
   const [currentTrack, setCurrentTrack] = useState(null);
-  const getPath = () => (typeof window !== 'undefined' ? window.location.pathname : '/');
+  const normalize = (p) => (p || '/').replace(/\/+$/, '') || '/';
+  const getPath = () => (typeof window !== 'undefined' ? normalize(window.location.pathname) : '/');
   const [path, setPath] = useState(getPath());
 
   const navigate = (href) => {
-    history.pushState(null, '', href);
-    setPath(href);
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    const clean = normalize(href);
+    history.pushState(null, '', clean);
+    setPath(clean);
+    window.scrollTo({ top: 0 });
+    requestAnimationFrame(() => document.querySelector('#main h1, #main h2')?.focus?.());
   };
 
   useEffect(() => {
@@ -91,11 +94,7 @@ export default function App() {
   }, [darkMode]);
 
   useEffect(() => {
-    if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) setDarkMode(true);
-  }, []);
-
-  useEffect(() => {
-    const onPop = () => setPath(getPath());
+    const onPop = () => { setPath(getPath()); window.scrollTo({ top: 0 }); };
     window.addEventListener('popstate', onPop);
     // handle old hash links like /#vault
     if (window.location.hash) {
@@ -110,17 +109,17 @@ export default function App() {
   }, []);
 
   const renderRoute = () => {
-    if (path === '/jeremy') return <Suspense fallback={<SectionFallback label="JEREMY" />}><JeremyPage /></Suspense>;
-    if (path === '/eras' || path === '/timeline') return <Suspense fallback={<SectionFallback label="02 · THE ERAS" />}><Timeline setCurrentTrack={setCurrentTrack} setIsPlaying={setIsPlaying} /></Suspense>;
-    if (path === '/vault') return <Suspense fallback={<SectionFallback label="03 · VAULT" />}><Vault /></Suspense>;
-    if (path === '/tarot') return <Suspense fallback={<SectionFallback label="04 · TAROT" />}><Tarot setCurrentTrack={setCurrentTrack} setIsPlaying={setIsPlaying} /></Suspense>;
-    if (path === '/muses') return <Suspense fallback={<SectionFallback label="05 · MUSES" />}><Muses setCurrentTrack={setCurrentTrack} setIsPlaying={setIsPlaying} /></Suspense>;
-    if (path === '/louisiana' || path === '/now') return <Suspense fallback={<SectionFallback label="06 · LOUISIANA" />}><Louisiana /></Suspense>;
-    if (path === '/gallery') return <Suspense fallback={<SectionFallback label="07 · GALLERY" />}><Gallery /></Suspense>;
-    if (path === '/discography') return <Suspense fallback={<SectionFallback label="08 · DISCOGRAPHY" />}><Discography setCurrentTrack={setCurrentTrack} setIsPlaying={setIsPlaying} /></Suspense>;
+    if (path === '/jeremy') return <JeremyPage />;
+    if (path === '/eras' || path === '/timeline') return <Timeline setCurrentTrack={setCurrentTrack} setIsPlaying={setIsPlaying} />;
+    if (path === '/vault') return <Vault />;
+    if (path === '/tarot') return <Tarot setCurrentTrack={setCurrentTrack} setIsPlaying={setIsPlaying} />;
+    if (path === '/muses') return <Muses setCurrentTrack={setCurrentTrack} setIsPlaying={setIsPlaying} />;
+    if (path === '/louisiana' || path === '/now') return <Louisiana />;
+    if (path === '/gallery') return <Gallery />;
+    if (path === '/discography') return <Discography setCurrentTrack={setCurrentTrack} setIsPlaying={setIsPlaying} />;
     if (path === '/' || path === '/index.html') return (
       <>
-        <Hero isPlaying={isPlaying} setIsPlaying={setIsPlaying} currentTrack={currentTrack} setCurrentTrack={setCurrentTrack} />
+        <Hero onNavigate={navigate} />
         <Hub onNavigate={navigate} />
       </>
     );
@@ -137,13 +136,13 @@ export default function App() {
     <div className="min-h-screen overflow-x-hidden">
       <a href="#main" className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[100] focus:rounded-full focus:bg-cherry focus:px-4 focus:py-2 focus:text-white">Skip to content</a>
       <div>
-        <Suspense fallback={null}><GrainOverlay /></Suspense>
-        <Suspense fallback={null}><DustCanvas /></Suspense>
+        <GrainOverlay />
+        <DustCanvas />
         <ScrollProgress />
         <Navbar darkMode={darkMode} setDarkMode={setDarkMode} onNavigate={navigate} />
         <div className="h-[82px] sm:h-[84px] md:h-[96px] lg:h-[124px]" aria-hidden />
-        <main id="main">{renderRoute()}</main>
-        <Footer />
+        <main id="main"><Suspense fallback={<SectionFallback label="ARCHIVE" />}>{renderRoute()}</Suspense></main>
+        <Footer onNavigate={navigate} />
         <AudioPlayer isPlaying={isPlaying} setIsPlaying={setIsPlaying} currentTrack={currentTrack} setCurrentTrack={setCurrentTrack} />
       </div>
     </div>

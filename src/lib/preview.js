@@ -160,22 +160,6 @@ export function resolveLocalPreview(title) {
   if (LOCAL_FILES.has(slug + '.mp3')) {
     return { src: `/audio/${slug}.mp3`, source: 'LOCAL' };
   }
-  if (slug.startsWith('did-you-know')) {
-    if (LOCAL_FILES.has('did-you-know-that-theres-a-tunnel-under-ocean-blvd.mp3')) {
-      return { src: '/audio/did-you-know-that-theres-a-tunnel-under-ocean-blvd.mp3', source: 'LOCAL' };
-    }
-    if (LOCAL_FILES.has('did-you-know.mp3')) {
-      return { src: '/audio/did-you-know.mp3', source: 'LOCAL' };
-    }
-  }
-  if (slug.startsWith('hope-is-a-dangerous-thing')) {
-    if (LOCAL_FILES.has('hope-is-a-dangerous-thing-for-a-woman-like-me-to-have-but-i-have-it.mp3')) {
-      return { src: '/audio/hope-is-a-dangerous-thing-for-a-woman-like-me-to-have-but-i-have-it.mp3', source: 'LOCAL' };
-    }
-    if (LOCAL_FILES.has('hope-is-a-dangerous-thing.mp3')) {
-      return { src: '/audio/hope-is-a-dangerous-thing.mp3', source: 'LOCAL' };
-    }
-  }
   return null;
 }
 
@@ -277,27 +261,17 @@ export async function fetchExactPreview(title, signal) {
   const base = title.replace(/[\.…]+$/, '').split(' (')[0].trim();
   const q = (t) => (t || '').toLowerCase().trim();
   const target = q(base);
+  const timeout = typeof AbortSignal !== 'undefined' && AbortSignal.timeout ? AbortSignal.timeout(4000) : null;
+  const combined = timeout && signal ? AbortSignal.any ? AbortSignal.any([signal, timeout]) : signal : (signal || timeout);
 
   try {
-    const res = await fetch(`https://itunes.apple.com/search?term=${encodeURIComponent(`lana del rey ${base}`)}&entity=song&limit=10`, { signal });
+    const res = await fetch(`https://itunes.apple.com/search?term=${encodeURIComponent(`lana del rey ${base}`)}&entity=song&limit=10`, { signal: combined });
     const json = await res.json();
     let m = json.results?.find((r) => r.previewUrl && q(r.trackName) === target && q(r.artistName).includes('lana'));
     if (!m) {
       m = json.results?.find((r) => r.previewUrl && q(r.trackName).startsWith(target) && q(r.artistName).includes('lana'));
     }
-    if (!m) {
-      m = json.results?.find((r) => r.previewUrl && q(r.trackName).includes(target) && q(r.artistName).includes('lana'));
-    }
     if (m?.previewUrl) return { src: m.previewUrl, source: 'iTUNES' };
-  } catch (e) {
-    if (e?.name === 'AbortError') throw e;
-  }
-  // Deezer fallback: stricter, Lana-only, preview is 30s mp3
-  try {
-    const r = await fetch(`https://api.deezer.com/search?q=${encodeURIComponent(`artist:"Lana Del Rey" track:"${base}"`)}&limit=6&output=json`, { signal });
-    const j = await r.json();
-    const d = j.data?.find((x) => x.preview && q(x.title) === target && q(x.artist?.name).includes('lana'));
-    if (d?.preview) return { src: d.preview, source: 'DEEZER' };
   } catch (e) {
     if (e?.name === 'AbortError') throw e;
   }

@@ -42,7 +42,7 @@ export default function Jeremy() {
                 <span className="rounded-full border border-[#D4AF37]/15 bg-parchment-dark px-3 py-1.5 font-mono text-[10px] tracking-[0.12em] text-typewriter">MAY 2024 · RECONNECTED</span>
                 <span className="rounded-full bg-cherry px-3 py-1.5 font-mono text-[10px] tracking-[0.12em] text-white">SEP 26, 2024 · MARRIED</span>
               </div>
-              <p className="mt-3 font-mono text-[10px] tracking-[0.12em] text-typewriter/60">Photos from fan archives, Instagram via HyperDL (clarawoneltok, delreys.poetry, pagesix). Private wedding snaps are theirs.</p>
+              <p className="mt-3 font-mono text-[10px] tracking-[0.12em] text-typewriter/60">Photos: fan archives (clarawoneltok, delreys.poetry, pagesix via HyperDL) + Wikimedia Commons CC-BY-SA. Private wedding snaps belong to the couple. Contact for removal: site footer. Used with reverence, no commercial use.</p>
             </div>
           </div>
         </div>
@@ -53,7 +53,7 @@ export default function Jeremy() {
               <div className="aspect-[3/4] overflow-hidden bg-parchment-dark">
                 <picture>
                   <source srcSet={p.src} type="image/webp" />
-                  <img src={p.fallback} alt={p.alt} loading={i < 3 ? 'eager' : 'lazy'} fetchPriority={i < 3 ? 'high' : undefined} className="h-full w-full object-cover" />
+                  <img src={p.fallback} alt={p.alt} loading={i < 1 ? 'eager' : 'lazy'} fetchPriority={i < 1 ? 'high' : undefined} className="h-full w-full object-cover" />
                 </picture>
               </div>
               <figcaption className="p-2.5 font-mono text-[10px] leading-[1.6] tracking-[0.06em] text-typewriter">{p.cap}</figcaption>
@@ -87,12 +87,12 @@ export default function Jeremy() {
         </div>
 
         <div className="flex flex-wrap gap-2 border-t border-[#D4AF37]/15 bg-parchment-dark/30 p-3 dark:border-[#F7F4EB]/10 sm:p-4">
-          <a href="/#muses" className="rounded-full bg-cherry px-4 py-2 font-mono text-[11px] tracking-[0.12em] text-white">← MUSES & LOVERS</a>
-          <a href="/#now" className="rounded-full border border-[#D4AF37]/20 bg-white px-4 py-2 font-mono text-[11px] tracking-[0.12em] text-espresso dark:border-[#F7F4EB]/10 dark:bg-noir-soft dark:text-parchment">LOUISIANA NOW →</a>
+          <a href="/muses" className="rounded-full bg-cherry px-4 py-2 font-mono text-[11px] tracking-[0.12em] text-white">← MUSES & LOVERS</a>
+          <a href="/louisiana" className="rounded-full border border-[#D4AF37]/20 bg-white px-4 py-2 font-mono text-[11px] tracking-[0.12em] text-espresso dark:border-[#F7F4EB]/10 dark:bg-noir-soft dark:text-parchment">LOUISIANA NOW →</a>
         </div>
       </div>
 
-      <p className="mx-auto mt-6 max-w-[760px] text-center font-mono text-[10px] tracking-[0.14em] text-typewriter/60">Fan page, not affiliated. Photos: Wikimedia Commons (CC-BY-SA) + bayou texture. Wedding snaps are theirs.</p>
+      <p className="mx-auto mt-6 max-w-[760px] text-center font-mono text-[10px] tracking-[0.14em] text-typewriter/60">Fan page, not affiliated. Photos: fan archives + Wikimedia Commons (CC-BY-SA). Wedding snaps belong to the couple, contact for removal. Covers low-res for identification under fair use.</p>
     </div>
   );
 }

@@ -25,6 +25,7 @@ export default {
       fontFamily: {
         display: ['"Playfair Display"', 'Georgia', 'serif'],
         body: ['"Source Serif 4"', 'Georgia', 'serif'],
+        sans: ['"Source Serif 4"', 'Georgia', 'serif'],
         mono: ['"Courier Prime"', '"Courier New"', 'monospace'],
       },
       backgroundImage: {

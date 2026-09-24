@@ -1,8 +1,15 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 
-export default function Navbar({ darkMode, setDarkMode }) {
+export default function Navbar({ darkMode, setDarkMode, onNavigate }) {
   const [open, setOpen] = useState(false);
+  const go = (e, href) => {
+    if (onNavigate) {
+      e.preventDefault();
+      setOpen(false);
+      onNavigate(href);
+    }
+  };
 
   return (
     <header className="fixed left-0 right-0 top-0 z-40 border-b border-espresso/10 bg-parchment/95 backdrop-blur-md dark:border-parchment/10 dark:bg-noir/95">
@@ -22,7 +29,7 @@ export default function Navbar({ darkMode, setDarkMode }) {
       </div>
 
       <div className="mx-auto flex max-w-[1400px] items-center justify-between gap-2 px-3 py-3 sm:px-4 md:px-6 md:py-4">
-        <a href="#" className="flex min-w-0 items-center gap-2 sm:gap-3">
+        <a href="/" onClick={(e) => go(e, '/')} className="flex min-w-0 items-center gap-2 sm:gap-3" aria-label="LIZZY GRANT Archives home">
           <div className="hidden h-9 w-9 shrink-0 items-center justify-center border border-espresso/20 bg-white text-center font-display text-[10px] font-semibold leading-none tracking-[0.15em] text-espresso dark:border-parchment/20 dark:bg-noir dark:text-parchment sm:flex">
             <span>LG<br />AR</span>
           </div>
@@ -38,30 +45,31 @@ export default function Navbar({ darkMode, setDarkMode }) {
 
         {/* desktop nav */}
         <nav className="hidden items-center gap-4 font-sans text-[11px] font-medium tracking-[0.08em] text-zinc-700 dark:text-zinc-300 md:flex lg:gap-5">
-          <a href="/eras" className="py-2 hover:text-cherry transition-colors">
+          <a href="/eras" onClick={(e) => go(e, '/eras')} className="py-2.5 min-h-[36px] flex items-center hover:text-cherry transition-colors">
             ERAS
           </a>
-          <a href="/vault" className="py-2 hover:text-cherry transition-colors">
+          <a href="/vault" onClick={(e) => go(e, '/vault')} className="py-2.5 min-h-[36px] flex items-center hover:text-cherry transition-colors">
             VAULT
           </a>
-          <a href="/tarot" className="py-2 hover:text-cherry transition-colors">
+          <a href="/tarot" onClick={(e) => go(e, '/tarot')} className="py-2.5 min-h-[36px] flex items-center hover:text-cherry transition-colors">
             TAROT
           </a>
-          <a href="/muses" className="hidden py-2 hover:text-cherry transition-colors lg:block">
+          <a href="/muses" onClick={(e) => go(e, '/muses')} className="hidden py-2.5 min-h-[36px] items-center hover:text-cherry transition-colors lg:flex">
             MUSES
           </a>
-          <a href="/louisiana" className="hidden py-2 hover:text-cherry transition-colors lg:block">
+          <a href="/louisiana" onClick={(e) => go(e, '/louisiana')} className="hidden py-2.5 min-h-[36px] items-center hover:text-cherry transition-colors lg:flex">
             NOW
           </a>
-          <a href="/gallery" className="hidden py-2 hover:text-cherry transition-colors lg:block">
+          <a href="/gallery" onClick={(e) => go(e, '/gallery')} className="hidden py-2.5 min-h-[36px] items-center hover:text-cherry transition-colors lg:flex">
             PHOTOS
           </a>
-          <a href="/discography" className="hidden py-2 hover:text-cherry transition-colors lg:block">
+          <a href="/discography" onClick={(e) => go(e, '/discography')} className="hidden py-2.5 min-h-[36px] items-center hover:text-cherry transition-colors lg:flex">
             DISCO
           </a>
           <a
             href="/"
-            className="rounded-full border border-zinc-200 px-3 py-1.5 text-cherry hover:bg-cherry hover:text-white transition-colors dark:border-zinc-700 lg:px-4"
+            onClick={(e) => go(e, '/')}
+            className="rounded-full border border-zinc-200 px-4 py-2 text-cherry hover:bg-cherry hover:text-white transition-colors dark:border-zinc-700 lg:px-4"
           >
             LISTEN →
           </a>
@@ -87,8 +95,10 @@ export default function Navbar({ darkMode, setDarkMode }) {
           {/* mobile hamburger */}
           <button
             onClick={() => setOpen(!open)}
+            onKeyDown={(e) => { if (e.key === 'Escape') setOpen(false); }}
             aria-label="Toggle menu"
             aria-expanded={open}
+            aria-controls="mobile-menu"
             className="flex h-9 w-9 items-center justify-center rounded-full border border-espresso/15 bg-white text-espresso dark:border-parchment/15 dark:bg-noir-soft dark:text-parchment md:hidden"
           >
             <span className="relative block h-3 w-4">
@@ -110,43 +120,43 @@ export default function Navbar({ darkMode, setDarkMode }) {
             transition={{ duration: 0.24, ease: 'easeOut' }}
             className="overflow-hidden border-t border-espresso/10 bg-white shadow-xl dark:border-parchment/10 dark:bg-noir md:hidden"
           >
-            <nav className="flex flex-col gap-1 p-3">
+            <nav id="mobile-menu" className="flex flex-col gap-1 p-3">
               {[
-                { label: 'The Eras', href: '/eras', sub: '2005 → 2024 · 8 chapters' },
+                { label: 'The Eras', href: '/eras', sub: '2005 → 2025 · 8 chapters' },
                 { label: 'Secret Vault', href: '/vault', sub: 'Unreleased & lore · 17 files' },
                 { label: 'Lyrical Tarot', href: '/tarot', sub: 'Ask · Shuffle · Draw' },
                 { label: 'Muses & Lovers', href: '/muses', sub: 'Fan readings · Barrie → Jeremy' },
                 { label: 'Louisiana Now', href: '/louisiana', sub: 'Journal · Waffle House → Wedding' },
                 { label: 'Contact Sheet', href: '/gallery', sub: '22 frames · loupe' },
-                { label: 'Discography', href: '/discography', sub: '9 releases · 122 tracks' },
+                { label: 'Discography', href: '/discography', sub: '9 releases · 123 tracks' },
               ].map((it) => (
                 <a
                   key={it.href}
                   href={it.href}
-                  onClick={() => setOpen(false)}
+                  onClick={(e) => go(e, it.href)}
                   className="flex items-center justify-between rounded-xl px-3 py-3 hover:bg-zinc-50 dark:hover:bg-white/5"
                 >
                   <span>
                     <span className="block font-sans text-[16px] font-semibold leading-tight tracking-tight text-zinc-900 dark:text-white">{it.label}</span>
-                    <span className="block font-sans text-[13px] leading-tight text-zinc-500 dark:text-zinc-400">{it.sub}</span>
+                    <span className="block font-sans text-[13px] leading-tight text-zinc-600 dark:text-zinc-400">{it.sub}</span>
                   </span>
                   <span className="ml-3 text-[18px] text-zinc-300">›</span>
                 </a>
               ))}
               <a
                 href="/jeremy"
-                onClick={() => setOpen(false)}
+                onClick={(e) => go(e, '/jeremy')}
                 className="mt-1 flex items-center justify-between rounded-xl bg-zinc-900 px-3 py-3 text-white shadow-sm dark:bg-white dark:text-zinc-900"
               >
                 <span>
                   <span className="block font-sans text-[16px] font-semibold leading-tight">Lana + Jeremy</span>
-                  <span className="block font-sans text-[13px] leading-tight text-white/70 dark:text-zinc-500">New page · photos & timeline</span>
+                  <span className="block font-sans text-[13px] leading-tight text-white/75 dark:text-zinc-500">New page · photos & timeline</span>
                 </span>
                 <span className="text-[18px]">→</span>
               </a>
               <a
                 href="/"
-                onClick={() => setOpen(false)}
+                onClick={(e) => go(e, '/')}
                 className="mt-2 flex items-center justify-center gap-2 rounded-full bg-zinc-900 py-3 font-sans text-[14px] font-medium text-white dark:bg-white dark:text-zinc-900"
               >
                 Listen · Side A ▶
@@ -163,8 +173,8 @@ export default function Navbar({ darkMode, setDarkMode }) {
           aria-hidden="true"
           className="animate-marquee flex w-max gap-6 whitespace-nowrap font-mono text-[10px] tracking-[0.15em] motion-reduce:animate-none sm:gap-8 sm:text-[11px] sm:tracking-[0.2em]"
         >
-          <span>⋆ VIDEO GAMES ⋆ BORN TO DIE ⋆ RIDE ⋆ ULTRAVIOLENCE ⋆ SHADES OF COOL ⋆ HONEYMOON ⋆ LUST FOR LIFE ⋆ NORMAN FUCKING ROCKWELL! ⋆ CHEMTRAILS ⋆ OCEAN BLVD ⋆ </span>
-          <span aria-hidden>⋆ VIDEO GAMES ⋆ BORN TO DIE ⋆ RIDE ⋆ ULTRAVIOLENCE ⋆ SHADES OF COOL ⋆ HONEYMOON ⋆ LUST FOR LIFE ⋆ NORMAN FUCKING ROCKWELL! ⋆ CHEMTRAILS ⋆ OCEAN BLVD ⋆ </span>
+          <span>⋆ VIDEO GAMES ⋆ BORN TO DIE ⋆ RIDE ⋆ ULTRAVIOLENCE ⋆ SHADES OF COOL ⋆ HONEYMOON ⋆ LUST FOR LIFE ⋆ NFR! ⋆ CHEMTRAILS ⋆ OCEAN BLVD ⋆ </span>
+          <span aria-hidden>⋆ VIDEO GAMES ⋆ BORN TO DIE ⋆ RIDE ⋆ ULTRAVIOLENCE ⋆ SHADES OF COOL ⋆ HONEYMOON ⋆ LUST FOR LIFE ⋆ NFR! ⋆ CHEMTRAILS ⋆ OCEAN BLVD ⋆ </span>
         </div>
       </div>
     </header>

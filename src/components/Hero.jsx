@@ -5,16 +5,16 @@ import SafeImage from './SafeImage';
 import { eras } from '../data/eras';
 
 const quotes = [
-  { text: '"We were born to die."', ref: '- Born to Die, 2012' },
-  { text: '"I\'m so used to writing for myself. I do it because I feel like I have to."', ref: '- NPR Interview, 2014' },
-  { text: '"My pussy tastes like Pepsi Cola."', ref: '- Cola, Paradise' },
-  { text: '"My baby lives in shades of blue. Blue eyes and jazz and attitude."', ref: '- Shades of Cool, 2014' },
-  { text: '"If he\'s a serial killer, then what\'s the worst that can happen to a girl?"', ref: '- Serial Killer (Unreleased)' },
-  { text: '"I\'m your man."', ref: '- Mariners Apartment Complex, NFR!' },
-  { text: '"Will you still love me when I\'m no longer young and beautiful?"', ref: '- Young and Beautiful' },
+  { text: '"We were born to die."', ref: '— ‘Born to Die’ · Born to Die (2012)' },
+  { text: '"I\'m so used to writing for myself. I do it because I feel like I have to."', ref: '— Interview · NPR (2014)' },
+  { text: '"My baby lives in shades of blue. Blue eyes and jazz and attitude."', ref: '— ‘Shades of Cool’ · Ultraviolence (2014)' },
+  { text: '"I\'m your man."', ref: '— ‘Mariners Apartment Complex’ · NFR! (2019)' },
+  { text: '"Will you still love me when I\'m no longer young and beautiful?"', ref: '— ‘Young and Beautiful’ · Paradise (2013)' },
+  { text: '"It\'s you, it\'s you, it\'s all for you."', ref: '— ‘Video Games’ · Born to Die (2012)' },
+  { text: '"I\'ve got my red dress on tonight."', ref: '— ‘Blue Jeans’ · Born to Die (2012)' },
 ];
 
-export default function Hero({ isPlaying, setIsPlaying, currentTrack, setCurrentTrack }) {
+export default function Hero({ onNavigate }) {
   const [qIndex, setQIndex] = useState(0);
   // swipeable era deck: 8 frames, one myth
   const [heroIndex, setHeroIndex] = useState(1); // Born to Die default
@@ -28,14 +28,16 @@ export default function Hero({ isPlaying, setIsPlaying, currentTrack, setCurrent
   };
 
   useEffect(() => {
+    if (typeof window !== 'undefined' && window.matchMedia?.('(prefers-reduced-motion: reduce)').matches) return;
     const id = setInterval(() => setQIndex((i) => (i + 1) % quotes.length), 3200);
     return () => clearInterval(id);
   }, []);
 
-  // gentle auto-rotate; resets on every manual swipe, pauses on hover/touch, off for reduced motion
+  // gentle auto-rotate; resets on every manual swipe, pauses on hover/touch/focus, off for reduced motion
   useEffect(() => {
     if (deckPaused) return;
     if (typeof window !== 'undefined' && window.matchMedia?.('(prefers-reduced-motion: reduce)').matches) return;
+    if (typeof document !== 'undefined' && document.visibilityState === 'hidden') return;
     const id = setInterval(() => paginateDeck(1), 6500);
     return () => clearInterval(id);
   }, [heroIndex, deckPaused]);
@@ -63,7 +65,7 @@ export default function Hero({ isPlaying, setIsPlaying, currentTrack, setCurrent
       <div className="mx-auto grid max-w-[1400px] grid-cols-1 gap-6 px-4 py-8 sm:gap-8 sm:px-6 sm:py-12 md:py-16 lg:grid-cols-12 lg:gap-10 lg:items-start lg:px-6 xl:px-8">
         {/* LEFT - Typography */}
         <div className="relative min-w-0 lg:col-span-7 xl:col-span-7">
-          <div className="font-sans text-[10px] tracking-[0.2em] text-cherry sm:text-[11px] sm:tracking-[0.08em]">01 · COVER</div>
+          <div className="font-sans text-[10px] tracking-[0.2em] text-cherry dark:text-brass-light sm:text-[11px] sm:tracking-[0.08em]">01 · COVER</div>
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -72,16 +74,16 @@ export default function Hero({ isPlaying, setIsPlaying, currentTrack, setCurrent
           >
             <span className="h-1.5 w-1.5 shrink-0 rounded-full bg-cherry" />
             <span className="truncate">ARCHIVAL CASE FILE № 001 · RESTRICTED</span>
-            <span className="hidden shrink-0 sm:inline">/ CATALOGUED ANAHEIM → LAKE PLACID</span>
+            <span className="hidden shrink-0 sm:inline">/ CATALOGUED LAKE PLACID → NEW YORK</span>
           </motion.div>
 
           <div className="mt-4 sm:mt-6">
-            <h1 className="font-display font-black leading-[0.85] tracking-[-0.03em] text-espresso dark:text-parchment">
+            <h1 className="font-display font-black leading-[0.9] tracking-[-0.03em] text-espresso dark:text-parchment">
               <span className="block text-4xl sm:text-5xl md:text-6xl lg:text-7xl">LIZZY</span>
               <span className="block text-4xl sm:text-5xl md:text-6xl lg:text-7xl -mt-1 md:-mt-2">
                 GRANT<span className="align-super text-[0.32em] font-normal tracking-[0.08em] sm:text-[0.35em] sm:tracking-[0.2em]">:</span>
               </span>
-              <span className="block font-display text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-light italic tracking-[-0.02em] text-cherry -mt-1 sm:-mt-1.5 lg:-mt-1">
+              <span className="block font-display text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-light italic tracking-[-0.02em] text-cherry dark:text-brass-light -mt-1 sm:-mt-1.5 lg:-mt-1">
                 THE ARCHIVES
               </span>
             </h1>
@@ -96,22 +98,22 @@ export default function Hero({ isPlaying, setIsPlaying, currentTrack, setCurrent
           </div>
 
           <div className="mt-6 max-w-[640px] border-l-2 border-brass/40 pl-3 dark:border-brass/30 sm:mt-8 sm:pl-5">
-            <p className="font-body text-[15px] leading-[1.75] text-zinc-500 dark:text-parchment/70 sm:text-[16px]">
+            <p className="font-body text-[15px] leading-[1.75] text-zinc-600 dark:text-parchment/75 sm:text-[16px]">
               An atmospheric anthology of a girl who turned Americana into mythology.
               <span className="font-semibold text-espresso dark:text-parchment"> Trailer parks to Chateau Marmont, </span>
               8mm grain to 70s editorial, from the first Kill Kill demo in 2008 to the tunnel under Ocean Blvd.
               Curated as a scrapbook, told as a film.
             </p>
             <div className="mt-3 flex flex-wrap gap-1.5 sm:mt-4 sm:gap-2">
-              <span className="rounded-full border border-[#D4AF37]/15 bg-white px-2.5 py-1 font-sans text-[9px] tracking-widest text-zinc-500 dark:border-[#F7F4EB]/10 dark:bg-noir-soft sm:px-3 sm:text-[10px]">CINEMATIC MELANCHOLY</span>
-              <span className="rounded-full border border-[#D4AF37]/15 bg-white px-2.5 py-1 font-sans text-[9px] tracking-widest text-zinc-500 dark:border-[#F7F4EB]/10 dark:bg-noir-soft sm:px-3 sm:text-[10px]">RETRO AMERICANA</span>
-              <span className="rounded-full border border-[#D4AF37]/15 bg-white px-2.5 py-1 font-sans text-[9px] tracking-widest text-zinc-500 dark:border-[#F7F4EB]/10 dark:bg-noir-soft sm:px-3 sm:text-[10px]">70S EDITORIAL</span>
+              <span className="rounded-full border border-[#D4AF37]/15 bg-white px-2.5 py-1 font-sans text-[10px] tracking-widest text-zinc-600 dark:border-[#F7F4EB]/10 dark:bg-noir-soft sm:px-3 sm:text-[10px]">CINEMATIC MELANCHOLY</span>
+              <span className="rounded-full border border-[#D4AF37]/15 bg-white px-2.5 py-1 font-sans text-[10px] tracking-widest text-zinc-600 dark:border-[#F7F4EB]/10 dark:bg-noir-soft sm:px-3 sm:text-[10px]">RETRO AMERICANA</span>
+              <span className="rounded-full border border-[#D4AF37]/15 bg-white px-2.5 py-1 font-sans text-[10px] tracking-widest text-zinc-600 dark:border-[#F7F4EB]/10 dark:bg-noir-soft sm:px-3 sm:text-[10px]">70S EDITORIAL</span>
             </div>
           </div>
 
           {/* rotating quote - generous height so descenders never clip */}
           <div className="mt-6 flex min-h-[170px] max-w-[640px] flex-col justify-between rounded-2xl border border-[#D4AF37]/15 bg-white p-4 shadow-[0_6px_16px_rgba(0,0,0,0.06)] dark:border-[#F7F4EB]/10 dark:bg-noir-soft sm:mt-8 sm:min-h-[165px] sm:p-5 lg:min-h-[180px]">
-            <div className="mb-2 flex shrink-0 items-center gap-2 font-sans text-[9px] tracking-[0.08em] text-cherry sm:text-[10px] sm:tracking-[0.2em]">
+            <div className="mb-2 flex shrink-0 items-center gap-2 font-sans text-[10px] tracking-[0.08em] text-cherry dark:text-brass-light sm:text-[10px] sm:tracking-[0.2em]">
               <span className="inline-block h-px w-4 bg-cherry/40 sm:w-6" />
               ROTATING LYRIC / ARCHIVAL TRANSCRIPT
             </div>
@@ -129,7 +131,7 @@ export default function Hero({ isPlaying, setIsPlaying, currentTrack, setCurrent
                   <p className="font-display text-[17px] italic leading-snug text-espresso dark:text-parchment sm:text-[19px] md:text-[20px] lg:text-[21px]">
                     {quotes[qIndex].text}
                   </p>
-                  <p className="mt-1 font-sans text-[10px] tracking-widest text-zinc-500 dark:text-parchment/60 sm:text-[11px]">
+                  <p className="mt-1 font-sans text-[11px] tracking-widest text-zinc-600 dark:text-parchment/75 sm:text-[11px]">
                     {quotes[qIndex].ref}
                   </p>
                 </motion.div>
@@ -152,20 +154,20 @@ export default function Hero({ isPlaying, setIsPlaying, currentTrack, setCurrent
           <div className="mt-6 flex flex-col gap-2.5 sm:flex-row sm:flex-wrap sm:gap-3">
             <Magnetic strength={0.18}>
               <a
-                href="#timeline"
-                onClick={(e) => { e.preventDefault(); document.querySelector('#timeline')?.scrollIntoView({ behavior: 'smooth' }); }}
-                className="group inline-flex w-full items-center justify-center gap-2 rounded-full bg-cherry px-5 py-3.5 font-sans text-[12px] tracking-[0.14em] text-white shadow-[0_4px_14px_rgba(158,27,27,0.2)] transition-all duration-300 ease-out hover:tracking-[0.08em] hover:bg-cherry-light hover:shadow-[0_8px_20px_rgba(158,27,27,0.3)] active:scale-[0.98] sm:w-auto sm:px-6 sm:py-3 sm:tracking-[0.08em]"
+                href="/eras"
+                onClick={(e) => { if (onNavigate) { e.preventDefault(); onNavigate('/eras'); } }}
+                className="group inline-flex w-full items-center justify-center gap-2 rounded-full bg-cherry px-5 py-3.5 font-sans text-[12px] tracking-[0.14em] text-white shadow-[0_4px_14px_rgba(158,27,27,0.2)] transition-colors duration-300 ease-out hover:bg-cherry-light hover:shadow-[0_8px_20px_rgba(158,27,27,0.3)] active:scale-[0.98] sm:w-auto sm:px-6 sm:py-3 sm:tracking-[0.08em]"
               >
-                ENTER THE ERAS <span aria-hidden className="transition-transform duration-300 group-hover:translate-x-0.5">·</span> 2005 → 2024
+                ENTER THE ERAS <span aria-hidden>·</span> 2005 → 2025
               </a>
             </Magnetic>
             <Magnetic strength={0.18}>
               <a
-                href="#vault"
-                onClick={(e) => { e.preventDefault(); document.querySelector('#vault')?.scrollIntoView({ behavior: 'smooth' }); }}
-                className="group inline-flex w-full items-center justify-center gap-2 rounded-full border border-[#D4AF37]/20 bg-white px-5 py-3.5 font-sans text-[12px] tracking-[0.14em] text-espresso shadow-sm transition-all duration-300 ease-out hover:tracking-[0.08em] hover:bg-[#FFFEFB] hover:border-[#D4AF37]/30 hover:shadow-[0_6px_16px_rgba(0,0,0,0.07)] active:scale-[0.98] dark:border-[#F7F4EB]/15 dark:bg-noir-soft dark:text-parchment dark:hover:bg-white/10 sm:w-auto sm:px-6 sm:py-3 sm:tracking-[0.08em]"
+                href="/vault"
+                onClick={(e) => { if (onNavigate) { e.preventDefault(); onNavigate('/vault'); } }}
+                className="group inline-flex w-full items-center justify-center gap-2 rounded-full border border-[#D4AF37]/20 bg-white px-5 py-3.5 font-sans text-[12px] tracking-[0.14em] text-espresso shadow-sm transition-colors duration-300 ease-out hover:bg-[#FFFEFB] hover:border-[#D4AF37]/30 hover:shadow-[0_6px_16px_rgba(0,0,0,0.07)] active:scale-[0.98] dark:border-[#F7F4EB]/15 dark:bg-noir-soft dark:text-parchment dark:hover:bg-white/10 sm:w-auto sm:px-6 sm:py-3 sm:tracking-[0.08em]"
               >
-                OPEN SECRET VAULT <span className="transition-transform duration-300 group-hover:translate-x-0.5">↗</span>
+                OPEN SECRET VAULT <span>↗</span>
               </a>
             </Magnetic>
           </div>
@@ -205,6 +207,8 @@ export default function Hero({ isPlaying, setIsPlaying, currentTrack, setCurrent
                 }}
                 onMouseEnter={() => setDeckPaused(true)}
                 onMouseLeave={() => setDeckPaused(false)}
+                onFocus={() => setDeckPaused(true)}
+                onBlur={() => setDeckPaused(false)}
                 onTouchStart={() => setDeckPaused(true)}
                 onTouchEnd={() => setTimeout(() => setDeckPaused(false), 4000)}
                 className="relative aspect-[4/3] cursor-grab touch-pan-y overflow-hidden rounded-md bg-[#2E4057] active:cursor-grabbing"
@@ -212,7 +216,7 @@ export default function Hero({ isPlaying, setIsPlaying, currentTrack, setCurrent
                 aria-roledescription="carousel"
                 aria-label={`Era photographs, frame ${heroIndex + 1} of ${eras.length}: ${heroEra.title}`}
               >
-                <AnimatePresence mode="popLayout" custom={heroDir} initial={false}>
+                <AnimatePresence mode="wait" custom={heroDir} initial={false}>
                   <motion.div
                     key={heroEra.id}
                     custom={heroDir}
@@ -226,7 +230,7 @@ export default function Hero({ isPlaying, setIsPlaying, currentTrack, setCurrent
                       src={heroEra.image}
                       alt={heroEra.imageAlt}
                       loading={heroIndex === 1 ? 'eager' : 'lazy'}
-                      fetchpriority={heroIndex === 1 ? 'high' : undefined}
+                      fetchPriority={heroIndex === 1 ? 'high' : undefined}
                       draggable={false}
                       className="h-full w-full object-cover"
                     />
@@ -236,7 +240,7 @@ export default function Hero({ isPlaying, setIsPlaying, currentTrack, setCurrent
                 <div className="pointer-events-none absolute inset-0 opacity-20 mix-blend-overlay" style={{
                   backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence baseFrequency='1.2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.4'/%3E%3C/svg%3E")`
                 }} />
-                <div className="absolute bottom-1.5 left-1.5 rounded-full bg-white/90 px-2 py-0.5 font-sans text-[7px] tracking-widest text-espresso sm:bottom-2 sm:left-2 sm:text-[9px]">
+                <div className="absolute bottom-1.5 left-1.5 rounded-full bg-white/90 px-2 py-0.5 font-sans text-[10px] tracking-widest text-espresso sm:bottom-2 sm:left-2 sm:text-[10px]">
                   {heroEra.year} / ARCHIVE
                 </div>
                 {/* arrows */}
@@ -257,7 +261,7 @@ export default function Hero({ isPlaying, setIsPlaying, currentTrack, setCurrent
               </motion.div>
               <div className="absolute bottom-1.5 left-2 right-2 flex items-end justify-between gap-2 sm:bottom-3 sm:left-3 sm:right-3">
                 <span className="truncate font-body italic text-[13px] leading-none text-espresso dark:text-parchment sm:text-[17px]">{heroEra.title.toLowerCase()}</span>
-                <span className="shrink-0 font-sans text-[8px] tracking-[0.08em] text-zinc-500 sm:text-[9px]">FIG. {String(heroIndex + 1).padStart(2, '0')}/{String(eras.length).padStart(2, '0')}</span>
+                <span className="shrink-0 font-sans text-[10px] tracking-[0.08em] text-zinc-600 sm:text-[10px]">FIG. {String(heroIndex + 1).padStart(2, '0')}/{String(eras.length).padStart(2, '0')}</span>
               </div>
             </motion.div>
             </Tilt>
@@ -302,8 +306,8 @@ export default function Hero({ isPlaying, setIsPlaying, currentTrack, setCurrent
               className="hidden rounded-full border-2 border-cherry bg-white px-3 py-1.5 shadow-md dark:bg-noir-soft lg:absolute lg:left-0 lg:top-[44%] lg:block"
             >
               <div className="text-center leading-none">
-                <div className="font-display text-[9px] font-bold tracking-[0.08em] text-cherry sm:text-[11px] sm:tracking-[0.2em]">ARCHIVED</div>
-                <div className="font-sans text-[6px] tracking-[0.08em] text-zinc-500 sm:text-[7px] sm:tracking-[0.2em]">AUTHENTIC / 2011</div>
+                <div className="font-display text-[11px] font-bold tracking-[0.08em] text-cherry dark:text-brass-light sm:text-[11px] sm:tracking-[0.2em]">ARCHIVED</div>
+                <div className="font-sans text-[9px] tracking-[0.08em] text-zinc-600 sm:text-[9px] sm:tracking-[0.2em]">AUTHENTIC / 2011</div>
               </div>
             </motion.div>
 

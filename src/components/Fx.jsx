@@ -121,6 +121,10 @@ export function Tilt({ children, max = 7, className = '' }) {
   const srx = useSpring(rx, { stiffness: 180, damping: 20, mass: 0.6 });
   const sry = useSpring(ry, { stiffness: 180, damping: 20, mass: 0.6 });
   const glare = useTransform(gx, [0, 100], [0, 0.22]);
+  const glareBg = useTransform(
+    [gx, gy],
+    ([x, y]) => `radial-gradient(circle at ${x}% ${y}%, rgba(255,255,255,0.5), transparent 60%)`
+  );
 
   if (!finePointer() || reducedMotion()) {
     return <div className={className}>{children}</div>;
@@ -154,10 +158,7 @@ export function Tilt({ children, max = 7, className = '' }) {
           className="pointer-events-none absolute inset-0 rounded-lg"
           style={{
             opacity: glare,
-            background: useTransform(
-              [gx, gy],
-              ([x, y]) => `radial-gradient(circle at ${x}% ${y}%, rgba(255,255,255,0.5), transparent 60%)`
-            ),
+            background: glareBg,
           }}
         />
       </motion.div>

@@ -1,8 +1,8 @@
-export default function Footer() {
-  const scrollTo = (id) => {
-    const el = document.querySelector(id);
-    if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    else window.scrollTo({ top: 0, behavior: 'smooth' });
+export default function Footer({ onNavigate }) {
+  const goTop = () => window.scrollTo({ top: 0 });
+  const go = (href) => {
+    if (onNavigate) onNavigate(href);
+    else window.scrollTo({ top: 0 });
   };
 
   return (
@@ -65,18 +65,18 @@ export default function Footer() {
               </p>
               <div className="mt-4 flex flex-col gap-2.5">
                 <button
-                  onClick={() => scrollTo('#hero')}
-                  className="group flex w-full items-center justify-center gap-2 rounded-full border border-[#D4AF37]/20 bg-[#FFFEFB] px-4 py-3 font-mono text-[11px] tracking-[0.14em] text-espresso shadow-sm transition-all duration-300 ease-out hover:tracking-[0.16em] hover:bg-[#F7F4EB] hover:shadow-[0_4px_12px_rgba(212,175,55,0.15)] active:scale-[0.98] dark:border-[#F7F4EB]/15 dark:bg-noir-soft dark:text-parchment dark:hover:bg-white/10"
+                  onClick={() => goTop()}
+                  className="group flex w-full items-center justify-center gap-2 rounded-full border border-[#D4AF37]/20 bg-[#FFFEFB] px-4 py-3 font-mono text-[11px] tracking-[0.14em] text-espresso shadow-sm transition-colors duration-300 ease-out hover:bg-[#F7F4EB] hover:shadow-[0_4px_12px_rgba(212,175,55,0.15)] active:scale-[0.98] dark:border-[#F7F4EB]/15 dark:bg-noir-soft dark:text-parchment dark:hover:bg-white/10"
                 >
                   <span>BACK TO TOP</span>
-                  <span className="transition-transform duration-300 group-hover:-translate-y-0.5">↑</span>
+                  <span>↑</span>
                 </button>
                 <button
-                  onClick={() => scrollTo('#timeline')}
-                  className="group flex w-full items-center justify-center gap-2 rounded-full bg-cherry px-4 py-3 font-mono text-[11px] tracking-[0.14em] text-white shadow-[0_4px_12px_rgba(158,27,27,0.2)] transition-all duration-300 ease-out hover:tracking-[0.16em] hover:bg-[#B83232] hover:shadow-[0_6px_16px_rgba(158,27,27,0.3)] active:scale-[0.98]"
+                  onClick={() => go('/eras')}
+                  className="group flex w-full items-center justify-center gap-2 rounded-full bg-cherry px-4 py-3 font-mono text-[11px] tracking-[0.14em] text-white shadow-[0_4px_12px_rgba(158,27,27,0.2)] transition-colors duration-300 ease-out hover:bg-[#B83232] hover:shadow-[0_6px_16px_rgba(158,27,27,0.3)] active:scale-[0.98]"
                 >
                   <span>RE-ENTER THE ERAS</span>
-                  <span className="transition-transform duration-300 group-hover:translate-x-0.5">→</span>
+                  <span>→</span>
                 </button>
               </div>
             </div>

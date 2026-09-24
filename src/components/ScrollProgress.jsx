@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react';
-import { motion } from 'framer-motion';
 
 export default function ScrollProgress() {
   const [progress, setProgress] = useState(0);
@@ -39,16 +38,15 @@ export default function ScrollProgress() {
           backgroundImage: `repeating-linear-gradient(90deg, transparent 0 8px, rgba(158,27,27,0.15) 8px 9px, transparent 9px 40px)`,
         }}
       />
-      <motion.div
+      <div
         className="relative h-full bg-gradient-to-r from-cherry via-cherry to-brass shadow-[0_1px_4px_rgba(158,27,27,0.3)]"
         style={{ width: `${progress}%` }}
-        transition={{ ease: 'linear', duration: 0.08 }}
       >
         {/* brass tip */}
         <span className="absolute right-0 top-1/2 h-2 w-2 -translate-y-1/2 translate-x-1/2 rounded-full border border-white bg-brass shadow" />
-      </motion.div>
+      </div>
       {/* archival label */}
-      <div className="absolute right-2 top-1 hidden font-mono text-[8px] tracking-[0.15em] text-typewriter/60 sm:block" style={{ transform: 'translateY(6px)' }}>
+      <div className="absolute right-2 top-1 hidden font-mono text-[10px] tracking-[0.15em] text-typewriter/60 sm:block" style={{ transform: 'translateY(6px)' }}>
         ARCHIVE PROGRESS · {Math.round(progress)}%
       </div>
     </div>

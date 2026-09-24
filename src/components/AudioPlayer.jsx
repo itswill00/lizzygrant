@@ -32,7 +32,7 @@ function formatTime(sec) {
 export default function AudioPlayer({ isPlaying, setIsPlaying, currentTrack, setCurrentTrack }) {
   const audioRef = useRef(null);
 
-  const [tracks] = useState(baseTracks);
+  const tracks = baseTracks;
   const [trackIndex, setTrackIndex] = useState(0);
   const [currentTime, setCurrentTime] = useState(0);
   const [duration, setDuration] = useState(0);
@@ -53,7 +53,8 @@ export default function AudioPlayer({ isPlaying, setIsPlaying, currentTrack, set
 
   const cleanTitle = (raw) => (raw ? raw.split(' /')[0].trim() : '');
   const activeTrack = tracks[trackIndex];
-  const matchDeck = (base) => tracks.findIndex((t) => t.title.toLowerCase() === base || base.includes(t.title.toLowerCase()) || t.title.toLowerCase().includes(base));
+  const slugifyLocal = (s) => (s || '').toLowerCase().trim().replace(/&/g, '-').replace(/[^a-z0-9\s-]/g, '').trim().replace(/[\s_]+/g, '-').replace(/-+/g, '-');
+  const matchDeck = (base) => tracks.findIndex((t) => slugifyLocal(t.title) === slugifyLocal(base));
   const reqBase = currentTrack && !currentTrack.src ? cleanTitle(currentTrack.title).toLowerCase() : null;
   const reqPlayable = !currentTrack || currentTrack.src || (reqBase && matchDeck(reqBase) !== -1);
   const displayTitle = reqPlayable ? cleanTitle(currentTrack?.title || activeTrack.title) : activeTrack.title;
@@ -91,13 +92,18 @@ export default function AudioPlayer({ isPlaying, setIsPlaying, currentTrack, set
   useEffect(() => {
     const audio = audioRef.current;
     if (!audio || !effectiveSrc) return;
+    if (!isPlaying) {
+      const cur = audio.currentSrc || audio.src || '';
+      if (!cur || !cur.endsWith(effectiveSrc.split('/').pop())) audio.src = effectiveSrc;
+      return;
+    }
     const cur = audio.currentSrc || audio.src || '';
     const curTail = cur.split('/').pop()?.split('?')[0];
     const tgtTail = effectiveSrc.split('/').pop()?.split('?')[0];
     if (curTail !== tgtTail || !cur) {
       playAudioDirect(effectiveSrc);
     }
-  }, [effectiveSrc]);
+  }, [effectiveSrc, isPlaying]);
 
   useEffect(() => {
     const audio = audioRef.current;
@@ -138,16 +144,12 @@ export default function AudioPlayer({ isPlaying, setIsPlaying, currentTrack, set
   const selectAndPlayRef = useRef(selectAndPlay);
   useEffect(() => { selectAndPlayRef.current = selectAndPlay; });
 
-  // bersihkan sisa posisi drag versi lama (localStorage), sekali saja
-  useEffect(() => {
-    try { localStorage.removeItem('lg-player-pos'); } catch {}
-  }, []);
-
-  // Keyboard shortcuts: Space (play/pause), Ctrl/Alt + ArrowRight (next), Ctrl/Alt + ArrowLeft (prev)
+  // bersihkan sisa posisi drag versi lama (localStorage), sekali saja — legacy, hapus setelah 2026-12
+  // Keyboard shortcuts: Space only when body focused, Ctrl/Alt + Arrow for next/prev
   useEffect(() => {
     const onKeyDown = (e) => {
-      const tag = document.activeElement?.tagName;
-      if (tag === 'INPUT' || tag === 'TEXTAREA' || document.activeElement?.isContentEditable) return;
+      const el = document.activeElement;
+      if (el && el.closest?.('button,a,[role="slider"],[role="button"],input,textarea,select,[contenteditable]')) return;
 
       if (e.code === 'Space') {
         e.preventDefault();
@@ -256,7 +258,7 @@ export default function AudioPlayer({ isPlaying, setIsPlaying, currentTrack, set
 
   return (
     <>
-      <audio ref={audioRef} preload="auto" playsInline />
+      <audio ref={audioRef} preload="metadata" playsInline />
       <div className="h-[76px]" aria-hidden />
 
       <div className="pointer-events-none fixed inset-x-0 bottom-0 z-50 flex justify-center px-3 pb-[calc(0.75rem+env(safe-area-inset-bottom,0px))] sm:pb-[calc(1rem+env(safe-area-inset-bottom,0px))]">
@@ -277,7 +279,7 @@ export default function AudioPlayer({ isPlaying, setIsPlaying, currentTrack, set
               <div className="truncate font-display text-[13px] font-semibold text-parchment" title={displayTitle}>
                 {displayTitle}
               </div>
-              <div className="block w-full truncate font-mono text-[10px] tabular-nums tracking-wide text-parchment/50">
+              <div className="block w-full truncate font-mono text-[10px] tabular-nums tracking-wide text-parchment/75">
                 {formatTime(currentTime)} / {duration ? formatTime(duration) : '--:--'} · {displayEra}
               </div>
             </div>
@@ -322,8 +324,8 @@ export default function AudioPlayer({ isPlaying, setIsPlaying, currentTrack, set
               else if (e.key === 'Home') { audio.currentTime = 0; e.preventDefault(); }
               else if (e.key === 'End') { audio.currentTime = total; e.preventDefault(); }
             }}
-            className="mx-6 -mt-0.5 cursor-pointer py-1"
-            title="Seek"
+            className="mx-6 -mt-0.5 cursor-pointer py-3"
+            title="Seek (Arrow keys work when focused)"
             role="slider"
             tabIndex={0}
             aria-label="Seek"

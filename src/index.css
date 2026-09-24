@@ -126,6 +126,15 @@ body {
   @apply bg-cherry text-white;
 }
 
+:focus-visible {
+  outline: 2px solid #9E1B1B;
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+.dark :focus-visible {
+  outline-color: #E8C76A;
+}
+
 /* Rendering optimizations */
 .cv-auto {
   content-visibility: auto;
