@@ -8,7 +8,7 @@ import {
   setAudioErrorHandler,
 } from '../lib/preview';
 
-// Option B local genuine vocal clips (bundled in public/audio) — permanent priority
+// Option B local genuine vocal clips (bundled in public/audio), permanent priority
 const baseTracks = [
   { title: 'Video Games', slug: 'video-games', era: 'BORN TO DIE', year: '2012', duration: '4:42', src: '/audio/video-games.mp3', local: '/audio/video-games.mp3', source: 'LOCAL' },
   { title: 'West Coast', slug: 'west-coast', era: 'ULTRAVIOLENCE', year: '2014', duration: '4:16', src: '/audio/west-coast.mp3', local: '/audio/west-coast.mp3', source: 'LOCAL' },
@@ -99,7 +99,7 @@ export default function AudioPlayer({ isPlaying, setIsPlaying, currentTrack, set
     return () => setAudioErrorHandler(null);
   }, []);
 
-  const cleanTitle = (raw) => (raw ? raw.split(' —')[0].trim() : '');
+  const cleanTitle = (raw) => (raw ? raw.split(' /')[0].trim() : '');
   const activeTrack = tracks[trackIndex];
   const matchDeck = (base) => tracks.findIndex((t) => t.title.toLowerCase() === base || base.includes(t.title.toLowerCase()) || t.title.toLowerCase().includes(base));
   const reqBase = currentTrack && !currentTrack.src ? cleanTitle(currentTrack.title).toLowerCase() : null;
@@ -127,7 +127,7 @@ export default function AudioPlayer({ isPlaying, setIsPlaying, currentTrack, set
     if (currentTrack.unplayable) {
       if (toastedRef.current !== currentTrack.title) {
         toastedRef.current = currentTrack.title;
-        setError('Archived demo unreleased — no audio available in archive');
+        setError('Archived demo unreleased, no audio available in archive');
       }
       return;
     }
@@ -309,7 +309,7 @@ export default function AudioPlayer({ isPlaying, setIsPlaying, currentTrack, set
               transition={{ type: 'spring', stiffness: 300, damping: 30 }}
               className="pointer-events-auto absolute bottom-2 left-2 right-2 overflow-hidden rounded-2xl border border-[#F7F4EB]/10 bg-[#1A1A1A] shadow-[0_16px_40px_rgba(0,0,0,0.35)] dark:border-[#F7F4EB]/10 pb-[env(safe-area-inset-bottom,0px)] sm:bottom-4 sm:left-0 sm:right-0 sm:mx-auto sm:w-full sm:max-w-[620px] sm:shadow-[0_20px_48px_rgba(0,0,0,0.4)] lg:bottom-6 lg:max-w-[680px]"
             >
-              {/* drag grip — mobile only (desktop uses top bar) */}
+              {/* drag grip, mobile only (desktop uses top bar) */}
               <div
                 onPointerDown={(e) => controls.start(e)}
                 onDoubleClick={resetPos}
@@ -327,7 +327,7 @@ export default function AudioPlayer({ isPlaying, setIsPlaying, currentTrack, set
                 <div className="flex min-w-0 items-center gap-1.5 sm:gap-2">
                   <span className={`h-1.5 w-1.5 shrink-0 rounded-full ${isPlaying && !error ? 'bg-brass' : 'bg-cherry'}`} />
                   <span className="truncate font-mono text-[9px] tracking-[0.12em] text-parchment/60 sm:text-[10px] sm:tracking-[0.2em]">
-                    ARCHIVE CASSETTE DECK — {isPlaying ? 'PLAYING' : 'STANDBY'}
+                    ARCHIVE CASSETTE DECK · {isPlaying ? 'PLAYING' : 'STANDBY'}
                   </span>
                 </div>
                 <div className="flex shrink-0 items-center gap-1.5">
@@ -336,12 +336,12 @@ export default function AudioPlayer({ isPlaying, setIsPlaying, currentTrack, set
                     className="rounded-full border border-white/10 px-2 py-0.5 font-mono text-[9px] tracking-widest text-white/60 hover:bg-white/10 active:scale-95 sm:text-[10px]"
                     aria-label="Minimize player"
                   >
-                    — HIDE
+                    - HIDE
                   </button>
                 </div>
               </div>
 
-              {/* subtle error toast — auto-dismisses, never blocks UI */}
+              {/* subtle error toast, auto-dismisses, never blocks UI */}
               <AnimatePresence>
                 {error && (
                   <motion.div
@@ -357,9 +357,9 @@ export default function AudioPlayer({ isPlaying, setIsPlaying, currentTrack, set
                 )}
               </AnimatePresence>
 
-              {/* mini row — mobile pretty, desktop full */}
+              {/* mini row, mobile pretty, desktop full */}
               <div className="relative flex items-center gap-2 p-2.5 sm:gap-4 sm:p-4">
-                {/* cassette window — desktop only */}
+                {/* cassette window, desktop only */}
                 <div className="hidden h-[64px] w-[90px] shrink-0 items-center justify-center gap-1.5 rounded-md border border-white/10 bg-[#2a2a2a] p-2 shadow-inner sm:flex sm:h-[72px] sm:w-[110px] sm:gap-2">
                   <div className={`h-7 w-7 rounded-full border border-white/15 bg-[#1f1f1f] p-0.5 sm:h-8 sm:w-8 ${reelsSpin ? 'animate-tape-reel' : ''}`}>
                     <div className="h-full w-full rounded-full" style={{ background: `repeating-conic-gradient(from 0deg, #3a3a3a 0 45deg, #2a2a2a 45deg 90deg)` }} />
@@ -370,12 +370,12 @@ export default function AudioPlayer({ isPlaying, setIsPlaying, currentTrack, set
                   </div>
                 </div>
 
-                {/* live reel thumb — mobile only */}
+                {/* live reel thumb, mobile only */}
                 <div className={`h-10 w-10 shrink-0 rounded-full border border-brass/30 bg-[#1f1f1f] p-1 shadow-[0_0_12px_rgba(212,175,55,0.25)] sm:hidden ${reelsSpin ? 'animate-tape-reel' : ''}`}>
                   <div className="h-full w-full rounded-full" style={{ background: `repeating-conic-gradient(from 0deg, #3a3a3a 0 45deg, #242424 45deg 90deg)` }} />
                 </div>
 
-                {/* title toggles expand — mobile only */}
+                {/* title toggles expand, mobile only */}
                 <button
                   onClick={() => setMobileExpanded((v) => !v)}
                   aria-expanded={mobileExpanded}
@@ -429,13 +429,13 @@ export default function AudioPlayer({ isPlaying, setIsPlaying, currentTrack, set
                   </button>
                 </div>
 
-                {/* hairline progress — mobile only */}
+                {/* hairline progress, mobile only */}
                 <div className="absolute inset-x-3 bottom-1 h-[3px] overflow-hidden rounded-full bg-white/10 sm:hidden">
                   <div className="h-full rounded-full bg-gradient-to-r from-brass-dark via-brass to-brass-light" style={{ width: `${progress}%` }} />
                 </div>
               </div>
 
-              {/* extras — smooth expand on mobile, always open on desktop */}
+              {/* extras, smooth expand on mobile, always open on desktop */}
               <AnimatePresence initial={false}>
                 {showExtras && (
                   <motion.div
@@ -526,12 +526,12 @@ export default function AudioPlayer({ isPlaying, setIsPlaying, currentTrack, set
                       </div>
                     </div>
 
-                    {/* hide — mobile only */}
+                    {/* hide, mobile only */}
                     <button
                       onClick={() => setMinimized(true)}
                       className="flex w-full items-center justify-center border-t border-white/5 py-2.5 font-mono text-[10px] tracking-[0.2em] text-white/40 transition hover:text-white/70 sm:hidden"
                     >
-                      — HIDE PLAYER —
+                      HIDE PLAYER
                     </button>
                   </motion.div>
                 )}
@@ -549,7 +549,7 @@ export default function AudioPlayer({ isPlaying, setIsPlaying, currentTrack, set
                 <span className="block h-full w-full rounded-full bg-white/10" />
               </span>
               <span className="min-w-0 truncate font-mono text-[10px] tracking-[0.12em] sm:text-[11px] sm:tracking-[0.15em]">
-                {isPlaying ? '♫ PLAYING' : 'CASSETTE'} — {displayTitle}
+                {isPlaying ? '♫ PLAYING' : 'CASSETTE'} · {displayTitle}
               </span>
               <span className="shrink-0 rounded-full bg-brass px-1.5 py-0.5 font-mono text-[9px] tracking-widest text-noir sm:px-2 sm:text-[10px]">EXPAND</span>
             </motion.button>

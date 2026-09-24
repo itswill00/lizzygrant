@@ -19,7 +19,7 @@ export default class ErrorBoundary extends React.Component {
     if (this.state.hasError) {
       return (
         <div className="mx-auto max-w-[720px] px-6 py-16 text-center">
-          <div className="font-mono text-[10px] tracking-[0.2em] text-cherry">ARCHIVE ERROR — FAILED TO LOAD</div>
+          <div className="font-mono text-[10px] tracking-[0.2em] text-cherry">ARCHIVE ERROR · FAILED TO LOAD</div>
           <h1 className="mt-3 font-display text-2xl font-bold text-espresso dark:text-parchment">This page took a bad splice.</h1>
           <p className="mt-2 font-body text-[14px] leading-6 text-typewriter">Chunk failed to load or a runtime error occurred. Try reloading. If it persists, the tape is truly tangled.</p>
           <button onClick={() => location.reload()} className="mt-6 rounded-full bg-cherry px-5 py-2.5 font-mono text-[12px] tracking-[0.15em] text-white">RELOAD ARCHIVE</button>

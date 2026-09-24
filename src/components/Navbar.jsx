@@ -9,7 +9,7 @@ export default function Navbar({ darkMode, setDarkMode }) {
       {/* top archival bar - hide on mobile */}
       <div className="hidden border-b border-espresso/5 bg-espresso/[0.02] dark:border-parchment/5 dark:bg-parchment/[0.02] lg:block">
         <div className="mx-auto flex max-w-[1400px] items-center justify-between px-6 py-1.5 font-mono text-[10px] tracking-[0.2em] text-typewriter dark:text-parchment/50">
-          <span>CATALOG № LG-1985—2024 / ARCHIVAL EDITION / VOL. I–VIII</span>
+          <span>CATALOG № LG-1985-2024 / ARCHIVAL EDITION / VOL. I–VIII</span>
           <span className="flex items-center gap-4">
             <span className="hidden xl:inline">EST. LAKE PLACID, NY / 1985 →</span>
             <span className="h-3 w-px bg-espresso/10 dark:bg-parchment/10" />
@@ -100,7 +100,7 @@ export default function Navbar({ darkMode, setDarkMode }) {
         </div>
       </div>
 
-      {/* mobile drawer — simpler, readable */}
+      {/* mobile drawer, simpler, readable */}
       <AnimatePresence>
         {open && (
           <motion.div
@@ -149,7 +149,7 @@ export default function Navbar({ darkMode, setDarkMode }) {
                 onClick={() => setOpen(false)}
                 className="mt-2 flex items-center justify-center gap-2 rounded-full bg-zinc-900 py-3 font-sans text-[14px] font-medium text-white dark:bg-white dark:text-zinc-900"
               >
-                Listen — Side A ▶
+                Listen · Side A ▶
               </a>
               <button onClick={() => setOpen(false)} className="py-2 font-sans text-[12px] text-zinc-400">Tap to close ✕</button>
             </nav>
@@ -157,7 +157,7 @@ export default function Navbar({ darkMode, setDarkMode }) {
         )}
       </AnimatePresence>
 
-      {/* marquee — pure CSS animation runs on compositor thread, zero JS cost */}
+      {/* marquee, pure CSS animation runs on compositor thread, zero JS cost */}
       <div className="overflow-hidden border-y border-cherry/20 bg-cherry py-1 text-parchment sm:py-1.5" aria-hidden="true">
         <div
           aria-hidden="true"

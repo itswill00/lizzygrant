@@ -39,12 +39,12 @@ export default function Gallery() {
   return (
     <section id="gallery" className="relative mx-auto max-w-[1400px] overflow-x-hidden px-3 py-8 sm:px-4 sm:py-12 md:px-6 md:py-16">
       <div className="mb-6 sm:mb-8">
-        <div className="font-sans text-[10px] tracking-[0.2em] text-cherry sm:text-[11px] sm:tracking-[0.08em]">07 — CONTACT SHEET</div>
+        <div className="font-sans text-[10px] tracking-[0.2em] text-cherry sm:text-[11px] sm:tracking-[0.08em]">07 · CONTACT SHEET</div>
         <h2 className="mt-1.5 font-display text-[26px] font-bold leading-none tracking-[-0.02em] text-espresso dark:text-parchment sm:mt-2 sm:text-[34px] md:text-[48px]">
           EVERY FRAME <span className="font-light italic text-zinc-500 text-[20px] sm:text-[26px] md:text-[34px]">filed & numbered</span>
         </h2>
         <p className="mt-2 max-w-[640px] font-body text-[14.5px] leading-[1.75] text-zinc-500 dark:text-parchment/60 sm:mt-3 sm:text-[15px]">
-          The proof prints — {galleryFrames.length} frames from Bowery ballrooms to Dublin, 2011 → 2025.
+          The proof prints, {galleryFrames.length} frames from Bowery ballrooms to Dublin, 2011 → 2025.
           Tap any frame for the loupe. Photographs: Wikimedia Commons contributors.
         </p>
       </div>
@@ -87,7 +87,7 @@ export default function Gallery() {
               <div className="relative aspect-[3/4] overflow-hidden rounded-xl bg-parchment-dark">
                 <SafeImage
                   src={f.thumb}
-                  alt={`Lana Del Rey — ${f.caption}`}
+                  alt={`Lana Del Rey, ${f.caption}`}
                   loading="lazy"
                   className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-[1.04]"
                 />
@@ -104,7 +104,7 @@ export default function Gallery() {
         </AnimatePresence>
       </motion.div>
 
-      {/* progressive load — keeps request bursts small for throttled CDNs */}
+      {/* progressive load, keeps request bursts small for throttled CDNs */}
       <div className="mt-6 flex flex-col items-center gap-2">
         <span className="font-sans text-[10px] tracking-[0.08em] text-zinc-500/70">
           SHOWING {shown.length} / {filtered.length} FRAMES
@@ -119,7 +119,7 @@ export default function Gallery() {
         )}
       </div>
 
-      {/* lightbox loupe — portalled to body, overlay scrolls on small screens */}
+      {/* lightbox loupe, portalled to body, overlay scrolls on small screens */}
       {typeof document !== 'undefined' && createPortal(
       <AnimatePresence>
         {frame && (
@@ -150,7 +150,7 @@ export default function Gallery() {
               <div className="relative overflow-hidden rounded-t-2xl bg-[#1A1A1A]">
                 <SafeImage
                   src={frame.full}
-                  alt={`Lana Del Rey — ${frame.caption}`}
+                  alt={`Lana Del Rey, ${frame.caption}`}
                   className="mx-auto max-h-[62vh] w-auto max-w-full rounded-t-2xl object-contain sm:max-h-[68vh]"
                 />
                 <button onClick={() => setLightbox(null)} aria-label="Close" className="absolute right-3 top-3 flex h-9 w-9 items-center justify-center rounded-full bg-black/50 font-sans text-white backdrop-blur hover:bg-black/70 active:scale-95">

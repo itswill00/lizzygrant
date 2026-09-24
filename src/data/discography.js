@@ -1,4 +1,4 @@
-// Complete discography — standard editions. Singles flags = official single releases.
+// Complete discography, standard editions. Singles flags = official single releases.
 const T = (t, s) => ({ t, ...(s ? { s: true } : {}) });
 
 export const discography = [

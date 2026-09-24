@@ -13,12 +13,12 @@ export default function Timeline({ setCurrentTrack, setIsPlaying }) {
     <section id="timeline" className="relative mx-auto max-w-[1400px] overflow-x-hidden px-3 py-8 sm:px-4 sm:py-12 md:px-6 md:py-16">
       <div className="mb-6 flex flex-wrap items-end justify-between gap-3 sm:mb-8 sm:gap-4">
         <div className="min-w-0">
-          <div className="font-sans text-[10px] tracking-[0.2em] text-cherry sm:text-[11px] sm:tracking-[0.08em]">02 — INTERACTIVE CHRONOLOGY</div>
+          <div className="font-sans text-[10px] tracking-[0.2em] text-cherry sm:text-[11px] sm:tracking-[0.08em]">02 · INTERACTIVE CHRONOLOGY</div>
           <h2 className="mt-1.5 font-display text-[28px] font-bold leading-none tracking-[-0.02em] text-espresso dark:text-parchment sm:mt-2 sm:text-[36px] md:text-[52px]">
-            THE ERAS <span className="font-light italic text-zinc-500 text-[22px] sm:text-[28px] md:text-[36px]">— {eras.length} chapters</span>
+            THE ERAS <span className="font-light italic text-zinc-500 text-[22px] sm:text-[28px] md:text-[36px]">· {eras.length} chapters</span>
           </h2>
           <p className="mt-2 max-w-[640px] font-body text-[14.5px] leading-[1.75] text-zinc-500 dark:text-parchment/60 sm:mt-3 sm:text-[15px]">
-            Each era is an aesthetic world. Tap the timeline to enter. Songs are <em className="text-espresso dark:text-parchment">archival previews</em> — select one to cue the cassette.
+            Each era is an aesthetic world. Tap the timeline to enter. Songs are <em className="text-espresso dark:text-parchment">archival previews</em>, select one to cue the cassette.
           </p>
         </div>
         <div className="hidden items-center gap-2 font-sans text-[10px] tracking-[0.08em] text-zinc-500 md:flex">
@@ -83,7 +83,7 @@ export default function Timeline({ setCurrentTrack, setIsPlaying }) {
           <div className="mt-3 hidden rounded-lg border border-dashed border-[#D4AF37]/20 bg-parchment-dark/40 p-3 shadow-sm dark:border-[#F7F4EB]/10 dark:bg-noir-soft/50 lg:block">
             <div className="font-sans text-[10px] tracking-[0.2em] text-zinc-500">CURATOR NOTE</div>
             <p className="mt-1 font-body text-[13.5px] italic leading-[1.7] text-zinc-500 dark:text-parchment/70">
-              Click any era — the board updates like a lightbox. The cassette follows you.
+              Click any era, the board updates like a lightbox. The cassette follows you.
             </p>
           </div>
         </div>
@@ -105,7 +105,7 @@ export default function Timeline({ setCurrentTrack, setIsPlaying }) {
                   {active.year}
                 </span>
                 <span className="font-sans text-[9px] tracking-[0.14em] text-zinc-500 sm:text-[10px] sm:tracking-[0.2em]">
-                  MOOD — {active.mood}
+                  MOOD · {active.mood}
                 </span>
               </div>
               <div className="flex items-center gap-1.5">
@@ -147,7 +147,7 @@ export default function Timeline({ setCurrentTrack, setIsPlaying }) {
               {/* Songs / moodboard */}
               <div className="flex min-w-0 flex-col gap-3 sm:gap-4">
                 <div className="rounded-2xl border border-[#D4AF37]/15 bg-parchment-dark/40 p-2.5 shadow-sm dark:border-[#F7F4EB]/10 dark:bg-noir/40 sm:p-3">
-                  <div className="font-sans text-[9px] tracking-[0.08em] text-zinc-500 sm:text-[10px] sm:tracking-[0.2em]">NOTABLE CUTS — TAP TO CUE CASSETTE</div>
+                  <div className="font-sans text-[9px] tracking-[0.08em] text-zinc-500 sm:text-[10px] sm:tracking-[0.2em]">NOTABLE CUTS · TAP TO CUE CASSETTE</div>
                   <div className="mt-2.5 flex flex-col gap-2 sm:mt-3">
                     {active.songs.map((s) => (
                       <button

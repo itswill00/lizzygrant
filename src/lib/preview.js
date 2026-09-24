@@ -1,4 +1,4 @@
-// Shared genuine-preview resolver — single source of truth for every
+// Shared genuine-preview resolver, single source of truth for every
 // tap-to-play on the site (Timeline, Muses, Tarot, Discography, AudioPlayer).
 // ORDER: local file first (instant 0ms, same-origin, immune to mobile autoplay blocks), then iTunes.
 // STRICT: exact title match only. Never attaches a wrong song.
@@ -151,7 +151,7 @@ export const LOCAL_FILES = new Set([
   'yosemite.mp3',
 ]);
 
-// Synchronous local file lookup — returns { src, source: 'LOCAL' } in 0ms
+// Synchronous local file lookup, returns { src, source: 'LOCAL' } in 0ms
 export function resolveLocalPreview(title) {
   if (!title) return null;
   const slug = slugify(title);
@@ -206,7 +206,7 @@ export function isAudioSwitching() {
 
 export function playAudioDirect(src) {
   if (!activeAudioElement || !src) {
-    const msg = !activeAudioElement ? 'No audio element — tap again' : `No src for ${src}`;
+    const msg = !activeAudioElement ? 'No audio element, tap again' : `No src for ${src}`;
     reportAudioError(msg);
     return;
   }
@@ -231,7 +231,7 @@ export function playAudioDirect(src) {
         if (err.name === 'AbortError') {
           console.log('[Audio] AbortError benign', src);
         } else if (err.name === 'NotAllowedError') {
-          reportAudioError('Tap again to allow audio — browser blocked autoplay');
+          reportAudioError('Tap again to allow audio, browser blocked autoplay');
         } else if (err.name === 'NotSupportedError') {
           console.warn('[Audio] NotSupportedError, retrying with blob', src, err);
           fetch(src, { cache: 'no-store' }).then(r => {
@@ -245,7 +245,7 @@ export function playAudioDirect(src) {
           }).then(() => {
             console.log('[Audio] blob retry ok', src);
           }).catch(e2 => {
-            reportAudioError(`Audio format not supported — try Chrome/Update WebView (${tgtTail})`);
+            reportAudioError(`Audio format not supported, try Chrome/Update WebView (${tgtTail})`);
             console.warn('[Audio] blob retry failed', e2);
           });
         } else {

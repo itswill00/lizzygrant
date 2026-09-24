@@ -82,7 +82,7 @@ export default function Tarot({ setCurrentTrack, setIsPlaying }) {
 
   const hearSong = (card) => {
     setHearing(card.id);
-    const songTitle = card.song.split('—')[0].replace(/[\.…]+$/, '').trim();
+    const songTitle = card.song.split('/')[0].replace(/[\.…]+$/, '').trim();
     cueSong(songTitle, 'LYRICAL TAROT', setCurrentTrack, setIsPlaying);
     setTimeout(() => setHearing(null), 600);
   };
@@ -90,7 +90,7 @@ export default function Tarot({ setCurrentTrack, setIsPlaying }) {
   const copyLyric = async (card) => {
     if (!card) return;
     try {
-      await navigator.clipboard.writeText(`${card.lyric} — ${card.song}`);
+      await navigator.clipboard.writeText(`${card.lyric} / ${card.song}`);
       setCopied(true);
       setTimeout(() => setCopied(false), 1600);
     } catch {
@@ -99,18 +99,18 @@ export default function Tarot({ setCurrentTrack, setIsPlaying }) {
   };
 
   const orderedCards = order.map((id) => tarotCards.find((c) => c.id === id)).filter(Boolean);
-  const spreadLabels = ['PAST — where it ached', 'PRESENT — where it lives', 'FUTURE — where it heals'];
+  const spreadLabels = ['PAST: where it ached', 'PRESENT: where it lives', 'FUTURE: where it heals'];
 
   return (
     <section id="tarot" className="relative mx-auto max-w-[1400px] overflow-x-hidden px-3 py-8 sm:px-4 sm:py-12 md:px-6 md:py-16">
       <div className="mb-6 flex flex-col gap-3 sm:mb-8 sm:flex-row sm:flex-wrap sm:items-end sm:justify-between sm:gap-4">
         <div className="min-w-0">
-          <div className="font-sans text-[10px] tracking-[0.2em] text-cherry sm:text-[11px] sm:tracking-[0.08em]">04 — LYRICAL TAROT</div>
+          <div className="font-sans text-[10px] tracking-[0.2em] text-cherry sm:text-[11px] sm:tracking-[0.08em]">04 · LYRICAL TAROT</div>
           <h2 className="mt-1.5 font-display text-[26px] font-bold leading-none tracking-[-0.02em] text-espresso dark:text-parchment sm:mt-2 sm:text-[34px] md:text-[48px]">
             ASK. SHUFFLE. <span className="font-light italic text-zinc-500 text-[20px] sm:text-[26px] md:text-[34px]">draw your lyric</span>
           </h2>
           <p className="mt-2 max-w-[640px] font-body text-[14.5px] leading-[1.75] text-zinc-500 dark:text-parchment/60 sm:mt-3 sm:text-[15px]">
-            Not decoration — a reading. Set an intention, shuffle the deck, draw. Each card answers
+            Not decoration, a reading. Set an intention, shuffle the deck, draw. Each card answers
             with a real lyric, its meaning, and the song itself on the cassette.
           </p>
         </div>
@@ -205,7 +205,7 @@ export default function Tarot({ setCurrentTrack, setIsPlaying }) {
                             <span className="font-display text-[18px] sm:text-[22px]">✦</span>
                           </div>
                           <div className="mt-2 font-display text-[9px] font-bold tracking-[0.12em] text-parchment sm:mt-3 sm:text-[11px] sm:tracking-[0.08em]">
-                            {card.name.split('—')[0].trim()}
+                            {card.name.split('/')[0].trim()}
                           </div>
                           <div className="font-sans text-[7px] tracking-[0.14em] text-parchment/50 sm:text-[8px] sm:tracking-[0.2em]">
                             TAP TO REVEAL
@@ -245,7 +245,7 @@ export default function Tarot({ setCurrentTrack, setIsPlaying }) {
                   </motion.button>
                   <div className="mt-1.5 text-center sm:mt-2">
                     <div className="truncate font-sans text-[9px] tracking-[0.08em] text-zinc-500 sm:text-[10px] sm:tracking-[0.12em]">
-                      {spread === 'three' && spreadPos !== -1 ? `${['I — PAST', 'II — PRESENT', 'III — FUTURE'][spreadPos]} / ` : `#${i + 1} / `}{card.name.split('—')[0].trim()}
+                      {spread === 'three' && spreadPos !== -1 ? `${['I · PAST', 'II · PRESENT', 'III · FUTURE'][spreadPos]} / ` : `#${i + 1} / `}{card.name.split('/')[0].trim()}
                     </div>
                   </div>
                 </div>
@@ -256,7 +256,7 @@ export default function Tarot({ setCurrentTrack, setIsPlaying }) {
           {/* history strip */}
           {history.length > 0 && (
             <div className="mt-5 rounded-2xl border border-dashed border-[#D4AF37]/20 bg-parchment/40 p-3 dark:border-[#F7F4EB]/10 dark:bg-white/5">
-              <div className="font-sans text-[10px] tracking-[0.08em] text-zinc-500">READING LOG — LAST {history.length}</div>
+              <div className="font-sans text-[10px] tracking-[0.08em] text-zinc-500">READING LOG · LAST {history.length}</div>
               <div className="mt-2 flex flex-wrap gap-1.5">
                 {history.map((h, i) => (
                   <button
@@ -270,7 +270,7 @@ export default function Tarot({ setCurrentTrack, setIsPlaying }) {
                     className="rounded-full border border-[#D4AF37]/20 bg-white px-2.5 py-1 font-sans text-[10px] tracking-wide text-zinc-500 transition hover:bg-[#F7F4EB] dark:border-[#F7F4EB]/10 dark:bg-noir-soft"
                     title={h.intention || 'no intention'}
                   >
-                    {h.time} / {h.ids.map((id) => tarotCards.find((c) => c.id === id)?.name.split('—')[0].trim()).join(' + ')}
+                    {h.time} / {h.ids.map((id) => tarotCards.find((c) => c.id === id)?.name.split('/')[0].trim()).join(' + ')}
                   </button>
                 ))}
               </div>
@@ -338,7 +338,7 @@ export default function Tarot({ setCurrentTrack, setIsPlaying }) {
                       {active.lyric}
                     </p>
                     <p className="mt-1.5 font-sans text-[10px] tracking-wide text-cherry sm:mt-2 sm:text-[11px]">
-                      — {active.song}
+                      / {active.song}
                     </p>
                   </div>
 
@@ -369,7 +369,7 @@ export default function Tarot({ setCurrentTrack, setIsPlaying }) {
                   </div>
 
                   <p className="mt-3 text-center font-body text-[13px] italic text-zinc-500/60 dark:text-parchment/50 sm:mt-4 sm:text-[13.5px]">
-                    “you write what you live” — scrawled on the back of the deck ✎
+                    “you write what you live”, scrawled on the back of the deck ✎
                   </p>
                 </>
               )}

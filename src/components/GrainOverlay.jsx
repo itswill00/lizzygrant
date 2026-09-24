@@ -1,7 +1,7 @@
 export default function GrainOverlay() {
   return (
     <>
-      {/* film grain texture — plain overlay, no blend mode (blend forces full-screen recomposite on weak GPUs) */}
+      {/* film grain texture, plain overlay, no blend mode (blend forces full-screen recomposite on weak GPUs) */}
       <div
         aria-hidden
         className="pointer-events-none fixed inset-0 z-[1] opacity-[0.05] dark:opacity-[0.08]"

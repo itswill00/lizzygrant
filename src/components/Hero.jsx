@@ -6,13 +6,13 @@ import { eras } from '../data/eras';
 import { playAudioDirect, pauseAudioDirect } from '../lib/preview';
 
 const quotes = [
-  { text: '"We were born to die."', ref: '— Born to Die, 2012' },
-  { text: '"I\'m so used to writing for myself. I do it because I feel like I have to."', ref: '— NPR Interview, 2014' },
-  { text: '"My pussy tastes like Pepsi Cola."', ref: '— Cola, Paradise' },
-  { text: '"My baby lives in shades of blue. Blue eyes and jazz and attitude."', ref: '— Shades of Cool, 2014' },
-  { text: '"If he\'s a serial killer, then what\'s the worst that can happen to a girl?"', ref: '— Serial Killer (Unreleased)' },
-  { text: '"I\'m your man."', ref: '— Mariners Apartment Complex, NFR!' },
-  { text: '"Will you still love me when I\'m no longer young and beautiful?"', ref: '— Young and Beautiful' },
+  { text: '"We were born to die."', ref: '- Born to Die, 2012' },
+  { text: '"I\'m so used to writing for myself. I do it because I feel like I have to."', ref: '- NPR Interview, 2014' },
+  { text: '"My pussy tastes like Pepsi Cola."', ref: '- Cola, Paradise' },
+  { text: '"My baby lives in shades of blue. Blue eyes and jazz and attitude."', ref: '- Shades of Cool, 2014' },
+  { text: '"If he\'s a serial killer, then what\'s the worst that can happen to a girl?"', ref: '- Serial Killer (Unreleased)' },
+  { text: '"I\'m your man."', ref: '- Mariners Apartment Complex, NFR!' },
+  { text: '"Will you still love me when I\'m no longer young and beautiful?"', ref: '- Young and Beautiful' },
 ];
 
 export default function Hero({ isPlaying, setIsPlaying, currentTrack, setCurrentTrack }) {
@@ -49,7 +49,7 @@ export default function Hero({ isPlaying, setIsPlaying, currentTrack, setCurrent
         backgroundImage: `repeating-linear-gradient(90deg, #22201E 0 1px, transparent 1px 40px), repeating-linear-gradient(0deg, #22201E 0 1px, transparent 1px 40px)`
       }} />
 
-      {/* ambient blobs — static (animating huge blurs janks mobile GPUs) */}
+      {/* ambient blobs, static (animating huge blurs janks mobile GPUs) */}
       <div
         aria-hidden
         className="pointer-events-none absolute -right-20 -top-20 h-[400px] w-[400px] rounded-full bg-cherry/5 blur-[60px] dark:bg-cherry/10 sm:h-[600px] sm:w-[600px] sm:blur-[80px]"
@@ -61,10 +61,10 @@ export default function Hero({ isPlaying, setIsPlaying, currentTrack, setCurrent
       {/* floating vinyl 3D object behind collage */}
       <FloatingVinyl size={280} className="-left-24 top-16 hidden opacity-50 md:block lg:left-auto lg:-right-10 lg:top-8 lg:opacity-70" />
 
-      <div className="mx-auto grid max-w-7xl grid-cols-1 gap-6 px-6 py-6 sm:gap-8 sm:py-10 lg:grid-cols-12 lg:gap-12 lg:items-center lg:px-12 lg:py-12">
+      <div className="mx-auto grid max-w-[1600px] grid-cols-1 gap-6 px-6 py-6 sm:gap-8 sm:py-10 lg:grid-cols-12 lg:gap-12 lg:items-start lg:px-8 xl:px-12 lg:py-12">
         {/* LEFT - Typography */}
-        <div className="relative min-w-0 lg:col-span-7">
-          <div className="font-sans text-[10px] tracking-[0.2em] text-cherry sm:text-[11px] sm:tracking-[0.08em]">01 — COVER</div>
+        <div className="relative min-w-0 lg:col-span-7 xl:col-span-7">
+          <div className="font-sans text-[10px] tracking-[0.2em] text-cherry sm:text-[11px] sm:tracking-[0.08em]">01 · COVER</div>
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -72,7 +72,7 @@ export default function Hero({ isPlaying, setIsPlaying, currentTrack, setCurrent
             className="mt-2 inline-flex max-w-full items-center gap-1.5 overflow-hidden rounded-full border border-espresso/15 bg-white px-2.5 py-1 text-[9px] font-sans tracking-[0.14em] text-zinc-500 shadow-sm dark:border-parchment/15 dark:bg-noir-soft dark:text-parchment/60 sm:gap-2 sm:px-3 sm:text-[10px] sm:tracking-[0.2em]"
           >
             <span className="h-1.5 w-1.5 shrink-0 rounded-full bg-cherry" />
-            <span className="truncate">ARCHIVAL CASE FILE № 001 — RESTRICTED</span>
+            <span className="truncate">ARCHIVAL CASE FILE № 001 · RESTRICTED</span>
             <span className="hidden shrink-0 sm:inline">/ CATALOGUED ANAHEIM → LAKE PLACID</span>
           </motion.div>
 
@@ -91,16 +91,16 @@ export default function Hero({ isPlaying, setIsPlaying, currentTrack, setCurrent
             <div className="mt-3 flex flex-wrap items-center gap-2 sm:mt-4 sm:gap-3">
               <div className="hidden h-px flex-1 max-w-[200px] bg-cherry/30 dark:bg-brass/30 sm:block sm:max-w-[280px]" />
               <span className="rounded-full border border-cherry/20 bg-cherry/5 px-2.5 py-1 font-sans text-[9px] tracking-[0.14em] text-cherry dark:border-brass/20 dark:bg-brass/5 dark:text-brass sm:px-3 sm:text-[10px] sm:tracking-[0.2em]">
-                EST. 1985 — NEW YORK / VOLUME I–VIII
+                EST. 1985 · NEW YORK / VOLUME I–VIII
               </span>
             </div>
           </div>
 
-          <div className="mt-6 max-w-[560px] border-l-2 border-brass/40 pl-3 dark:border-brass/30 sm:mt-8 sm:pl-5">
+          <div className="mt-6 max-w-[720px] border-l-2 border-brass/40 pl-3 dark:border-brass/30 sm:mt-8 sm:pl-5">
             <p className="font-body text-[15px] leading-[1.75] text-zinc-500 dark:text-parchment/70 sm:text-[16px]">
               An atmospheric anthology of a girl who turned Americana into mythology.
               <span className="font-semibold text-espresso dark:text-parchment"> Trailer parks to Chateau Marmont, </span>
-              8mm grain to 70s editorial — from the first Kill Kill demo in 2008 to the tunnel under Ocean Blvd.
+              8mm grain to 70s editorial, from the first Kill Kill demo in 2008 to the tunnel under Ocean Blvd.
               Curated as a scrapbook, told as a film.
             </p>
             <div className="mt-3 flex flex-wrap gap-1.5 sm:mt-4 sm:gap-2">
@@ -111,12 +111,12 @@ export default function Hero({ isPlaying, setIsPlaying, currentTrack, setCurrent
           </div>
 
           {/* rotating quote - fixed height, no push */}
-          <div className="mt-6 flex h-[160px] max-w-[560px] flex-col rounded-2xl border border-[#D4AF37]/15 bg-white p-4 shadow-[0_6px_16px_rgba(0,0,0,0.06)] dark:border-[#F7F4EB]/10 dark:bg-noir-soft sm:mt-8 sm:h-[150px] sm:p-5">
+          <div className="mt-6 flex h-[160px] max-w-[720px] flex-col rounded-2xl border border-[#D4AF37]/15 bg-white p-4 shadow-[0_6px_16px_rgba(0,0,0,0.06)] dark:border-[#F7F4EB]/10 dark:bg-noir-soft sm:mt-8 sm:h-[150px] sm:p-5">
             <div className="mb-2 flex shrink-0 items-center gap-2 font-sans text-[9px] tracking-[0.08em] text-cherry sm:text-[10px] sm:tracking-[0.2em]">
               <span className="inline-block h-px w-4 bg-cherry/40 sm:w-6" />
               ROTATING LYRIC / ARCHIVAL TRANSCRIPT
             </div>
-            {/* text stage — fixed height, centered, no grow */}
+            {/* text stage, fixed height, centered, no grow */}
             <div className="relative flex h-[90px] flex-col justify-center sm:h-[80px]">
               <AnimatePresence mode="wait">
                 <motion.div
@@ -157,7 +157,7 @@ export default function Hero({ isPlaying, setIsPlaying, currentTrack, setCurrent
                 onClick={(e) => { e.preventDefault(); document.querySelector('#timeline')?.scrollIntoView({ behavior: 'smooth' }); }}
                 className="group inline-flex w-full items-center justify-center gap-2 rounded-full bg-cherry px-5 py-3.5 font-sans text-[12px] tracking-[0.14em] text-white shadow-[0_4px_14px_rgba(158,27,27,0.2)] transition-all duration-300 ease-out hover:tracking-[0.08em] hover:bg-cherry-light hover:shadow-[0_8px_20px_rgba(158,27,27,0.3)] active:scale-[0.98] sm:w-auto sm:px-6 sm:py-3 sm:tracking-[0.08em]"
               >
-                ENTER THE ERAS <span aria-hidden className="transition-transform duration-300 group-hover:translate-x-0.5">—</span> 2005 → 2024
+                ENTER THE ERAS <span aria-hidden className="transition-transform duration-300 group-hover:translate-x-0.5">·</span> 2005 → 2024
               </a>
             </Magnetic>
             <Magnetic strength={0.18}>
@@ -172,20 +172,20 @@ export default function Hero({ isPlaying, setIsPlaying, currentTrack, setCurrent
           </div>
 
           <p className="mt-3 hidden font-body italic text-[14px] text-zinc-500 dark:text-parchment/50 sm:block sm:text-[15px]">
-            * hand-annotated by E.W.G — “keep the tapes running” ✎
+            * hand-annotated by E.W.G, “keep the tapes running” ✎
           </p>
           <p className="mt-3 font-body italic text-[13px] text-zinc-500/70 dark:text-parchment/50 sm:hidden">
-            * E.W.G — “keep the tapes running” ✎
+            * E.W.G, “keep the tapes running” ✎
           </p>
         </div>
 
         {/* RIGHT - single main polaroid on mobile, layered collage on md+ */}
         <div className="relative flex min-w-0 flex-col gap-4 sm:gap-5 lg:col-span-5">
-          <div className="relative mx-auto w-full max-w-[360px] sm:max-w-[420px] md:block md:h-[540px] lg:h-[580px]">
+          <div className="relative mx-auto w-full max-w-[560px] lg:mx-0 lg:max-w-none lg:h-[580px] md:block md:h-[540px]">
             {/* card 1 - main, 3D tilt on desktop pointers */}
             <Tilt
               max={6}
-              className="relative z-20 mb-6 w-full sm:mb-7 md:absolute md:left-1/2 md:top-2 md:mb-0 md:w-[88%] md:-translate-x-1/2"
+              className="relative z-20 mb-6 w-full sm:mb-7 md:absolute md:left-0 md:top-2 md:mb-0 md:w-[68%] lg:w-[65%] md:translate-x-0"
             >
             <motion.div
               initial={{ rotate: -2, y: 20, opacity: 0 }}
@@ -195,7 +195,7 @@ export default function Hero({ isPlaying, setIsPlaying, currentTrack, setCurrent
             >
               <div className="tape -top-2 left-4 hidden rotate-[-4deg] sm:block sm:-top-3 sm:left-6" />
               <div className="tape -top-2 right-4 hidden rotate-[5deg] sm:block sm:-top-3 sm:right-6" />
-              {/* swipeable era deck — drag, arrows, or dots */}
+              {/* swipeable era deck, drag, arrows, or dots */}
               <motion.div
                 drag="x"
                 dragConstraints={{ left: 0, right: 0 }}
@@ -257,13 +257,13 @@ export default function Hero({ isPlaying, setIsPlaying, currentTrack, setCurrent
                 </button>
               </motion.div>
               <div className="absolute bottom-1.5 left-2 right-2 flex items-end justify-between gap-2 sm:bottom-3 sm:left-3 sm:right-3">
-                <span className="truncate font-body italic text-[13px] leading-none text-espresso dark:text-parchment sm:text-[17px]">{heroEra.title.toLowerCase()} —</span>
+                <span className="truncate font-body italic text-[13px] leading-none text-espresso dark:text-parchment sm:text-[17px]">{heroEra.title.toLowerCase()}</span>
                 <span className="shrink-0 font-sans text-[8px] tracking-[0.08em] text-zinc-500 sm:text-[9px]">FIG. {String(heroIndex + 1).padStart(2, '0')}/{String(eras.length).padStart(2, '0')}</span>
               </div>
             </motion.div>
             </Tilt>
-            {/* dots — below card, not inside, no overlap */}
-            <div className="flex justify-center gap-1 mt-3">
+            {/* dots, below card on mobile, absolute on desktop */}
+            <div className="flex justify-center gap-1 mt-3 md:absolute md:bottom-2 md:left-1/2 md:z-30 md:mt-0 md:-translate-x-1/2">
               {eras.map((e, i) => (
                 <button
                   key={e.id}
@@ -281,13 +281,13 @@ export default function Hero({ isPlaying, setIsPlaying, currentTrack, setCurrent
               initial={{ rotate: 3, y: 20, opacity: 0 }}
               animate={{ rotate: 2, y: 0, opacity: 1 }}
               transition={{ duration: 0.9, delay: 0.3 }}
-              className="hidden rounded-2xl paper border border-[#D4AF37]/15 p-2 pb-7 shadow-[0_8px_20px_rgba(0,0,0,0.1)] transition-all duration-300 hover:rotate-[-0.8deg] hover:shadow-[0_12px_24px_rgba(0,0,0,0.14)] md:absolute md:bottom-6 md:right-0 md:block md:w-[46%] lg:right-2 lg:w-[44%]"
+              className="hidden rounded-2xl paper border border-[#D4AF37]/15 p-2 pb-7 shadow-[0_8px_20px_rgba(0,0,0,0.1)] transition-all duration-300 hover:rotate-[-0.8deg] hover:shadow-[0_12px_24px_rgba(0,0,0,0.14)] md:absolute md:bottom-2 md:right-2 md:block md:w-[42%] lg:right-0 lg:w-[40%]"
             >
               <div className="tape -top-2 left-1/2 hidden w-12 -translate-x-1/2 rotate-[2deg] md:block" />
               <div className="aspect-[3/4] overflow-hidden rounded-md bg-[#8B7355]">
                 <SafeImage
                   src="https://commons.wikimedia.org/wiki/Special:FilePath/Lana%20Del%20Rey%20live%20in%20Seattle%20%2802%29.jpg?width=400"
-                  alt="Lana Del Rey — Ultraviolence era candid, Seattle 2014"
+                  alt="Lana Del Rey, Ultraviolence era candid, Seattle 2014"
                   loading="lazy"
                   className="h-full w-full object-cover"
                 />
@@ -316,7 +316,7 @@ export default function Hero({ isPlaying, setIsPlaying, currentTrack, setCurrent
           <div className="hidden">
             <div className="tape -top-3 left-4 hidden rotate-[-2deg] sm:block" />
             <div className="flex items-center justify-between gap-2">
-              <div className="truncate font-sans text-[9px] tracking-[0.14em] text-zinc-500 sm:text-[10px] sm:tracking-[0.2em]">AMBIENT ARCHIVE PLAYER — SIDE A</div>
+              <div className="truncate font-sans text-[9px] tracking-[0.14em] text-zinc-500 sm:text-[10px] sm:tracking-[0.2em]">AMBIENT ARCHIVE PLAYER · SIDE A</div>
               <span className="shrink-0 rounded-full bg-cherry px-2 py-0.5 font-sans text-[8px] tracking-widest text-white sm:text-[9px]">REC ●</span>
             </div>
 
@@ -381,7 +381,7 @@ export default function Hero({ isPlaying, setIsPlaying, currentTrack, setCurrent
               </button>
             </div>
             <div className="mt-2 hidden font-body italic text-[12px] text-zinc-500/70 dark:text-parchment/50 sm:block">
-              curated static — press play for the room tone of the archives
+              curated static, press play for the room tone of the archives
             </div>
           </div>
         </div>

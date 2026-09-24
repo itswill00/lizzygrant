@@ -13,13 +13,12 @@ export default function Muses({ setCurrentTrack, setIsPlaying }) {
   return (
     <section id="muses" className="relative mx-auto max-w-[1400px] overflow-x-hidden px-3 py-8 sm:px-4 sm:py-12 md:px-6 md:py-16">
       <div className="mb-6 sm:mb-8">
-        <div className="font-sans text-[10px] tracking-[0.2em] text-cherry sm:text-[11px] sm:tracking-[0.08em]">05 — MUSES & LOVERS</div>
+        <div className="font-sans text-[10px] tracking-[0.2em] text-cherry sm:text-[11px] sm:tracking-[0.08em]">05 · MUSES & LOVERS</div>
         <h2 className="mt-1.5 font-display text-[26px] font-bold leading-none tracking-[-0.02em] text-espresso dark:text-parchment sm:mt-2 sm:text-[34px] md:text-[48px]">
           EVERY LOVE <span className="font-light italic text-zinc-500 text-[20px] sm:text-[26px] md:text-[34px]">left a song</span>
         </h2>
         <p className="mt-2 max-w-[640px] font-body text-[14.5px] leading-[1.75] text-zinc-500 dark:text-parchment/60 sm:mt-3 sm:text-[15px]">
-          Public chapters only, told with care. Song links are <em className="text-espresso dark:text-parchment">fan readings</em> —
-          where listeners hear a relationship inside the music — never stated as fact. Tap a song to hear it.
+          Public chapters only, told with care. Song links are <em className="text-espresso dark:text-parchment">fan readings</em>, where listeners hear a relationship inside the music, never stated as fact. Tap a song to hear it.
         </p>
       </div>
 

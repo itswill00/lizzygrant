@@ -49,7 +49,7 @@ export default function ScrollProgress() {
       </motion.div>
       {/* archival label */}
       <div className="absolute right-2 top-1 hidden font-mono text-[8px] tracking-[0.15em] text-typewriter/60 sm:block" style={{ transform: 'translateY(6px)' }}>
-        ARCHIVE PROGRESS — {Math.round(progress)}%
+        ARCHIVE PROGRESS · {Math.round(progress)}%
       </div>
     </div>
   );

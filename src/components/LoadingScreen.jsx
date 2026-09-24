@@ -39,11 +39,11 @@ export default function LoadingScreen({ onDone }) {
         transition={{ duration: 0.8, ease: 'easeOut' }}
         className="relative text-center"
       >
-        <div className="font-mono text-[10px] tracking-[0.3em] text-typewriter">ARCHIVAL ACCESS / CAT. LG-1985—2024</div>
+        <div className="font-mono text-[10px] tracking-[0.3em] text-typewriter">ARCHIVAL ACCESS / CAT. LG-1985-2024</div>
         <div className="mt-3 font-display text-[28px] font-black tracking-[0.14em] text-espresso dark:text-parchment sm:text-[34px]">
           LIZZY GRANT <span className="font-light">: ARCHIVES</span>
         </div>
-        <div className="mt-1 font-mono text-[10px] tracking-[0.2em] text-cherry">AN ATMOSPHERIC ANTHOLOGY — LOADING</div>
+        <div className="mt-1 font-mono text-[10px] tracking-[0.2em] text-cherry">AN ATMOSPHERIC ANTHOLOGY · LOADING</div>
         <div className="mx-auto mt-5 h-px w-48 bg-espresso/10 dark:bg-parchment/10" />
       </motion.div>
 
@@ -59,7 +59,7 @@ export default function LoadingScreen({ onDone }) {
             style={{ width: `${progress}%` }}
           />
         </div>
-        <div className="mt-2 text-center font-body italic text-[13px] text-typewriter/60">* keep the tapes running —</div>
+        <div className="mt-2 text-center font-body italic text-[13px] text-typewriter/60">* keep the tapes running</div>
       </div>
 
       {/* footer */}

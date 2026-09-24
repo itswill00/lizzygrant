@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 
 /* Image with graceful recovery: Wikimedia throttles burst loads (503/timeout),
-   and a plain <img> never retries — so frames would stay dead forever.
+   and a plain <img> never retries, so frames would stay dead forever.
    SafeImage remounts the request with backoff, then offers tap-to-retry. */
 export default function SafeImage({
   src,

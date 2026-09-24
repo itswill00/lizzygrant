@@ -29,13 +29,13 @@ export default function Vault() {
       <div className="mx-auto max-w-[1400px] px-3 sm:px-4 md:px-6">
         <div className="mb-6 flex flex-col gap-4 sm:mb-8 sm:flex-row sm:flex-wrap sm:items-end sm:justify-between">
           <div className="min-w-0">
-            <div className="font-sans text-[11px] font-medium tracking-[0.1em] text-cherry">03 — SECRET VAULT</div>
+            <div className="font-sans text-[11px] font-medium tracking-[0.1em] text-cherry">03 · SECRET VAULT</div>
             <h2 className="mt-1.5 font-display text-[26px] font-bold leading-none tracking-[-0.02em] text-zinc-900 dark:text-white sm:mt-2 sm:text-[34px] md:text-[48px]">
               UNRELEASED <span className="font-light italic text-zinc-500"> & LORE</span>
               <span className="ml-1.5 align-super rounded-full border border-cherry px-1.5 py-0.5 font-sans text-[10px] font-medium tracking-[0.08em] text-cherry sm:ml-2 sm:px-2 sm:text-[11px]">17 FILES</span>
             </h2>
             <p className="mt-2 max-w-[560px] font-body text-[14.5px] leading-[1.75] text-zinc-500 dark:text-parchment/60 sm:mt-3 sm:text-[15px]">
-              Archival case files — cassette tapes, poetry broadsides, and interview lore.
+              Archival case files, cassette tapes, poetry broadsides, and interview lore.
               Each card is a <em className="text-espresso dark:text-parchment">tape to peel</em>. Tap <span className="font-sans text-cherry">INSPECT</span> to open the file.
             </p>
           </div>
@@ -95,7 +95,7 @@ export default function Vault() {
                 </div>
                 <div className="mt-2 rounded-md bg-[#FFFEFB] px-2 py-1 shadow-sm sm:py-1.5">
                   <div className="truncate font-sans text-[10px] font-bold tracking-[0.06em] text-espresso sm:text-[11px] sm:tracking-[0.08em]">
-                    LANA DEL REY — {item.title.toUpperCase()}
+                    LANA DEL REY, {item.title.toUpperCase()}
                   </div>
                   <div className="truncate font-sans text-[9px] tracking-wide text-zinc-500 sm:text-[10px]">
                     {item.year}
@@ -153,7 +153,7 @@ export default function Vault() {
         </div>
       </div>
 
-      {/* Vault Detail Modal — portalled to body so no ancestor transform
+      {/* Vault Detail Modal, portalled to body so no ancestor transform
           can hijack `fixed` positioning; overlay itself scrolls on small screens */}
       {typeof document !== 'undefined' && createPortal(
       <AnimatePresence>
@@ -206,7 +206,7 @@ export default function Vault() {
                 <div className="mt-4 rounded-xl border border-[#D4AF37]/15 bg-parchment/40 p-3 dark:border-[#F7F4EB]/10 dark:bg-white/5">
                   <div className="font-sans text-[10px] tracking-[0.08em] text-zinc-500">ARCHIVAL NOTE</div>
                   <p className="mt-1 font-body text-[14px] italic leading-[1.7] text-zinc-500/80 dark:text-parchment/60">
-                    Filed under {selected.type} / {selected.catalog}. Photograph: {selected.imageAlt}. This is a fan-made archival entry — not official, just reverent.
+                    Filed under {selected.type} / {selected.catalog}. Photograph: {selected.imageAlt}. This is a fan-made archival entry, not official, just reverent.
                   </p>
                 </div>
                 <div className="mt-6 flex gap-2">
