@@ -3,7 +3,18 @@ import React from 'react';
 export default class ErrorBoundary extends React.Component {
   constructor(p) { super(p); this.state = { hasError: false, error: null }; }
   static getDerivedStateFromError(error) { return { hasError: true, error }; }
-  componentDidCatch(error, info) { console.error('[ErrorBoundary]', error, info); }
+  componentDidCatch(error, info) {
+    console.error('[ErrorBoundary]', error, info);
+    // Auto-reload once on chunk load failure (stale index.html after deploy)
+    const msg = String(error?.message || '');
+    if (msg.includes('Failed to fetch dynamically imported module') || msg.includes('Loading chunk')) {
+      const key = 'chunk-reload-' + (error.message || '').slice(0, 40);
+      if (!sessionStorage.getItem(key)) {
+        sessionStorage.setItem(key, '1');
+        setTimeout(() => location.reload(), 800);
+      }
+    }
+  }
   render() {
     if (this.state.hasError) {
       return (
