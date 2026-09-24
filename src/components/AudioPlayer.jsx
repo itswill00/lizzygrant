@@ -5,6 +5,7 @@ import {
   unregisterAudioElement,
   playAudioDirect,
   isAudioSwitching,
+  setAudioErrorHandler,
 } from '../lib/preview';
 
 // Option B local genuine vocal clips (bundled in public/audio) — permanent priority
@@ -92,6 +93,11 @@ export default function AudioPlayer({ isPlaying, setIsPlaying, currentTrack, set
     const t = setTimeout(() => setError(null), 3500);
     return () => clearTimeout(t);
   }, [error]);
+
+  useEffect(() => {
+    setAudioErrorHandler((msg) => setError(msg));
+    return () => setAudioErrorHandler(null);
+  }, []);
 
   const cleanTitle = (raw) => (raw ? raw.split(' —')[0].trim() : '');
   const activeTrack = tracks[trackIndex];

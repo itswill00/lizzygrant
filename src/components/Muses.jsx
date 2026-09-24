@@ -4,9 +4,7 @@ import { cueSong } from '../lib/preview';
 
 export default function Muses({ setCurrentTrack, setIsPlaying }) {
   const playSong = (song) => {
-    console.log('[Muses] play', song);
     const ok = cueSong(song, 'MUSES & LOVERS', setCurrentTrack, setIsPlaying);
-    console.log('[Muses] cueSong', song, '=>', ok);
     return ok;
   };
 

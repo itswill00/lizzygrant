@@ -185,6 +185,13 @@ export function resolveLocalPreview(title) {
 // guaranteeing 100% immunity to mobile browser autoplay blocks.
 let activeAudioElement = null;
 let isSwitchingSrc = false;
+let audioErrorHandler = null;
+
+export function setAudioErrorHandler(fn) { audioErrorHandler = fn; }
+function reportAudioError(msg) {
+  console.warn('[Audio]', msg);
+  if (audioErrorHandler) try { audioErrorHandler(msg); } catch {}
+}
 
 export function registerAudioElement(element) {
   activeAudioElement = element;
@@ -200,7 +207,8 @@ export function isAudioSwitching() {
 
 export function playAudioDirect(src) {
   if (!activeAudioElement || !src) {
-    console.warn('[Audio] playAudioDirect no element or src', src, !!activeAudioElement);
+    const msg = !activeAudioElement ? 'No audio element — tap again' : `No src for ${src}`;
+    reportAudioError(msg);
     return;
   }
   try {
@@ -220,18 +228,21 @@ export function playAudioDirect(src) {
         console.log('[Audio] play ok', src);
       }).catch((err) => {
         isSwitchingSrc = false;
-        // AbortError is benign when rapid switching tracks
-        if (err.name !== 'AbortError') {
-          console.warn('[Audio] play interrupted or rejected:', err);
-        } else {
+        if (err.name === 'AbortError') {
           console.log('[Audio] AbortError benign', src);
+        } else if (err.name === 'NotAllowedError') {
+          reportAudioError('Tap again to allow audio — browser blocked autoplay');
+        } else {
+          reportAudioError(`Play failed (${err.name}): ${src.split('/').pop()}`);
         }
+        console.warn('[Audio] play rejected:', err);
       });
     } else {
       isSwitchingSrc = false;
     }
   } catch (err) {
     isSwitchingSrc = false;
+    reportAudioError(`Play error: ${err.message || err}`);
     console.warn('[Audio] playAudioDirect failed:', err);
   }
 }
