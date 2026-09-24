@@ -47,7 +47,7 @@ function loadPos() {
 export default function AudioPlayer({ isPlaying, setIsPlaying, currentTrack, setCurrentTrack }) {
   const audioRef = useRef(null);
 
-  const [tracks, setTracks] = useState(baseTracks);
+  const [tracks] = useState(baseTracks);
   const [trackIndex, setTrackIndex] = useState(0);
   const [currentTime, setCurrentTime] = useState(0);
   const [duration, setDuration] = useState(0);
@@ -173,7 +173,11 @@ export default function AudioPlayer({ isPlaying, setIsPlaying, currentTrack, set
     audio.volume = isMuted ? 0 : volume;
   }, [volume, isMuted]);
 
-  // Audio element events
+  // Audio element events - single subscription, stable deps via refs to avoid re-bind on every track change
+  const trackIndexRef = useRef(trackIndex);
+  const tracksRef = useRef(tracks);
+  useEffect(() => { trackIndexRef.current = trackIndex; }, [trackIndex]);
+  useEffect(() => { tracksRef.current = tracks; }, [tracks]);
   useEffect(() => {
     const audio = audioRef.current;
     if (!audio) return;
@@ -194,7 +198,7 @@ export default function AudioPlayer({ isPlaying, setIsPlaying, currentTrack, set
       setIsPlaying(false);
     };
     const onEnded = () => {
-      const nextIdx = (trackIndex + 1) % tracks.length;
+      const nextIdx = (trackIndexRef.current + 1) % tracksRef.current.length;
       selectAndPlay(nextIdx);
     };
     const onError = () => {
@@ -218,7 +222,7 @@ export default function AudioPlayer({ isPlaying, setIsPlaying, currentTrack, set
       audio.removeEventListener('ended', onEnded);
       audio.removeEventListener('error', onError);
     };
-  }, [isSeeking, setIsPlaying, tracks, trackIndex]);
+  }, [isSeeking, setIsPlaying]);
 
   const handleSeek = (e) => {
     const val = parseFloat(e.target.value);

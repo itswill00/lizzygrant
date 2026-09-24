@@ -1,4 +1,4 @@
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion } from 'framer-motion';
 import { useEffect, useState } from 'react';
 
 export default function LoadingScreen({ onDone }) {
@@ -8,16 +8,17 @@ export default function LoadingScreen({ onDone }) {
     const start = Date.now();
     const duration = 1600;
     let raf;
+    let timeout;
     const tick = () => {
       const elapsed = Date.now() - start;
       const p = Math.min(100, Math.floor((elapsed / duration) * 100));
       setProgress(p);
       if (elapsed < duration) raf = requestAnimationFrame(tick);
-      else setTimeout(onDone, 320);
+      else timeout = setTimeout(onDone, 320);
     };
     raf = requestAnimationFrame(tick);
-    return () => cancelAnimationFrame(raf);
-  }, [onDone]);
+    return () => { cancelAnimationFrame(raf); clearTimeout(timeout); };
+  }, []);
 
   return (
     <motion.div

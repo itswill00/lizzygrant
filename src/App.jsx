@@ -50,6 +50,12 @@ export default function App() {
 
   return (
     <div className="min-h-screen overflow-x-hidden">
+      <a
+        href="#main"
+        className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[100] focus:rounded-full focus:bg-cherry focus:px-4 focus:py-2 focus:text-white"
+      >
+        Skip to content
+      </a>
       <AnimatePresence>{loading && <LoadingScreen onDone={() => setLoading(false)} />}</AnimatePresence>
 
       <motion.div
@@ -63,7 +69,7 @@ export default function App() {
 
         <Navbar darkMode={darkMode} setDarkMode={setDarkMode} />
 
-        <main>
+        <main id="main">
           <Hero
             isPlaying={isPlaying}
             setIsPlaying={setIsPlaying}
@@ -116,13 +122,6 @@ export default function App() {
           setCurrentTrack={setCurrentTrack}
         />
 
-        {/* accessibility skip */}
-        <a
-          href="#timeline"
-          className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[100] focus:rounded-full focus:bg-cherry focus:px-4 focus:py-2 focus:text-white"
-        >
-          Skip to eras
-        </a>
       </motion.div>
     </div>
   );

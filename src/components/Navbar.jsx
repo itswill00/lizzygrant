@@ -183,10 +183,10 @@ export default function Navbar({ darkMode, setDarkMode }) {
       </AnimatePresence>
 
       {/* marquee — pure CSS animation runs on compositor thread, zero JS cost */}
-      <div className="overflow-hidden border-y border-cherry/20 bg-cherry py-1 text-parchment sm:py-1.5">
+      <div className="overflow-hidden border-y border-cherry/20 bg-cherry py-1 text-parchment sm:py-1.5" aria-hidden="true">
         <div
-          aria-hidden={false}
-          className="animate-marquee flex w-max gap-6 whitespace-nowrap font-mono text-[10px] tracking-[0.15em] sm:gap-8 sm:text-[11px] sm:tracking-[0.2em]"
+          aria-hidden="true"
+          className="animate-marquee flex w-max gap-6 whitespace-nowrap font-mono text-[10px] tracking-[0.15em] motion-reduce:animate-none sm:gap-8 sm:text-[11px] sm:tracking-[0.2em]"
         >
           <span>⋆ VIDEO GAMES ⋆ BORN TO DIE ⋆ RIDE ⋆ ULTRAVIOLENCE ⋆ SHADES OF COOL ⋆ HONEYMOON ⋆ LUST FOR LIFE ⋆ NORMAN FUCKING ROCKWELL! ⋆ CHEMTRAILS ⋆ OCEAN BLVD ⋆ </span>
           <span aria-hidden>⋆ VIDEO GAMES ⋆ BORN TO DIE ⋆ RIDE ⋆ ULTRAVIOLENCE ⋆ SHADES OF COOL ⋆ HONEYMOON ⋆ LUST FOR LIFE ⋆ NORMAN FUCKING ROCKWELL! ⋆ CHEMTRAILS ⋆ OCEAN BLVD ⋆ </span>

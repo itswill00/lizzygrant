@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://lizzygrant.vercel.app/sitemap.xml

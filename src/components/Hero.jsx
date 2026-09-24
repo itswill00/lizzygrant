@@ -141,9 +141,11 @@ export default function Hero({ isPlaying, setIsPlaying, currentTrack, setCurrent
                 <button
                   key={i}
                   onClick={() => setQIndex(i)}
-                  className={`h-1 rounded-full transition-all ${i === qIndex ? 'w-5 bg-cherry sm:w-6' : 'w-1 bg-espresso/15 dark:bg-parchment/15'}`}
+                  className={`min-h-[24px] min-w-[24px] flex items-center justify-center rounded-full transition-all ${i === qIndex ? 'w-6 bg-cherry sm:w-6' : 'w-6 bg-espresso/15 dark:bg-parchment/15'}`}
                   aria-label={`Quote ${i + 1}`}
-                />
+                >
+                  <span className={`h-1 rounded-full transition-all ${i === qIndex ? 'w-5 bg-white sm:w-6' : 'w-1 bg-espresso/30 dark:bg-parchment/30'}`} />
+                </button>
               ))}
             </div>
           </div>
@@ -265,8 +267,10 @@ export default function Hero({ isPlaying, setIsPlaying, currentTrack, setCurrent
                     key={e.id}
                     onClick={() => { setHeroDir(i > heroIndex ? 1 : -1); setHeroIndex(i); }}
                     aria-label={`Go to ${e.title}`}
-                    className={`h-1.5 rounded-full transition-all ${i === heroIndex ? 'w-5 bg-cherry' : 'w-1.5 bg-espresso/20 hover:bg-espresso/40 dark:bg-parchment/20'}`}
-                  />
+                    className={`flex min-h-[24px] min-w-[24px] items-center justify-center rounded-full transition-all ${i === heroIndex ? 'bg-cherry' : 'bg-transparent'}`}
+                  >
+                    <span className={`h-1.5 rounded-full transition-all ${i === heroIndex ? 'w-5 bg-white' : 'w-1.5 bg-espresso/20 dark:bg-parchment/20'}`} />
+                  </button>
                 ))}
               </div>
             </motion.div>
@@ -282,7 +286,7 @@ export default function Hero({ isPlaying, setIsPlaying, currentTrack, setCurrent
               <div className="tape -top-2 left-1/2 hidden w-12 -translate-x-1/2 rotate-[2deg] md:block" />
               <div className="aspect-[3/4] overflow-hidden rounded-md bg-[#8B7355]">
                 <SafeImage
-                  src="https://commons.wikimedia.org/wiki/Special:FilePath/Lana%20Del%20Rey%20live%20in%20Seattle%20%2802%29.jpg?width=400"
+                  src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/93/Lana_Del_Rey_live_in_Seattle_%2802%29.jpg/400px-Lana_Del_Rey_live_in_Seattle_%2802%29.jpg"
                   alt="Lana Del Rey — Ultraviolence era candid, Seattle 2014"
                   loading="lazy"
                   className="h-full w-full object-cover"
