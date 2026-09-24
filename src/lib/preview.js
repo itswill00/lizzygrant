@@ -219,6 +219,7 @@ export function playAudioDirect(src) {
     if (curTail !== tgtTail || !cur) {
       isSwitchingSrc = true;
       activeAudioElement.src = src;
+      try { activeAudioElement.load(); } catch {}
       activeAudioElement.currentTime = 0;
     }
     const p = activeAudioElement.play();
@@ -232,6 +233,22 @@ export function playAudioDirect(src) {
           console.log('[Audio] AbortError benign', src);
         } else if (err.name === 'NotAllowedError') {
           reportAudioError('Tap again to allow audio — browser blocked autoplay');
+        } else if (err.name === 'NotSupportedError') {
+          console.warn('[Audio] NotSupportedError, retrying with blob', src, err);
+          fetch(src, { cache: 'no-store' }).then(r => {
+            if (!r.ok) throw new Error(`fetch ${r.status}`);
+            return r.blob();
+          }).then(blob => {
+            const url = URL.createObjectURL(blob);
+            activeAudioElement.src = url;
+            try { activeAudioElement.load(); } catch {}
+            return activeAudioElement.play();
+          }).then(() => {
+            console.log('[Audio] blob retry ok', src);
+          }).catch(e2 => {
+            reportAudioError(`Audio format not supported — try Chrome/Update WebView (${tgtTail})`);
+            console.warn('[Audio] blob retry failed', e2);
+          });
         } else {
           reportAudioError(`Play failed (${err.name}): ${src.split('/').pop()}`);
         }
