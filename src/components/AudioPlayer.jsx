@@ -176,6 +176,7 @@ export default function AudioPlayer({ isPlaying, setIsPlaying, currentTrack, set
   // Audio element events - single subscription, stable deps via refs to avoid re-bind on every track change
   const trackIndexRef = useRef(trackIndex);
   const tracksRef = useRef(tracks);
+  const selectAndPlayRef = useRef(null);
   useEffect(() => { trackIndexRef.current = trackIndex; }, [trackIndex]);
   useEffect(() => { tracksRef.current = tracks; }, [tracks]);
   useEffect(() => {
@@ -400,7 +401,7 @@ export default function AudioPlayer({ isPlaying, setIsPlaying, currentTrack, set
                   <button
                     onClick={prev}
                     aria-label="Previous"
-                    className={`${mobileExpanded ? 'flex' : 'hidden'} h-9 w-9 items-center justify-center rounded-full border border-white/15 bg-white/5 text-[12px] text-white hover:bg-white/10 active:scale-95 sm:flex sm:h-11 sm:w-11`}
+                    className={`${mobileExpanded ? 'flex' : 'hidden'} min-h-[44px] min-w-[44px] h-9 w-9 items-center justify-center rounded-full border border-white/15 bg-white/5 text-[12px] text-white hover:bg-white/10 active:scale-95 sm:flex sm:h-11 sm:w-11`}
                     title="Previous track"
                   >
                     ⏮
@@ -415,7 +416,7 @@ export default function AudioPlayer({ isPlaying, setIsPlaying, currentTrack, set
                   <button
                     onClick={next}
                     aria-label="Next"
-                    className="flex h-9 w-9 items-center justify-center rounded-full border border-white/15 bg-white/5 text-[12px] text-white hover:bg-white/10 active:scale-95 sm:h-11 sm:w-11"
+                    className="flex min-h-[44px] min-w-[44px] h-9 w-9 items-center justify-center rounded-full border border-white/15 bg-white/5 text-[12px] text-white hover:bg-white/10 active:scale-95 sm:h-11 sm:w-11"
                     title="Next track"
                   >
                     ⏭

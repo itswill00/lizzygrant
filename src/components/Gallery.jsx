@@ -55,7 +55,7 @@ export default function Gallery() {
           <button
             key={e.id}
             onClick={() => { setFilter(e.id); setLightbox(null); setVisible(PAGE); }}
-            className={`rounded-full border px-3.5 py-2 font-mono text-[11px] tracking-[0.1em] transition-all duration-300 active:scale-95 ${
+            className={`min-h-[36px] rounded-full border px-3.5 py-2 font-mono text-[11px] tracking-[0.1em] transition-all duration-300 active:scale-95 ${
               filter === e.id
                 ? 'border-cherry bg-cherry text-white shadow-[0_4px_12px_rgba(158,27,27,0.25)]'
                 : 'border-[#D4AF37]/20 bg-white text-typewriter hover:bg-[#F7F4EB] dark:border-[#F7F4EB]/10 dark:bg-noir-soft'
@@ -112,7 +112,7 @@ export default function Gallery() {
         {visible < filtered.length && (
           <button
             onClick={() => setVisible((v) => v + PAGE)}
-            className="rounded-full bg-cherry px-6 py-2.5 font-mono text-[11px] tracking-[0.15em] text-white shadow-[0_4px_12px_rgba(158,27,27,0.25)] transition-all duration-300 hover:bg-cherry-light active:scale-95"
+            className="min-h-[40px] rounded-full bg-cherry px-6 py-2.5 font-mono text-[11px] tracking-[0.15em] text-white shadow-[0_4px_12px_rgba(158,27,27,0.25)] transition-all duration-300 hover:bg-cherry-light active:scale-95"
           >
             LOAD MORE FRAMES ↓
           </button>
@@ -156,10 +156,10 @@ export default function Gallery() {
                 <button onClick={() => setLightbox(null)} aria-label="Close" className="absolute right-3 top-3 flex h-9 w-9 items-center justify-center rounded-full bg-black/50 font-mono text-white backdrop-blur hover:bg-black/70 active:scale-95">
                   ✕
                 </button>
-                <button onClick={() => setLightbox((lightbox - 1 + filtered.length) % filtered.length)} aria-label="Previous frame" className="absolute left-3 top-1/2 flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full bg-black/50 font-mono text-white backdrop-blur hover:bg-black/70 active:scale-95">
+                <button onClick={() => setLightbox((lightbox - 1 + filtered.length) % filtered.length)} aria-label="Previous frame" className="absolute left-3 top-1/2 flex min-h-[44px] min-w-[44px] -translate-y-1/2 items-center justify-center rounded-full bg-black/50 font-mono text-white backdrop-blur hover:bg-black/70 active:scale-95">
                   ←
                 </button>
-                <button onClick={() => setLightbox((lightbox + 1) % filtered.length)} aria-label="Next frame" className="absolute right-3 top-1/2 flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full bg-black/50 font-mono text-white backdrop-blur hover:bg-black/70 active:scale-95">
+                <button onClick={() => setLightbox((lightbox + 1) % filtered.length)} aria-label="Next frame" className="absolute right-3 top-1/2 flex min-h-[44px] min-w-[44px] -translate-y-1/2 items-center justify-center rounded-full bg-black/50 font-mono text-white backdrop-blur hover:bg-black/70 active:scale-95">
                   →
                 </button>
                 <span className="absolute bottom-3 left-1/2 -translate-x-1/2 rounded-full bg-black/55 px-3 py-1 font-mono text-[10px] tracking-[0.15em] text-white backdrop-blur-sm">

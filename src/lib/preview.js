@@ -236,7 +236,7 @@ export function pauseAudioDirect() {
   } catch {}
 }
 
-export async function fetchExactPreview(title) {
+export async function fetchExactPreview(title, signal) {
   const local = resolveLocalPreview(title);
   if (local) return local;
 
@@ -245,7 +245,7 @@ export async function fetchExactPreview(title) {
   const target = q(base);
 
   try {
-    const res = await fetch(`https://itunes.apple.com/search?term=${encodeURIComponent(`lana del rey ${base}`)}&entity=song&limit=10`);
+    const res = await fetch(`https://itunes.apple.com/search?term=${encodeURIComponent(`lana del rey ${base}`)}&entity=song&limit=10`, { signal });
     const json = await res.json();
     let m = json.results?.find((r) => r.previewUrl && q(r.trackName) === target && q(r.artistName).includes('lana'));
     if (!m) {
@@ -255,15 +255,29 @@ export async function fetchExactPreview(title) {
       m = json.results?.find((r) => r.previewUrl && q(r.trackName).includes(target) && q(r.artistName).includes('lana'));
     }
     if (m?.previewUrl) return { src: m.previewUrl, source: 'iTUNES' };
-  } catch {}
+  } catch (e) {
+    if (e?.name === 'AbortError') throw e;
+  }
+  // Deezer fallback: stricter, Lana-only, preview is 30s mp3
+  try {
+    const r = await fetch(`https://api.deezer.com/search?q=${encodeURIComponent(`artist:"Lana Del Rey" track:"${base}"`)}&limit=6&output=json`, { signal });
+    const j = await r.json();
+    const d = j.data?.find((x) => x.preview && q(x.title) === target && q(x.artist?.name).includes('lana'));
+    if (d?.preview) return { src: d.preview, source: 'DEEZER' };
+  } catch (e) {
+    if (e?.name === 'AbortError') throw e;
+  }
   return {};
 }
 
 // Cue a song on the cassette: instant synchronous playback for local files,
-// honest fallback for unreleased tracks.
+// honest fallback for unreleased tracks. Aborts prior iTunes search on rapid taps.
+let cueAbort = null;
 export function cueSong(title, era, setCurrentTrack, setIsPlaying) {
   const cleanTitle = title.replace(/[\.…]+$/, '').trim();
   const local = resolveLocalPreview(cleanTitle);
+
+  if (cueAbort) { try { cueAbort.abort(); } catch {} cueAbort = null; }
 
   if (local?.src) {
     // 1. Play directly inside the active user gesture
@@ -282,8 +296,12 @@ export function cueSong(title, era, setCurrentTrack, setIsPlaying) {
     return true;
   }
 
-  // Not in local catalog -> fallback to iTunes search asynchronously
-  fetchExactPreview(cleanTitle).then((prev) => {
+  // Not in local catalog -> fallback to iTunes search asynchronously, abortable
+  const controller = new AbortController();
+  cueAbort = controller;
+  fetchExactPreview(cleanTitle, controller.signal).then((prev) => {
+    if (controller.signal.aborted) return;
+    cueAbort = null;
     if (prev?.src) {
       playAudioDirect(prev.src);
       if (setCurrentTrack) {
@@ -306,6 +324,9 @@ export function cueSong(title, era, setCurrentTrack, setIsPlaying) {
       }
       if (setIsPlaying) setIsPlaying(false);
     }
+  }).catch(() => {
+    if (controller.signal.aborted) return;
+    cueAbort = null;
   });
 
   return false;
