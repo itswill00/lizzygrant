@@ -13,11 +13,11 @@ export default function Muses({ setCurrentTrack, setIsPlaying }) {
   return (
     <section id="muses" className="relative mx-auto max-w-[1400px] overflow-x-hidden px-3 py-8 sm:px-4 sm:py-12 md:px-6 md:py-16">
       <div className="mb-6 sm:mb-8">
-        <div className="font-mono text-[10px] tracking-[0.2em] text-cherry sm:text-[11px] sm:tracking-[0.25em]">05 — MUSES & LOVERS</div>
+        <div className="font-sans text-[10px] tracking-[0.2em] text-cherry sm:text-[11px] sm:tracking-[0.08em]">05 — MUSES & LOVERS</div>
         <h2 className="mt-1.5 font-display text-[26px] font-bold leading-none tracking-[-0.02em] text-espresso dark:text-parchment sm:mt-2 sm:text-[34px] md:text-[48px]">
-          EVERY LOVE <span className="font-light italic text-typewriter text-[20px] sm:text-[26px] md:text-[34px]">left a song</span>
+          EVERY LOVE <span className="font-light italic text-zinc-500 text-[20px] sm:text-[26px] md:text-[34px]">left a song</span>
         </h2>
-        <p className="mt-2 max-w-[640px] font-body text-[14.5px] leading-[1.75] text-typewriter dark:text-parchment/60 sm:mt-3 sm:text-[15px]">
+        <p className="mt-2 max-w-[640px] font-body text-[14.5px] leading-[1.75] text-zinc-500 dark:text-parchment/60 sm:mt-3 sm:text-[15px]">
           Public chapters only, told with care. Song links are <em className="text-espresso dark:text-parchment">fan readings</em> —
           where listeners hear a relationship inside the music — never stated as fact. Tap a song to hear it.
         </p>
@@ -45,7 +45,7 @@ export default function Muses({ setCurrentTrack, setIsPlaying }) {
                 <h3 className="truncate font-display text-[15px] font-bold leading-tight text-espresso dark:text-parchment sm:text-[16px]">
                   {m.name}
                 </h3>
-                <div className="mt-0.5 truncate font-mono text-[10px] tracking-[0.1em] text-typewriter">
+                <div className="mt-0.5 truncate font-sans text-[10px] tracking-[0.1em] text-zinc-500">
                   {m.years} / {m.role}
                 </div>
               </div>
@@ -54,24 +54,24 @@ export default function Muses({ setCurrentTrack, setIsPlaying }) {
             <div className="px-3.5 sm:px-4">
               <button
                 onClick={scrollEras}
-                className="rounded-full border border-[#D4AF37]/20 bg-parchment/60 px-2.5 py-1 font-mono text-[9px] tracking-[0.14em] text-typewriter transition hover:bg-[#F7F4EB] hover:text-espresso dark:border-[#F7F4EB]/10 dark:bg-white/5"
+                className="rounded-full border border-[#D4AF37]/20 bg-parchment/60 px-2.5 py-1 font-sans text-[9px] tracking-[0.14em] text-zinc-500 transition hover:bg-[#F7F4EB] hover:text-espresso dark:border-[#F7F4EB]/10 dark:bg-white/5"
               >
                 ERA: {m.era.toUpperCase()} →
               </button>
             </div>
 
-            <p className="flex-1 px-3.5 pt-2.5 font-body text-[14px] leading-[1.75] text-typewriter dark:text-parchment/70 sm:px-4 sm:text-[15px]">
+            <p className="flex-1 px-3.5 pt-2.5 font-body text-[14px] leading-[1.75] text-zinc-500 dark:text-parchment/70 sm:px-4 sm:text-[15px]">
               {m.story}
             </p>
 
             <div className="p-3.5 sm:p-4">
-              <div className="font-mono text-[9px] tracking-[0.18em] text-typewriter/70">SONGS WHISPERED ABOUT / FAN READING</div>
+              <div className="font-sans text-[9px] tracking-[0.08em] text-zinc-500/70">SONGS WHISPERED ABOUT / FAN READING</div>
               <div className="mt-2 flex flex-wrap gap-1.5">
                 {m.songs.map((s) => (
                   <button
                     key={s}
                     onClick={() => playSong(s)}
-                    className="group/song flex items-center gap-1.5 rounded-full border border-[#D4AF37]/20 bg-white px-3 py-1.5 font-mono text-[11px] tracking-wide text-espresso shadow-sm transition-all duration-300 hover:border-cherry/40 hover:shadow-md active:scale-95 dark:border-[#F7F4EB]/10 dark:bg-noir dark:text-parchment/80"
+                    className="group/song flex items-center gap-1.5 rounded-full border border-[#D4AF37]/20 bg-white px-3 py-1.5 font-sans text-[11px] tracking-wide text-espresso shadow-sm transition-all duration-300 hover:border-cherry/40 hover:shadow-md active:scale-95 dark:border-[#F7F4EB]/10 dark:bg-noir dark:text-parchment/80"
                   >
                     <span className="flex h-5 w-5 items-center justify-center rounded-full bg-espresso text-[8px] text-white transition group-hover/song:bg-cherry dark:bg-parchment dark:text-noir">▶</span>
                     {s}
@@ -79,7 +79,7 @@ export default function Muses({ setCurrentTrack, setIsPlaying }) {
                 ))}
               </div>
               {m.id === 'jeremy' && (
-                <a href="/jeremy" className="mt-3 inline-flex items-center gap-1.5 rounded-full bg-cherry px-3 py-1.5 font-mono text-[10px] tracking-[0.12em] text-white hover:bg-cherry-light">SEE JEREMY PAGE →</a>
+                <a href="/jeremy" className="mt-3 inline-flex items-center gap-1.5 rounded-full bg-cherry px-3 py-1.5 font-sans text-[10px] tracking-[0.12em] text-white hover:bg-cherry-light">SEE JEREMY PAGE →</a>
               )}
             </div>
           </motion.article>

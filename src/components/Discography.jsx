@@ -12,11 +12,11 @@ export default function Discography({ setCurrentTrack, setIsPlaying }) {
   return (
     <section id="discography" className="relative mx-auto max-w-[1400px] overflow-x-hidden px-3 py-8 sm:px-4 sm:py-12 md:px-6 md:py-16">
       <div className="mb-6 sm:mb-8">
-        <div className="font-mono text-[10px] tracking-[0.2em] text-cherry sm:text-[11px] sm:tracking-[0.25em]">08 — COMPLETE DISCOGRAPHY</div>
+        <div className="font-sans text-[10px] tracking-[0.2em] text-cherry sm:text-[11px] sm:tracking-[0.08em]">08 — COMPLETE DISCOGRAPHY</div>
         <h2 className="mt-1.5 font-display text-[26px] font-bold leading-none tracking-[-0.02em] text-espresso dark:text-parchment sm:mt-2 sm:text-[34px] md:text-[48px]">
-          EVERY RECORD <span className="font-light italic text-typewriter text-[20px] sm:text-[26px] md:text-[34px]">every track</span>
+          EVERY RECORD <span className="font-light italic text-zinc-500 text-[20px] sm:text-[26px] md:text-[34px]">every track</span>
         </h2>
-        <p className="mt-2 max-w-[640px] font-body text-[14.5px] leading-[1.75] text-typewriter dark:text-parchment/60 sm:mt-3 sm:text-[15px]">
+        <p className="mt-2 max-w-[640px] font-body text-[14.5px] leading-[1.75] text-zinc-500 dark:text-parchment/60 sm:mt-3 sm:text-[15px]">
           {discography.length} releases / {totalTracks} tracks / {totalSingles} singles.
           Expand a record for the full standard tracklist — tap any track to hear its 30-second preview.
           Badges mark official singles.
@@ -57,14 +57,14 @@ export default function Discography({ setCurrentTrack, setIsPlaying }) {
                   <span className="block truncate font-display text-[15px] font-bold leading-tight text-espresso dark:text-parchment sm:text-[18px]">
                     {ai + 1}. {album.title}
                   </span>
-                  <span className="block truncate font-mono text-[9px] tracking-[0.1em] text-typewriter sm:text-[10px]">
+                  <span className="block truncate font-sans text-[9px] tracking-[0.1em] text-zinc-500 sm:text-[10px]">
                     {album.year} / {album.producer} / {album.tracks.length} TRACKS
                   </span>
                 </span>
                 <motion.span
                   animate={{ rotate: open ? 180 : 0 }}
                   transition={{ duration: 0.25 }}
-                  className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full border border-[#D4AF37]/20 font-mono text-[13px] text-typewriter"
+                  className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full border border-[#D4AF37]/20 font-sans text-[13px] text-zinc-500"
                 >
                   ▾
                 </motion.span>
@@ -87,14 +87,14 @@ export default function Discography({ setCurrentTrack, setIsPlaying }) {
                           onClick={() => cueSong(t.t, album.title.toUpperCase(), setCurrentTrack, setIsPlaying)}
                           className="group flex items-center gap-2.5 rounded-xl px-2 py-2 text-left transition hover:bg-parchment-dark/60 active:scale-[0.99] dark:hover:bg-white/5"
                         >
-                          <span className="w-6 shrink-0 text-right font-mono text-[10px] tabular-nums text-typewriter/60">
+                          <span className="w-6 shrink-0 text-right font-sans text-[10px] tabular-nums text-zinc-500/60">
                             {String(i + 1).padStart(2, '0')}
                           </span>
                           <span className="min-w-0 flex-1 truncate font-body text-[13.5px] text-espresso dark:text-parchment/85 sm:text-[14px]">
                             {t.t}
                           </span>
                           {t.s && (
-                            <span className="shrink-0 rounded-full bg-cherry px-1.5 py-0.5 font-mono text-[8px] tracking-[0.1em] text-white">
+                            <span className="shrink-0 rounded-full bg-cherry px-1.5 py-0.5 font-sans text-[8px] tracking-[0.1em] text-white">
                               SINGLE
                             </span>
                           )}
@@ -112,7 +112,7 @@ export default function Discography({ setCurrentTrack, setIsPlaying }) {
         })}
       </div>
 
-      <p className="mx-auto mt-6 max-w-[900px] text-center font-mono text-[10px] tracking-[0.14em] text-typewriter/60">
+      <p className="mx-auto mt-6 max-w-[900px] text-center font-sans text-[10px] tracking-[0.14em] text-zinc-500/60">
         STANDARD EDITIONS / PREVIEWS ARE 30S / FULL SONGS BELONG TO THEIR OWNERS
       </p>
     </section>

@@ -6,11 +6,11 @@ export default function Louisiana() {
     <section id="now" className="relative overflow-x-hidden bg-espresso/[0.02] py-8 dark:bg-parchment/[0.02] sm:py-12 md:py-16">
       <div className="mx-auto max-w-[1400px] px-3 sm:px-4 md:px-6">
         <div className="mb-6 sm:mb-8">
-          <div className="font-mono text-[10px] tracking-[0.2em] text-cherry sm:text-[11px] sm:tracking-[0.25em]">06 — LOUISIANA NOW</div>
+          <div className="font-sans text-[10px] tracking-[0.2em] text-cherry sm:text-[11px] sm:tracking-[0.08em]">06 — LOUISIANA NOW</div>
           <h2 className="mt-1.5 font-display text-[26px] font-bold leading-none tracking-[-0.02em] text-espresso dark:text-parchment sm:mt-2 sm:text-[34px] md:text-[48px]">
-            THE PEACE <span className="font-light italic text-typewriter text-[20px] sm:text-[26px] md:text-[34px]">is not a metaphor anymore</span>
+            THE PEACE <span className="font-light italic text-zinc-500 text-[20px] sm:text-[26px] md:text-[34px]">is not a metaphor anymore</span>
           </h2>
-          <p className="mt-2 max-w-[640px] font-body text-[14.5px] leading-[1.75] text-typewriter dark:text-parchment/60 sm:mt-3 sm:text-[15px]">
+          <p className="mt-2 max-w-[640px] font-body text-[14.5px] leading-[1.75] text-zinc-500 dark:text-parchment/60 sm:mt-3 sm:text-[15px]">
             A living journal — between Los Angeles and the bayou. Newest first, updated as the tape keeps running.
           </p>
         </div>
@@ -39,19 +39,19 @@ export default function Louisiana() {
                 />
                 <div className="pl-6 sm:pl-7">
                   <div className="flex flex-wrap items-center gap-2">
-                    <span className={`rounded-full px-2.5 py-1 font-mono text-[9px] tracking-[0.14em] text-white ${e.featured ? 'bg-brass text-noir' : 'bg-cherry'}`}>
+                    <span className={`rounded-full px-2.5 py-1 font-sans text-[9px] tracking-[0.14em] text-white ${e.featured ? 'bg-brass text-noir' : 'bg-cherry'}`}>
                       {e.date}
                     </span>
-                    <span className="font-mono text-[9px] tracking-[0.18em] text-typewriter/60">{e.tag}</span>
+                    <span className="font-sans text-[9px] tracking-[0.08em] text-zinc-500/60">{e.tag}</span>
                   </div>
                   <h3 className="mt-2 font-display text-[17px] font-bold leading-tight text-espresso dark:text-parchment sm:text-[20px]">
                     {e.title}
                   </h3>
-                  <p className="mt-1.5 font-body text-[14px] leading-[1.75] text-typewriter dark:text-parchment/70 sm:text-[15px]">
+                  <p className="mt-1.5 font-body text-[14px] leading-[1.75] text-zinc-500 dark:text-parchment/70 sm:text-[15px]">
                     {e.text}
                   </p>
                   {e.featured && (
-                    <p className="mt-3 border-t border-dashed border-[#D4AF37]/25 pt-2.5 font-body text-[14px] italic text-typewriter/70 dark:text-parchment/50">
+                    <p className="mt-3 border-t border-dashed border-[#D4AF37]/25 pt-2.5 font-body text-[14px] italic text-zinc-500/70 dark:text-parchment/50">
                       “The Louisiana peace” — filed forever ✎
                     </p>
                   )}
@@ -61,7 +61,7 @@ export default function Louisiana() {
           </div>
         </div>
 
-        <p className="mx-auto mt-6 max-w-[760px] text-center font-mono text-[10px] tracking-[0.14em] text-typewriter/60 sm:mt-8">
+        <p className="mx-auto mt-6 max-w-[760px] text-center font-sans text-[10px] tracking-[0.14em] text-zinc-500/60 sm:mt-8">
           DEVELOPING STORY / LAST CHECKED THIS WEEK — THE TAPE IS STILL RUNNING
         </p>
       </div>

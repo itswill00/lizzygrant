@@ -38,29 +38,29 @@ export default function Navbar({ darkMode, setDarkMode }) {
 
         {/* desktop nav */}
         <nav className="hidden items-center gap-4 font-mono text-[11px] tracking-[0.15em] text-espresso/70 dark:text-parchment/70 md:flex lg:gap-5">
-          <a href="#timeline" className="py-2 hover:text-cherry transition-colors">
+          <a href="/eras" className="py-2 hover:text-cherry transition-colors">
             ERAS
           </a>
-          <a href="#vault" className="py-2 hover:text-cherry transition-colors">
+          <a href="/vault" className="py-2 hover:text-cherry transition-colors">
             VAULT
           </a>
-          <a href="#tarot" className="py-2 hover:text-cherry transition-colors">
+          <a href="/tarot" className="py-2 hover:text-cherry transition-colors">
             TAROT
           </a>
-          <a href="#muses" className="hidden py-2 hover:text-cherry transition-colors lg:block">
+          <a href="/muses" className="hidden py-2 hover:text-cherry transition-colors lg:block">
             MUSES
           </a>
-          <a href="#now" className="hidden py-2 hover:text-cherry transition-colors lg:block">
+          <a href="/louisiana" className="hidden py-2 hover:text-cherry transition-colors lg:block">
             NOW
           </a>
-          <a href="#gallery" className="hidden py-2 hover:text-cherry transition-colors lg:block">
+          <a href="/gallery" className="hidden py-2 hover:text-cherry transition-colors lg:block">
             PHOTOS
           </a>
-          <a href="#discography" className="hidden py-2 hover:text-cherry transition-colors lg:block">
+          <a href="/discography" className="hidden py-2 hover:text-cherry transition-colors lg:block">
             DISCO
           </a>
           <a
-            href="#hero"
+            href="/"
             className="rounded-full border border-espresso/15 px-3 py-1.5 text-cherry hover:bg-cherry hover:text-white transition-colors dark:border-parchment/15 lg:px-4"
           >
             LISTEN →
@@ -112,46 +112,46 @@ export default function Navbar({ darkMode, setDarkMode }) {
           >
             <nav className="flex flex-col gap-1 p-3">
               {[
-                { label: 'The Eras', href: '#timeline', sub: '2005 → 2024 · 8 chapters' },
-                { label: 'Secret Vault', href: '#vault', sub: 'Unreleased & lore · 17 files' },
-                { label: 'Lyrical Tarot', href: '#tarot', sub: 'Ask · Shuffle · Draw' },
-                { label: 'Muses & Lovers', href: '#muses', sub: 'Fan readings · Barrie → Jeremy' },
-                { label: 'Louisiana Now', href: '#now', sub: 'Journal · Waffle House → Wedding' },
-                { label: 'Contact Sheet', href: '#gallery', sub: '22 frames · loupe' },
-                { label: 'Discography', href: '#discography', sub: '9 releases · 122 tracks' },
+                { label: 'The Eras', href: '/eras', sub: '2005 → 2024 · 8 chapters' },
+                { label: 'Secret Vault', href: '/vault', sub: 'Unreleased & lore · 17 files' },
+                { label: 'Lyrical Tarot', href: '/tarot', sub: 'Ask · Shuffle · Draw' },
+                { label: 'Muses & Lovers', href: '/muses', sub: 'Fan readings · Barrie → Jeremy' },
+                { label: 'Louisiana Now', href: '/louisiana', sub: 'Journal · Waffle House → Wedding' },
+                { label: 'Contact Sheet', href: '/gallery', sub: '22 frames · loupe' },
+                { label: 'Discography', href: '/discography', sub: '9 releases · 122 tracks' },
               ].map((it) => (
                 <a
                   key={it.href}
                   href={it.href}
                   onClick={() => setOpen(false)}
-                  className="flex items-center justify-between rounded-xl px-3 py-3 hover:bg-parchment dark:hover:bg-white/5"
+                  className="flex items-center justify-between rounded-xl px-3 py-3 hover:bg-zinc-50 dark:hover:bg-white/5"
                 >
                   <span>
-                    <span className="block font-display text-[15px] font-semibold leading-none text-espresso dark:text-parchment">{it.label}</span>
-                    <span className="block font-body text-[12px] leading-none text-typewriter">{it.sub}</span>
+                    <span className="block font-sans text-[16px] font-semibold leading-tight tracking-tight text-zinc-900 dark:text-white">{it.label}</span>
+                    <span className="block font-sans text-[13px] leading-tight text-zinc-500 dark:text-zinc-400">{it.sub}</span>
                   </span>
-                  <span className="ml-3 text-[16px] text-typewriter/40">›</span>
+                  <span className="ml-3 text-[18px] text-zinc-300">›</span>
                 </a>
               ))}
               <a
                 href="/jeremy"
                 onClick={() => setOpen(false)}
-                className="mt-1 flex items-center justify-between rounded-xl bg-cherry px-3 py-3 text-white shadow-sm"
+                className="mt-1 flex items-center justify-between rounded-xl bg-zinc-900 px-3 py-3 text-white shadow-sm dark:bg-white dark:text-zinc-900"
               >
                 <span>
-                  <span className="block font-display text-[15px] font-semibold leading-none">Lana + Jeremy</span>
-                  <span className="block font-body text-[12px] leading-none text-white/80">New page · photos & timeline</span>
+                  <span className="block font-sans text-[16px] font-semibold leading-tight">Lana + Jeremy</span>
+                  <span className="block font-sans text-[13px] leading-tight text-white/70 dark:text-zinc-500">New page · photos & timeline</span>
                 </span>
-                <span className="text-[16px]">→</span>
+                <span className="text-[18px]">→</span>
               </a>
               <a
-                href="#hero"
+                href="/"
                 onClick={() => setOpen(false)}
-                className="mt-2 flex items-center justify-center gap-2 rounded-full bg-[#1A1A1A] py-3 font-body text-[14px] font-medium text-white dark:bg-parchment dark:text-noir"
+                className="mt-2 flex items-center justify-center gap-2 rounded-full bg-zinc-900 py-3 font-sans text-[14px] font-medium text-white dark:bg-white dark:text-zinc-900"
               >
                 Listen — Side A ▶
               </a>
-              <button onClick={() => setOpen(false)} className="py-2 font-body text-[12px] text-typewriter/60">Tap to close ✕</button>
+              <button onClick={() => setOpen(false)} className="py-2 font-sans text-[12px] text-zinc-400">Tap to close ✕</button>
             </nav>
           </motion.div>
         )}

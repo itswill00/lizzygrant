@@ -13,15 +13,15 @@ export default function Timeline({ setCurrentTrack, setIsPlaying }) {
     <section id="timeline" className="relative mx-auto max-w-[1400px] overflow-x-hidden px-3 py-8 sm:px-4 sm:py-12 md:px-6 md:py-16">
       <div className="mb-6 flex flex-wrap items-end justify-between gap-3 sm:mb-8 sm:gap-4">
         <div className="min-w-0">
-          <div className="font-mono text-[10px] tracking-[0.2em] text-cherry sm:text-[11px] sm:tracking-[0.25em]">02 — INTERACTIVE CHRONOLOGY</div>
+          <div className="font-sans text-[10px] tracking-[0.2em] text-cherry sm:text-[11px] sm:tracking-[0.08em]">02 — INTERACTIVE CHRONOLOGY</div>
           <h2 className="mt-1.5 font-display text-[28px] font-bold leading-none tracking-[-0.02em] text-espresso dark:text-parchment sm:mt-2 sm:text-[36px] md:text-[52px]">
-            THE ERAS <span className="font-light italic text-typewriter text-[22px] sm:text-[28px] md:text-[36px]">— {eras.length} chapters</span>
+            THE ERAS <span className="font-light italic text-zinc-500 text-[22px] sm:text-[28px] md:text-[36px]">— {eras.length} chapters</span>
           </h2>
-          <p className="mt-2 max-w-[640px] font-body text-[14.5px] leading-[1.75] text-typewriter dark:text-parchment/60 sm:mt-3 sm:text-[15px]">
+          <p className="mt-2 max-w-[640px] font-body text-[14.5px] leading-[1.75] text-zinc-500 dark:text-parchment/60 sm:mt-3 sm:text-[15px]">
             Each era is an aesthetic world. Tap the timeline to enter. Songs are <em className="text-espresso dark:text-parchment">archival previews</em> — select one to cue the cassette.
           </p>
         </div>
-        <div className="hidden items-center gap-2 font-mono text-[10px] tracking-[0.15em] text-typewriter md:flex">
+        <div className="hidden items-center gap-2 font-sans text-[10px] tracking-[0.08em] text-zinc-500 md:flex">
           <span className="h-2 w-2 rounded-full bg-cherry" />
           {eras.length} ERAS CATALOGUED / 2005 → PRESENT
         </div>
@@ -34,7 +34,7 @@ export default function Timeline({ setCurrentTrack, setIsPlaying }) {
           <div className="absolute bottom-6 left-[11px] top-6 hidden w-px bg-espresso/10 dark:bg-parchment/10 lg:block" />
           
           {/* mobile hint */}
-          <div className="mb-2 flex items-center gap-2 font-mono text-[9px] tracking-[0.15em] text-typewriter/70 sm:text-[10px] lg:hidden">
+          <div className="mb-2 flex items-center gap-2 font-sans text-[9px] tracking-[0.08em] text-zinc-500/70 sm:text-[10px] lg:hidden">
             <span>← SWIPE TO EXPLORE →</span>
             <span className="h-px flex-1 bg-espresso/10 dark:bg-parchment/10" />
           </div>
@@ -64,13 +64,13 @@ export default function Timeline({ setCurrentTrack, setIsPlaying }) {
                     }`}
                   />
                   <span className="min-w-0 flex-1">
-                    <span className={`block font-mono text-[9px] tracking-[0.12em] sm:text-[10px] sm:tracking-[0.15em] ${isActive ? 'text-white/80' : 'text-typewriter'}`}>
+                    <span className={`block font-sans text-[11px] font-medium leading-none tracking-tight sm:text-[12px] ${isActive ? 'text-white/80' : 'text-zinc-500 dark:text-zinc-400'}`}>
                       {era.year}
                     </span>
-                    <span className={`block font-display text-[12px] font-semibold leading-tight sm:text-[13px] ${isActive ? 'text-white' : 'text-espresso dark:text-parchment'}`}>
+                    <span className={`block font-sans text-[13px] font-semibold leading-tight tracking-tight sm:text-[14px] ${isActive ? 'text-white' : 'text-zinc-900 dark:text-white'}`}>
                       {era.title}
                     </span>
-                    <span className={`hidden truncate text-[11px] lg:block ${isActive ? 'text-white/70' : 'text-typewriter'}`}>
+                    <span className={`hidden truncate text-[11px] lg:block ${isActive ? 'text-white/70' : 'text-zinc-500'}`}>
                       {era.subtitle}
                     </span>
                   </span>
@@ -81,8 +81,8 @@ export default function Timeline({ setCurrentTrack, setIsPlaying }) {
           </div>
 
           <div className="mt-3 hidden rounded-lg border border-dashed border-[#D4AF37]/20 bg-parchment-dark/40 p-3 shadow-sm dark:border-[#F7F4EB]/10 dark:bg-noir-soft/50 lg:block">
-            <div className="font-mono text-[10px] tracking-[0.2em] text-typewriter">CURATOR NOTE</div>
-            <p className="mt-1 font-body text-[13.5px] italic leading-[1.7] text-typewriter dark:text-parchment/70">
+            <div className="font-sans text-[10px] tracking-[0.2em] text-zinc-500">CURATOR NOTE</div>
+            <p className="mt-1 font-body text-[13.5px] italic leading-[1.7] text-zinc-500 dark:text-parchment/70">
               Click any era — the board updates like a lightbox. The cassette follows you.
             </p>
           </div>
@@ -101,10 +101,10 @@ export default function Timeline({ setCurrentTrack, setIsPlaying }) {
             {/* top bar - stack on mobile */}
             <div className="flex flex-col gap-2.5 border-b border-espresso/10 bg-white px-3 py-3 dark:border-parchment/10 dark:bg-noir-soft sm:flex-row sm:flex-wrap sm:items-center sm:justify-between sm:gap-3 sm:px-5">
               <div className="flex flex-wrap items-center gap-2 sm:gap-3">
-                <span className="rounded-full bg-cherry px-2 py-1 font-mono text-[9px] tracking-[0.12em] text-white sm:px-2.5 sm:text-[10px] sm:tracking-[0.15em]">
+                <span className="rounded-full bg-cherry px-2 py-1 font-sans text-[9px] tracking-[0.12em] text-white sm:px-2.5 sm:text-[10px] sm:tracking-[0.08em]">
                   {active.year}
                 </span>
-                <span className="font-mono text-[9px] tracking-[0.14em] text-typewriter sm:text-[10px] sm:tracking-[0.2em]">
+                <span className="font-sans text-[9px] tracking-[0.14em] text-zinc-500 sm:text-[10px] sm:tracking-[0.2em]">
                   MOOD — {active.mood}
                 </span>
               </div>
@@ -130,14 +130,14 @@ export default function Timeline({ setCurrentTrack, setIsPlaying }) {
                   </p>
                 </div>
 
-                <p className="mt-3 font-body text-[15px] leading-[1.75] text-typewriter dark:text-parchment/70 sm:mt-4">
+                <p className="mt-3 font-body text-[15px] leading-[1.75] text-zinc-500 dark:text-parchment/70 sm:mt-4">
                   {active.description}
                 </p>
 
                 <div className="mt-4 sm:mt-5">
-                  <div className="font-mono text-[9px] tracking-[0.18em] text-typewriter sm:text-[10px] sm:tracking-[0.2em]">AESTHETIC DOSSIER</div>
+                  <div className="font-sans text-[9px] tracking-[0.08em] text-zinc-500 sm:text-[10px] sm:tracking-[0.2em]">AESTHETIC DOSSIER</div>
                   <div className="mt-2 flex flex-wrap gap-1.5">
-                    <span className="inline-flex max-w-full rounded-full border border-espresso/10 bg-parchment-dark px-2.5 py-1.5 font-mono text-[10px] leading-snug tracking-wide text-espresso dark:border-parchment/10 dark:bg-noir dark:text-parchment/70 sm:px-3 sm:text-[11px]">
+                    <span className="inline-flex max-w-full rounded-full border border-espresso/10 bg-parchment-dark px-2.5 py-1.5 font-sans text-[10px] leading-snug tracking-wide text-espresso dark:border-parchment/10 dark:bg-noir dark:text-parchment/70 sm:px-3 sm:text-[11px]">
                       {active.aesthetic}
                     </span>
                   </div>
@@ -147,7 +147,7 @@ export default function Timeline({ setCurrentTrack, setIsPlaying }) {
               {/* Songs / moodboard */}
               <div className="flex min-w-0 flex-col gap-3 sm:gap-4">
                 <div className="rounded-2xl border border-[#D4AF37]/15 bg-parchment-dark/40 p-2.5 shadow-sm dark:border-[#F7F4EB]/10 dark:bg-noir/40 sm:p-3">
-                  <div className="font-mono text-[9px] tracking-[0.18em] text-typewriter sm:text-[10px] sm:tracking-[0.2em]">NOTABLE CUTS — TAP TO CUE CASSETTE</div>
+                  <div className="font-sans text-[9px] tracking-[0.08em] text-zinc-500 sm:text-[10px] sm:tracking-[0.2em]">NOTABLE CUTS — TAP TO CUE CASSETTE</div>
                   <div className="mt-2.5 flex flex-col gap-2 sm:mt-3">
                     {active.songs.map((s) => (
                       <button
@@ -162,11 +162,11 @@ export default function Timeline({ setCurrentTrack, setIsPlaying }) {
                           <span className="block truncate font-display text-[12px] font-semibold leading-tight text-espresso dark:text-parchment sm:text-[13px]">
                             {s.title}
                           </span>
-                          <span className="block truncate font-mono text-[9px] tracking-wide text-typewriter sm:text-[10px]">
+                          <span className="block truncate font-sans text-[9px] tracking-wide text-zinc-500 sm:text-[10px]">
                             {s.note} / {s.duration}
                           </span>
                         </span>
-                        <span className="hidden font-mono text-[10px] tracking-widest text-cherry sm:block sm:opacity-0 sm:group-hover:opacity-100">
+                        <span className="hidden font-sans text-[10px] tracking-widest text-cherry sm:block sm:opacity-0 sm:group-hover:opacity-100">
                           PLAY
                         </span>
                       </button>
@@ -187,13 +187,13 @@ export default function Timeline({ setCurrentTrack, setIsPlaying }) {
                     <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/65 via-black/10 to-transparent" />
                     <div className="absolute inset-x-0 bottom-0 p-3 sm:p-4">
                       <div className="font-display text-[12px] font-bold tracking-[0.12em] text-white drop-shadow sm:text-[14px]">{active.title.toUpperCase()}</div>
-                      <div className="font-mono text-[8px] tracking-[0.14em] text-white/85 sm:text-[9px]">{active.year} / {active.subtitle}</div>
+                      <div className="font-sans text-[8px] tracking-[0.14em] text-white/85 sm:text-[9px]">{active.year} / {active.subtitle}</div>
                     </div>
-                    <div className="absolute right-2 top-2 rounded-full bg-white/90 px-1.5 py-0.5 font-mono text-[7px] tracking-widest text-espresso shadow sm:text-[8px]">
+                    <div className="absolute right-2 top-2 rounded-full bg-white/90 px-1.5 py-0.5 font-sans text-[7px] tracking-widest text-espresso shadow sm:text-[8px]">
                       FIG. {String(eras.findIndex((e) => e.id === active.id) + 1).padStart(2, '0')}
                     </div>
                   </div>
-                  <div className="absolute bottom-1 left-2 right-2 flex justify-between gap-2 font-mono text-[7px] tracking-[0.1em] text-typewriter sm:bottom-1.5 sm:left-3 sm:right-3 sm:text-[8px]">
+                  <div className="absolute bottom-1 left-2 right-2 flex justify-between gap-2 font-sans text-[7px] tracking-[0.1em] text-zinc-500 sm:bottom-1.5 sm:left-3 sm:right-3 sm:text-[8px]">
                     <span className="truncate">REF. {active.id.toUpperCase()} / {active.imageCredit}</span>
                   </div>
                 </div>
@@ -202,8 +202,8 @@ export default function Timeline({ setCurrentTrack, setIsPlaying }) {
 
             {/* bottom perforated edge - stack on mobile */}
             <div className="flex flex-col gap-1 border-t border-dashed border-espresso/10 px-3 py-2.5 dark:border-parchment/10 sm:flex-row sm:items-center sm:gap-2 sm:px-5">
-              <span className="font-mono text-[8px] tracking-[0.12em] text-typewriter sm:text-[9px] sm:tracking-[0.2em]">FILED UNDER: {active.title.toUpperCase()} / CAT. {active.id.toUpperCase()}</span>
-              <span className="font-mono text-[8px] tracking-[0.15em] text-cherry sm:ml-auto sm:text-[9px] sm:tracking-[0.2em]">● ANALOG MASTER</span>
+              <span className="font-sans text-[8px] tracking-[0.12em] text-zinc-500 sm:text-[9px] sm:tracking-[0.2em]">FILED UNDER: {active.title.toUpperCase()} / CAT. {active.id.toUpperCase()}</span>
+              <span className="font-sans text-[8px] tracking-[0.08em] text-cherry sm:ml-auto sm:text-[9px] sm:tracking-[0.2em]">● ANALOG MASTER</span>
             </div>
           </motion.div>
         </AnimatePresence>

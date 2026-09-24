@@ -56,7 +56,7 @@ export default function AudioPlayer({ isPlaying, setIsPlaying, currentTrack, set
   const [isMuted, setIsMuted] = useState(false);
   const [error, setError] = useState(null);
   const [isSeeking, setIsSeeking] = useState(false);
-  const [minimized, setMinimized] = useState(false);
+  const [minimized, setMinimized] = useState(true);
   const [mobileExpanded, setMobileExpanded] = useState(false);
   const [isDesktop, setIsDesktop] = useState(false);
 
