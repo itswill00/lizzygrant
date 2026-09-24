@@ -61,9 +61,9 @@ export default function Hero({ isPlaying, setIsPlaying, currentTrack, setCurrent
       {/* floating vinyl 3D object behind collage */}
       <FloatingVinyl size={280} className="-left-24 top-16 hidden opacity-50 md:block lg:left-auto lg:-right-10 lg:top-8 lg:opacity-70" />
 
-      <div className="mx-auto grid max-w-[1400px] grid-cols-1 gap-6 px-3 py-6 sm:gap-8 sm:px-4 sm:py-10 md:px-6 md:py-14 lg:grid-cols-[1.15fr_0.85fr] lg:py-10">
+      <div className="mx-auto grid max-w-7xl grid-cols-1 gap-6 px-6 py-6 sm:gap-8 sm:py-10 lg:grid-cols-12 lg:gap-12 lg:items-center lg:px-12 lg:py-12">
         {/* LEFT - Typography */}
-        <div className="relative min-w-0">
+        <div className="relative min-w-0 lg:col-span-7">
           <div className="font-sans text-[10px] tracking-[0.2em] text-cherry sm:text-[11px] sm:tracking-[0.08em]">01 — COVER</div>
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -110,14 +110,14 @@ export default function Hero({ isPlaying, setIsPlaying, currentTrack, setCurrent
             </div>
           </div>
 
-          {/* rotating quote - CLS locked: fixed min-h so buttons never jitter */}
-          <div className="mt-6 flex min-h-[148px] max-w-[560px] flex-col rounded-2xl border border-[#D4AF37]/15 bg-white p-4 shadow-[0_6px_16px_rgba(0,0,0,0.06)] dark:border-[#F7F4EB]/10 dark:bg-noir-soft sm:mt-8 sm:min-h-[148px] sm:p-5">
+          {/* rotating quote - fixed height, no push */}
+          <div className="mt-6 flex h-[160px] max-w-[560px] flex-col rounded-2xl border border-[#D4AF37]/15 bg-white p-4 shadow-[0_6px_16px_rgba(0,0,0,0.06)] dark:border-[#F7F4EB]/10 dark:bg-noir-soft sm:mt-8 sm:h-[150px] sm:p-5">
             <div className="mb-2 flex shrink-0 items-center gap-2 font-sans text-[9px] tracking-[0.08em] text-cherry sm:text-[10px] sm:tracking-[0.2em]">
               <span className="inline-block h-px w-4 bg-cherry/40 sm:w-6" />
               ROTATING LYRIC / ARCHIVAL TRANSCRIPT
             </div>
-            {/* fixed height text stage — all quotes occupy same space, no layout shift */}
-            <div className="relative flex h-[84px] flex-col justify-center sm:h-[72px]">
+            {/* text stage — fixed height, centered, no grow */}
+            <div className="relative flex h-[90px] flex-col justify-center sm:h-[80px]">
               <AnimatePresence mode="wait">
                 <motion.div
                   key={qIndex}
@@ -127,7 +127,7 @@ export default function Hero({ isPlaying, setIsPlaying, currentTrack, setCurrent
                   transition={{ duration: 0.3, ease: 'easeOut' }}
                   className="absolute inset-0 flex flex-col justify-center"
                 >
-                  <p className="font-display text-[18px] italic leading-tight text-espresso dark:text-parchment sm:text-[20px] md:text-[22px]">
+                  <p className="font-display text-[18px] italic leading-relaxed text-espresso dark:text-parchment sm:text-[20px] md:text-[22px]">
                     {quotes[qIndex].text}
                   </p>
                   <p className="mt-1 font-sans text-[10px] tracking-widest text-zinc-500 dark:text-parchment/60 sm:text-[11px]">
@@ -136,7 +136,7 @@ export default function Hero({ isPlaying, setIsPlaying, currentTrack, setCurrent
                 </motion.div>
               </AnimatePresence>
             </div>
-            <div className="mt-auto flex shrink-0 gap-1.5 pt-3">
+            <div className="flex shrink-0 gap-1.5 pt-3">
               {quotes.map((_, i) => (
                 <button
                   key={i}
@@ -180,7 +180,7 @@ export default function Hero({ isPlaying, setIsPlaying, currentTrack, setCurrent
         </div>
 
         {/* RIGHT - single main polaroid on mobile, layered collage on md+ */}
-        <div className="relative flex min-w-0 flex-col gap-4 sm:gap-5 lg:pl-6">
+        <div className="relative flex min-w-0 flex-col gap-4 sm:gap-5 lg:col-span-5">
           <div className="relative mx-auto w-full max-w-[360px] sm:max-w-[420px] md:block md:h-[540px] lg:h-[580px]">
             {/* card 1 - main, 3D tilt on desktop pointers */}
             <Tilt
@@ -260,33 +260,33 @@ export default function Hero({ isPlaying, setIsPlaying, currentTrack, setCurrent
                 <span className="truncate font-body italic text-[13px] leading-none text-espresso dark:text-parchment sm:text-[17px]">{heroEra.title.toLowerCase()} —</span>
                 <span className="shrink-0 font-sans text-[8px] tracking-[0.08em] text-zinc-500 sm:text-[9px]">FIG. {String(heroIndex + 1).padStart(2, '0')}/{String(eras.length).padStart(2, '0')}</span>
               </div>
-              {/* dots */}
-              <div className="absolute bottom-2 left-1/2 flex -translate-x-1/2 gap-1">
-                {eras.map((e, i) => (
-                  <button
-                    key={e.id}
-                    onClick={() => { setHeroDir(i > heroIndex ? 1 : -1); setHeroIndex(i); }}
-                    aria-label={`Go to ${e.title}`}
-                    className={`flex min-h-[24px] min-w-[24px] items-center justify-center rounded-full transition-all ${i === heroIndex ? 'bg-cherry' : 'bg-transparent'}`}
-                  >
-                    <span className={`h-1.5 rounded-full transition-all ${i === heroIndex ? 'w-5 bg-white' : 'w-1.5 bg-espresso/20 dark:bg-parchment/20'}`} />
-                  </button>
-                ))}
-              </div>
             </motion.div>
             </Tilt>
+            {/* dots — below card, not inside, no overlap */}
+            <div className="flex justify-center gap-1 mt-3">
+              {eras.map((e, i) => (
+                <button
+                  key={e.id}
+                  onClick={() => { setHeroDir(i > heroIndex ? 1 : -1); setHeroIndex(i); }}
+                  aria-label={`Go to ${e.title}`}
+                  className={`flex min-h-[24px] min-w-[24px] items-center justify-center rounded-full transition-all ${i === heroIndex ? 'bg-zinc-900 dark:bg-white' : 'bg-transparent'}`}
+                >
+                  <span className={`h-1.5 rounded-full transition-all ${i === heroIndex ? 'w-5 bg-cherry' : 'w-1.5 bg-zinc-300 dark:bg-white/20'}`} />
+                </button>
+              ))}
+            </div>
 
             {/* card 2 - desktop only layer; mobile stays single-polaroid for breathing room */}
             <motion.div
               initial={{ rotate: 3, y: 20, opacity: 0 }}
               animate={{ rotate: 2, y: 0, opacity: 1 }}
               transition={{ duration: 0.9, delay: 0.3 }}
-              className="pointer-events-none hidden rounded-2xl paper border border-[#D4AF37]/15 p-2 pb-7 shadow-[0_8px_20px_rgba(0,0,0,0.1)] transition-all duration-300 hover:rotate-[-0.8deg] hover:shadow-[0_12px_24px_rgba(0,0,0,0.14)] md:absolute md:bottom-6 md:right-0 md:block md:w-[46%] lg:right-2 lg:w-[44%]"
+              className="hidden rounded-2xl paper border border-[#D4AF37]/15 p-2 pb-7 shadow-[0_8px_20px_rgba(0,0,0,0.1)] transition-all duration-300 hover:rotate-[-0.8deg] hover:shadow-[0_12px_24px_rgba(0,0,0,0.14)] md:absolute md:bottom-6 md:right-0 md:block md:w-[46%] lg:right-2 lg:w-[44%]"
             >
               <div className="tape -top-2 left-1/2 hidden w-12 -translate-x-1/2 rotate-[2deg] md:block" />
               <div className="aspect-[3/4] overflow-hidden rounded-md bg-[#8B7355]">
                 <SafeImage
-                  src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/93/Lana_Del_Rey_live_in_Seattle_%2802%29.jpg/400px-Lana_Del_Rey_live_in_Seattle_%2802%29.jpg"
+                  src="https://commons.wikimedia.org/wiki/Special:FilePath/Lana%20Del%20Rey%20live%20in%20Seattle%20%2802%29.jpg?width=400"
                   alt="Lana Del Rey — Ultraviolence era candid, Seattle 2014"
                   loading="lazy"
                   className="h-full w-full object-cover"
@@ -312,8 +312,8 @@ export default function Hero({ isPlaying, setIsPlaying, currentTrack, setCurrent
             <div className="absolute left-1/2 top-[52%] hidden h-3 w-3 -translate-x-1/2 rounded-full border-2 border-white bg-brass shadow-md dark:border-noir sm:block" />
           </div>
 
-          {/* Cassette player hero widget - hidden on mobile (<768px) to avoid duplication with fixed mini-bar */}
-          <div className="paper relative hidden rounded-2xl border border-[#D4AF37]/15 p-3 shadow-[0_8px_20px_rgba(0,0,0,0.06)] dark:border-[#F7F4EB]/10 sm:p-4 md:block">
+          {/* Cassette player hero widget - removed on desktop to deduplicate, unified to bottom dock only */}
+          <div className="hidden">
             <div className="tape -top-3 left-4 hidden rotate-[-2deg] sm:block" />
             <div className="flex items-center justify-between gap-2">
               <div className="truncate font-sans text-[9px] tracking-[0.14em] text-zinc-500 sm:text-[10px] sm:tracking-[0.2em]">AMBIENT ARCHIVE PLAYER — SIDE A</div>
