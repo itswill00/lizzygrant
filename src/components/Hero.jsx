@@ -59,9 +59,9 @@ export default function Hero({ isPlaying, setIsPlaying, currentTrack, setCurrent
         className="pointer-events-none absolute -left-20 bottom-0 h-[300px] w-[300px] rounded-full bg-brass/10 blur-[60px] dark:bg-brass/5 sm:h-[500px] sm:w-[500px] sm:blur-[80px]"
       />
       {/* floating vinyl 3D object behind collage */}
-      <FloatingVinyl size={280} className="-left-24 top-16 hidden opacity-50 md:block lg:left-auto lg:-right-10 lg:top-8 lg:opacity-70" />
+      <FloatingVinyl size={280} className="-left-24 top-16 hidden opacity-50 md:block lg:left-auto lg:-right-6 xl:-right-10 lg:top-8 lg:opacity-60 xl:opacity-70" />
 
-      <div className="mx-auto grid max-w-[1600px] grid-cols-1 gap-6 px-6 py-6 sm:gap-8 sm:py-10 lg:grid-cols-12 lg:gap-12 lg:items-start lg:px-8 xl:px-12 lg:py-12">
+      <div className="mx-auto grid max-w-[1400px] grid-cols-1 gap-6 px-4 py-8 sm:gap-8 sm:px-6 sm:py-12 md:py-16 lg:grid-cols-12 lg:gap-10 lg:items-start lg:px-6 xl:px-8">
         {/* LEFT - Typography */}
         <div className="relative min-w-0 lg:col-span-7 xl:col-span-7">
           <div className="font-sans text-[10px] tracking-[0.2em] text-cherry sm:text-[11px] sm:tracking-[0.08em]">01 · COVER</div>
@@ -96,7 +96,7 @@ export default function Hero({ isPlaying, setIsPlaying, currentTrack, setCurrent
             </div>
           </div>
 
-          <div className="mt-6 max-w-[720px] border-l-2 border-brass/40 pl-3 dark:border-brass/30 sm:mt-8 sm:pl-5">
+          <div className="mt-6 max-w-[640px] border-l-2 border-brass/40 pl-3 dark:border-brass/30 sm:mt-8 sm:pl-5">
             <p className="font-body text-[15px] leading-[1.75] text-zinc-500 dark:text-parchment/70 sm:text-[16px]">
               An atmospheric anthology of a girl who turned Americana into mythology.
               <span className="font-semibold text-espresso dark:text-parchment"> Trailer parks to Chateau Marmont, </span>
@@ -110,14 +110,14 @@ export default function Hero({ isPlaying, setIsPlaying, currentTrack, setCurrent
             </div>
           </div>
 
-          {/* rotating quote - fixed height, no push */}
-          <div className="mt-6 flex h-[160px] max-w-[720px] flex-col rounded-2xl border border-[#D4AF37]/15 bg-white p-4 shadow-[0_6px_16px_rgba(0,0,0,0.06)] dark:border-[#F7F4EB]/10 dark:bg-noir-soft sm:mt-8 sm:h-[150px] sm:p-5">
+          {/* rotating quote - generous height so descenders never clip */}
+          <div className="mt-6 flex min-h-[170px] max-w-[640px] flex-col justify-between rounded-2xl border border-[#D4AF37]/15 bg-white p-4 shadow-[0_6px_16px_rgba(0,0,0,0.06)] dark:border-[#F7F4EB]/10 dark:bg-noir-soft sm:mt-8 sm:min-h-[165px] sm:p-5 lg:min-h-[180px]">
             <div className="mb-2 flex shrink-0 items-center gap-2 font-sans text-[9px] tracking-[0.08em] text-cherry sm:text-[10px] sm:tracking-[0.2em]">
               <span className="inline-block h-px w-4 bg-cherry/40 sm:w-6" />
               ROTATING LYRIC / ARCHIVAL TRANSCRIPT
             </div>
-            {/* text stage, fixed height, centered, no grow */}
-            <div className="relative flex h-[90px] flex-col justify-center sm:h-[80px]">
+            {/* text stage, flexible and centered */}
+            <div className="relative flex min-h-[92px] sm:min-h-[86px] lg:min-h-[96px] flex-col justify-center py-1">
               <AnimatePresence mode="wait">
                 <motion.div
                   key={qIndex}
@@ -127,7 +127,7 @@ export default function Hero({ isPlaying, setIsPlaying, currentTrack, setCurrent
                   transition={{ duration: 0.3, ease: 'easeOut' }}
                   className="absolute inset-0 flex flex-col justify-center"
                 >
-                  <p className="font-display text-[18px] italic leading-relaxed text-espresso dark:text-parchment sm:text-[20px] md:text-[22px]">
+                  <p className="font-display text-[17px] italic leading-snug text-espresso dark:text-parchment sm:text-[19px] md:text-[20px] lg:text-[21px]">
                     {quotes[qIndex].text}
                   </p>
                   <p className="mt-1 font-sans text-[10px] tracking-widest text-zinc-500 dark:text-parchment/60 sm:text-[11px]">
@@ -136,7 +136,7 @@ export default function Hero({ isPlaying, setIsPlaying, currentTrack, setCurrent
                 </motion.div>
               </AnimatePresence>
             </div>
-            <div className="flex shrink-0 gap-1.5 pt-3">
+            <div className="flex shrink-0 gap-1.5 pt-2">
               {quotes.map((_, i) => (
                 <button
                   key={i}
@@ -263,7 +263,7 @@ export default function Hero({ isPlaying, setIsPlaying, currentTrack, setCurrent
             </motion.div>
             </Tilt>
             {/* dots, below card on mobile, absolute on desktop */}
-            <div className="flex justify-center gap-1 mt-3 md:absolute md:bottom-2 md:left-1/2 md:z-30 md:mt-0 md:-translate-x-1/2">
+            <div className="flex justify-center gap-1 mt-3 md:absolute md:bottom-0 md:left-1/2 md:z-30 md:mt-0 md:-translate-x-1/2">
               {eras.map((e, i) => (
                 <button
                   key={e.id}
@@ -281,7 +281,7 @@ export default function Hero({ isPlaying, setIsPlaying, currentTrack, setCurrent
               initial={{ rotate: 3, y: 20, opacity: 0 }}
               animate={{ rotate: 2, y: 0, opacity: 1 }}
               transition={{ duration: 0.9, delay: 0.3 }}
-              className="hidden rounded-2xl paper border border-[#D4AF37]/15 p-2 pb-7 shadow-[0_8px_20px_rgba(0,0,0,0.1)] transition-all duration-300 hover:rotate-[-0.8deg] hover:shadow-[0_12px_24px_rgba(0,0,0,0.14)] md:absolute md:bottom-2 md:right-2 md:block md:w-[42%] lg:right-0 lg:w-[40%]"
+              className="hidden rounded-2xl paper border border-[#D4AF37]/15 p-2 pb-7 shadow-[0_8px_20px_rgba(0,0,0,0.1)] transition-all duration-300 hover:rotate-[-0.8deg] hover:shadow-[0_12px_24px_rgba(0,0,0,0.14)] md:absolute md:bottom-4 md:right-1 md:block md:w-[38%] lg:right-0 lg:w-[38%]"
             >
               <div className="tape -top-2 left-1/2 hidden w-12 -translate-x-1/2 rotate-[2deg] md:block" />
               <div className="aspect-[3/4] overflow-hidden rounded-md bg-[#8B7355]">

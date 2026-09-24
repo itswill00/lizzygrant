@@ -10,7 +10,7 @@ export default function Footer() {
       {/* top delicate hairline */}
       <div className="h-px w-full bg-gradient-to-r from-transparent via-[#D4AF37]/30 to-transparent" />
 
-      <div className="mx-auto max-w-[1400px] px-4 py-10 sm:px-6 sm:py-12 md:px-6">
+      <div className="mx-auto max-w-[1400px] px-4 py-10 sm:px-6 sm:py-12 md:px-6 md:py-16">
         <div className="grid gap-8 md:grid-cols-[1.2fr_1fr_0.9fr] md:gap-10">
           {/* left, back flap */}
           <div className="min-w-0">

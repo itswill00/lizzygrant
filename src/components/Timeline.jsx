@@ -10,7 +10,7 @@ export default function Timeline({ setCurrentTrack, setIsPlaying }) {
   const scrollRef = useRef(null);
 
   return (
-    <section id="timeline" className="relative mx-auto max-w-[1400px] overflow-x-hidden px-3 py-8 sm:px-4 sm:py-12 md:px-6 md:py-16">
+    <section id="timeline" className="relative mx-auto max-w-[1400px] overflow-x-hidden px-4 py-10 sm:px-6 sm:py-12 md:py-16">
       <div className="mb-6 flex flex-wrap items-end justify-between gap-3 sm:mb-8 sm:gap-4">
         <div className="min-w-0">
           <div className="font-sans text-[10px] tracking-[0.2em] text-cherry sm:text-[11px] sm:tracking-[0.08em]">02 · INTERACTIVE CHRONOLOGY</div>
@@ -27,7 +27,7 @@ export default function Timeline({ setCurrentTrack, setIsPlaying }) {
         </div>
       </div>
 
-      <div className="grid grid-cols-1 gap-4 sm:gap-6 lg:grid-cols-[300px_1fr]">
+      <div className="grid grid-cols-1 gap-4 sm:gap-6 lg:grid-cols-[330px_1fr] lg:gap-8">
         {/* Timeline nav - horizontal on mobile, vertical on desktop */}
         <div className="relative min-w-0">
           {/* vertical line - desktop only */}
@@ -115,7 +115,7 @@ export default function Timeline({ setCurrentTrack, setIsPlaying }) {
               </div>
             </div>
 
-            <div className="grid gap-5 p-3 sm:gap-6 sm:p-5 md:p-7 lg:grid-cols-[1.4fr_0.9fr]">
+            <div className="grid gap-5 p-3 sm:gap-6 sm:p-5 md:p-7 lg:grid-cols-[1.3fr_0.9fr]">
               <div className="min-w-0">
                 <h3 className="font-display text-[24px] font-bold leading-none tracking-[-0.02em] text-espresso dark:text-parchment sm:text-[30px] md:text-[36px]">
                   {active.title}

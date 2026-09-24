@@ -40,7 +40,7 @@ function Hub({ onNavigate }) {
     { href: '/jeremy', k: '09', label: 'Lana + Jeremy', sub: 'New · photos & timeline', desc: 'The Louisiana peace, how they met, married.' },
   ];
   return (
-    <section className="mx-auto max-w-[1400px] px-3 py-8 sm:px-4 md:px-6 md:py-10">
+    <section className="mx-auto max-w-[1400px] px-4 py-10 sm:px-6 sm:py-12 md:py-16">
       <div className="mb-6 flex items-end justify-between gap-3">
         <div>
           <div className="font-sans text-[11px] font-medium tracking-[0.08em] text-cherry">ARCHIVE INDEX</div>
@@ -141,7 +141,7 @@ export default function App() {
         <Suspense fallback={null}><DustCanvas /></Suspense>
         <ScrollProgress />
         <Navbar darkMode={darkMode} setDarkMode={setDarkMode} onNavigate={navigate} />
-        <div className="h-[56px] md:h-[64px] lg:h-[92px]" aria-hidden />
+        <div className="h-[82px] sm:h-[84px] md:h-[96px] lg:h-[124px]" aria-hidden />
         <main id="main">{renderRoute()}</main>
         <Footer />
         <AudioPlayer isPlaying={isPlaying} setIsPlaying={setIsPlaying} currentTrack={currentTrack} setCurrentTrack={setCurrentTrack} />

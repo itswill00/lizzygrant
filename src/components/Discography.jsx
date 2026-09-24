@@ -10,7 +10,7 @@ export default function Discography({ setCurrentTrack, setIsPlaying }) {
   const totalSingles = discography.reduce((n, a) => n + a.tracks.filter((t) => t.s).length, 0);
 
   return (
-    <section id="discography" className="relative mx-auto max-w-[1400px] overflow-x-hidden px-3 py-8 sm:px-4 sm:py-12 md:px-6 md:py-16">
+    <section id="discography" className="relative mx-auto max-w-[1400px] overflow-x-hidden px-4 py-10 sm:px-6 sm:py-12 md:py-16">
       <div className="mb-6 sm:mb-8">
         <div className="font-sans text-[10px] tracking-[0.2em] text-cherry sm:text-[11px] sm:tracking-[0.08em]">08 · COMPLETE DISCOGRAPHY</div>
         <h2 className="mt-1.5 font-display text-[26px] font-bold leading-none tracking-[-0.02em] text-espresso dark:text-parchment sm:mt-2 sm:text-[34px] md:text-[48px]">
@@ -23,7 +23,7 @@ export default function Discography({ setCurrentTrack, setIsPlaying }) {
         </p>
       </div>
 
-      <div className="mx-auto flex max-w-[900px] flex-col gap-2.5 sm:gap-3">
+      <div className="mx-auto flex max-w-[1040px] flex-col gap-2.5 sm:gap-3">
         {discography.map((album, ai) => {
           const open = openId === album.id;
           return (
@@ -112,7 +112,7 @@ export default function Discography({ setCurrentTrack, setIsPlaying }) {
         })}
       </div>
 
-      <p className="mx-auto mt-6 max-w-[900px] text-center font-sans text-[10px] tracking-[0.14em] text-zinc-500/60">
+      <p className="mx-auto mt-6 max-w-[1040px] text-center font-sans text-[10px] tracking-[0.14em] text-zinc-500/60">
         STANDARD EDITIONS / PREVIEWS ARE 30S / FULL SONGS BELONG TO THEIR OWNERS
       </p>
     </section>

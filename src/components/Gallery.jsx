@@ -37,7 +37,7 @@ export default function Gallery() {
   const frame = lightbox !== null ? filtered[lightbox] : null;
 
   return (
-    <section id="gallery" className="relative mx-auto max-w-[1400px] overflow-x-hidden px-3 py-8 sm:px-4 sm:py-12 md:px-6 md:py-16">
+    <section id="gallery" className="relative mx-auto max-w-[1400px] overflow-x-hidden px-4 py-10 sm:px-6 sm:py-12 md:py-16">
       <div className="mb-6 sm:mb-8">
         <div className="font-sans text-[10px] tracking-[0.2em] text-cherry sm:text-[11px] sm:tracking-[0.08em]">07 · CONTACT SHEET</div>
         <h2 className="mt-1.5 font-display text-[26px] font-bold leading-none tracking-[-0.02em] text-espresso dark:text-parchment sm:mt-2 sm:text-[34px] md:text-[48px]">
