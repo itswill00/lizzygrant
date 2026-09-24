@@ -1,6 +1,6 @@
 import { Suspense, lazy, useEffect, useState } from 'react';
-import GrainOverlay from './components/GrainOverlay';
-import { DustCanvas } from './components/Fx';
+const GrainOverlay = lazy(() => import('./components/GrainOverlay'));
+const DustCanvas = lazy(() => import('./components/Fx').then(m => ({ default: m.DustCanvas })));
 import ScrollProgress from './components/ScrollProgress';
 import Navbar from './components/Navbar';
 import Hero from './components/Hero';
@@ -137,8 +137,8 @@ export default function App() {
     <div className="min-h-screen overflow-x-hidden">
       <a href="#main" className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[100] focus:rounded-full focus:bg-cherry focus:px-4 focus:py-2 focus:text-white">Skip to content</a>
       <div>
-        <GrainOverlay />
-        <DustCanvas />
+        <Suspense fallback={null}><GrainOverlay /></Suspense>
+        <Suspense fallback={null}><DustCanvas /></Suspense>
         <ScrollProgress />
         <Navbar darkMode={darkMode} setDarkMode={setDarkMode} onNavigate={navigate} />
         <div className="h-[56px] md:h-[64px] lg:h-[92px]" aria-hidden />
