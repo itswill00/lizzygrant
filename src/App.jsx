@@ -109,11 +109,11 @@ export default function App() {
   }, []);
 
   const renderRoute = () => {
-    if (path === '/jeremy') return <JeremyPage />;
+    if (path === '/jeremy') return <JeremyPage onNavigate={navigate} />;
     if (path === '/eras' || path === '/timeline') return <Timeline setCurrentTrack={setCurrentTrack} setIsPlaying={setIsPlaying} />;
-    if (path === '/vault') return <Vault />;
+    if (path === '/vault') return <Vault onNavigate={navigate} />;
     if (path === '/tarot') return <Tarot setCurrentTrack={setCurrentTrack} setIsPlaying={setIsPlaying} />;
-    if (path === '/muses') return <Muses setCurrentTrack={setCurrentTrack} setIsPlaying={setIsPlaying} />;
+    if (path === '/muses') return <Muses setCurrentTrack={setCurrentTrack} setIsPlaying={setIsPlaying} onNavigate={navigate} />;
     if (path === '/louisiana' || path === '/now') return <Louisiana />;
     if (path === '/gallery') return <Gallery />;
     if (path === '/discography') return <Discography setCurrentTrack={setCurrentTrack} setIsPlaying={setIsPlaying} />;

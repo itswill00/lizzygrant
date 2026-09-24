@@ -2,9 +2,12 @@ import { motion } from 'framer-motion';
 import { muses } from '../data/muses';
 import { cueSong } from '../lib/preview';
 
-export default function Muses({ setCurrentTrack, setIsPlaying }) {
+export default function Muses({ setCurrentTrack, setIsPlaying, onNavigate }) {
   const playSong = (song) => {
     cueSong(song, 'MUSES & LOVERS', setCurrentTrack, setIsPlaying);
+  };
+  const go = (e, href) => {
+    if (onNavigate) { e.preventDefault(); onNavigate(href); }
   };
 
   return (
@@ -50,6 +53,7 @@ export default function Muses({ setCurrentTrack, setIsPlaying }) {
             <div className="px-3.5 sm:px-4">
               <a
                 href="/eras"
+                onClick={(e) => go(e, '/eras')}
                 className="inline-block rounded-full border border-[#D4AF37]/20 bg-parchment/60 px-2.5 py-1 font-sans text-[10px] tracking-[0.14em] text-zinc-600 transition hover:bg-[#F7F4EB] hover:text-espresso dark:border-[#F7F4EB]/10 dark:bg-white/5"
               >
                 ERA: {m.era.toUpperCase()} →
@@ -75,7 +79,7 @@ export default function Muses({ setCurrentTrack, setIsPlaying }) {
                 ))}
               </div>
               {m.id === 'jeremy' && (
-                <a href="/jeremy" className="mt-3 inline-flex items-center gap-1.5 rounded-full bg-cherry px-3 py-1.5 font-sans text-[10px] tracking-[0.12em] text-white hover:bg-cherry-light">SEE JEREMY PAGE →</a>
+                <a href="/jeremy" onClick={(e) => go(e, '/jeremy')} className="mt-3 inline-flex items-center gap-1.5 rounded-full bg-cherry px-3 py-1.5 font-sans text-[10px] tracking-[0.12em] text-white hover:bg-cherry-light">SEE JEREMY PAGE →</a>
               )}
             </div>
           </motion.article>

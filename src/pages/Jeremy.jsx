@@ -15,12 +15,13 @@ const photos = [
   { src: '/jeremy/15.webp', fallback: '/jeremy/15.jpg', alt: 'Lana and Jeremy, holding hands at altar', cap: 'Hands, altar, Sep 26 2024' },
 ];
 
-export default function Jeremy() {
+export default function Jeremy({ onNavigate }) {
   const [visible, setVisible] = useState(6);
   const shown = photos.slice(0, visible);
+  const go = (e, href) => { if (onNavigate) { e.preventDefault(); onNavigate(href); } };
   return (
     <div className="mx-auto max-w-[1100px] px-3 py-8 sm:px-4 md:px-6 md:py-10">
-      <a href="/" className="inline-flex items-center gap-2 rounded-full border border-[#D4AF37]/20 bg-white px-3 py-1.5 font-mono text-[11px] tracking-[0.12em] text-typewriter hover:bg-[#F7F4EB] dark:border-[#F7F4EB]/10 dark:bg-noir-soft dark:text-parchment">← BACK TO ARCHIVES</a>
+      <a href="/" onClick={(e) => go(e, '/')} className="inline-flex items-center gap-2 rounded-full border border-[#D4AF37]/20 bg-white px-3 py-1.5 font-mono text-[11px] tracking-[0.12em] text-typewriter hover:bg-[#F7F4EB] dark:border-[#F7F4EB]/10 dark:bg-noir-soft dark:text-parchment">← BACK TO ARCHIVES</a>
 
       <div className="mt-6 paper overflow-hidden rounded-2xl border border-[#D4AF37]/15 shadow-[0_12px_28px_rgba(0,0,0,0.08)] dark:border-[#F7F4EB]/10">
         <div className="bg-[#1A1A1A] p-0">
@@ -87,8 +88,8 @@ export default function Jeremy() {
         </div>
 
         <div className="flex flex-wrap gap-2 border-t border-[#D4AF37]/15 bg-parchment-dark/30 p-3 dark:border-[#F7F4EB]/10 sm:p-4">
-          <a href="/muses" className="rounded-full bg-cherry px-4 py-2 font-mono text-[11px] tracking-[0.12em] text-white">← MUSES & LOVERS</a>
-          <a href="/louisiana" className="rounded-full border border-[#D4AF37]/20 bg-white px-4 py-2 font-mono text-[11px] tracking-[0.12em] text-espresso dark:border-[#F7F4EB]/10 dark:bg-noir-soft dark:text-parchment">LOUISIANA NOW →</a>
+          <a href="/muses" onClick={(e) => go(e, '/muses')} className="rounded-full bg-cherry px-4 py-2 font-mono text-[11px] tracking-[0.12em] text-white">← MUSES & LOVERS</a>
+          <a href="/louisiana" onClick={(e) => go(e, '/louisiana')} className="rounded-full border border-[#D4AF37]/20 bg-white px-4 py-2 font-mono text-[11px] tracking-[0.12em] text-espresso dark:border-[#F7F4EB]/10 dark:bg-noir-soft dark:text-parchment">LOUISIANA NOW →</a>
         </div>
       </div>
 

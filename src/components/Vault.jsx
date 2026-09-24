@@ -4,8 +4,20 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { vaultItems } from '../data/vault';
 import SafeImage from './SafeImage';
 
-export default function Vault() {
+export default function Vault({ onNavigate }) {
   const [selected, setSelected] = useState(null);
+  const goTarot = (e) => {
+    if (e) e.preventDefault();
+    if (onNavigate) onNavigate('/tarot');
+    else window.location.href = '/tarot';
+  };
+  const goTarotFromModal = () => {
+    setSelected(null);
+    setTimeout(() => {
+      if (onNavigate) onNavigate('/tarot');
+      else window.location.href = '/tarot';
+    }, 120);
+  };
 
   // lock background scroll while a file is open (matches gallery loupe)
   useEffect(() => {
@@ -147,7 +159,7 @@ export default function Vault() {
         <div className="mt-6 flex flex-col items-center gap-2 border-t border-[#D4AF37]/15 pt-4 dark:border-[#F7F4EB]/10 sm:mt-8 sm:flex-row sm:flex-wrap sm:justify-center sm:gap-3 sm:pt-6">
           <span className="text-center font-sans text-[9px] tracking-[0.14em] text-zinc-500 sm:text-[10px] sm:tracking-[0.2em]">END OF VAULT / {vaultItems.length} FILES DISPLAYED / TAP ANY FILE TO INSPECT</span>
           <span className="hidden h-3 w-px bg-espresso/10 dark:bg-parchment/10 sm:block" />
-          <a href="/tarot" className="font-sans text-[11px] tracking-[0.12em] text-cherry dark:text-brass-light hover:underline sm:text-[11px] sm:tracking-[0.08em]">
+          <a href="/tarot" onClick={goTarot} className="font-sans text-[11px] tracking-[0.12em] text-cherry dark:text-brass-light hover:underline sm:text-[11px] sm:tracking-[0.08em]">
             DRAW A LYRIC TAROT ↓
           </a>
         </div>
@@ -214,10 +226,7 @@ export default function Vault() {
                     CLOSE FILE ✕
                   </button>
                   <button
-                    onClick={() => {
-                      setSelected(null);
-                      setTimeout(() => { window.location.href = '/tarot'; }, 120);
-                    }}
+                    onClick={goTarotFromModal}
                     className="flex-1 rounded-full bg-cherry px-4 py-3 font-sans text-[11px] tracking-[0.14em] text-white transition hover:bg-cherry-light"
                   >
                     DRAW TAROT →
