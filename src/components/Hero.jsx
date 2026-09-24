@@ -181,11 +181,11 @@ export default function Hero({ isPlaying, setIsPlaying, currentTrack, setCurrent
 
         {/* RIGHT - single main polaroid on mobile, layered collage on md+ */}
         <div className="relative flex min-w-0 flex-col gap-4 sm:gap-5 lg:pl-6">
-          <div className="relative mx-auto w-full max-w-[360px] sm:max-w-[420px] md:block md:h-[480px] lg:h-[520px]">
+          <div className="relative mx-auto w-full max-w-[360px] sm:max-w-[420px] md:block md:h-[540px] lg:h-[580px]">
             {/* card 1 - main, 3D tilt on desktop pointers */}
             <Tilt
               max={6}
-              className="relative mb-6 w-full sm:mb-7 md:absolute md:left-1/2 md:top-2 md:mb-0 md:w-[88%] md:-translate-x-1/2"
+              className="relative z-20 mb-6 w-full sm:mb-7 md:absolute md:left-1/2 md:top-2 md:mb-0 md:w-[88%] md:-translate-x-1/2"
             >
             <motion.div
               initial={{ rotate: -2, y: 20, opacity: 0 }}
@@ -261,7 +261,7 @@ export default function Hero({ isPlaying, setIsPlaying, currentTrack, setCurrent
                 <span className="shrink-0 font-mono text-[8px] tracking-[0.15em] text-typewriter sm:text-[9px]">FIG. {String(heroIndex + 1).padStart(2, '0')}/{String(eras.length).padStart(2, '0')}</span>
               </div>
               {/* dots */}
-              <div className="absolute -bottom-0 left-1/2 flex -translate-x-1/2 translate-y-5 gap-1 sm:translate-y-6">
+              <div className="absolute bottom-2 left-1/2 flex -translate-x-1/2 gap-1">
                 {eras.map((e, i) => (
                   <button
                     key={e.id}
@@ -281,7 +281,7 @@ export default function Hero({ isPlaying, setIsPlaying, currentTrack, setCurrent
               initial={{ rotate: 3, y: 20, opacity: 0 }}
               animate={{ rotate: 2, y: 0, opacity: 1 }}
               transition={{ duration: 0.9, delay: 0.3 }}
-              className="hidden rounded-2xl paper border border-[#D4AF37]/15 p-2 pb-7 shadow-[0_8px_20px_rgba(0,0,0,0.1)] transition-all duration-300 hover:rotate-[-0.8deg] hover:shadow-[0_12px_24px_rgba(0,0,0,0.14)] md:absolute md:-bottom-1 md:right-1 md:block md:w-[52%] lg:-right-4"
+              className="pointer-events-none hidden rounded-2xl paper border border-[#D4AF37]/15 p-2 pb-7 shadow-[0_8px_20px_rgba(0,0,0,0.1)] transition-all duration-300 hover:rotate-[-0.8deg] hover:shadow-[0_12px_24px_rgba(0,0,0,0.14)] md:absolute md:bottom-6 md:right-0 md:block md:w-[46%] lg:right-2 lg:w-[44%]"
             >
               <div className="tape -top-2 left-1/2 hidden w-12 -translate-x-1/2 rotate-[2deg] md:block" />
               <div className="aspect-[3/4] overflow-hidden rounded-md bg-[#8B7355]">
