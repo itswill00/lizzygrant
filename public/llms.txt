@@ -1,0 +1,60 @@
+# LIZZY GRANT — THE ARCHIVES
+
+Fan archival directory for Lana Del Rey. Retro Americana, 70s editorial, cinematic melancholy.
+
+- Site: https://lizzygrant.vercel.app/
+- GitHub: https://github.com/itswill00/lizzygrant
+
+## What is this?
+
+Atmospheric anthology from Lizzy Grant demos (2005) to Did You Know That There's a Tunnel Under Ocean Blvd (2023). Curated as a scrapbook, told as a film. Not affiliated with Lana Del Rey.
+
+## Sections
+
+- Hero: editorial cover + rotating quotes + Side A cassette
+- The Eras: 8 chapters (2005 → 2024), each with summary and moodboard photo
+- Secret Vault: 17 case files (unreleased / poetry / lore) with inspection modal
+- Lyrical Tarot: 8 cards, lyric + theme
+- Muses & Lovers: public relationship chapters as fan readings (Barrie → Jeremy Dufrene)
+- Louisiana Now: journal (Waffle House, Coachella headline, 2024 wedding)
+- Contact Sheet: 22 frames (2011 → 2025), era filters, loupe lightbox
+- Discography: 9 releases, standard tracklists, singles marked, tap-to-preview
+
+## Music & photos (legal)
+
+- Audio: 129 genuine 30-second vocal previews in public/audio/*.mp3 (local first), then iTunes Search API, then Deezer fallback. Full songs belong to respective holders.
+- Photos: Wikimedia Commons contributors (CC-BY-SA), served via upload.wikimedia.org thumb.
+
+## Discography (9)
+
+- Born to Die (2012) — 15 tracks
+- Paradise EP (2012) — 8 tracks
+- Ultraviolence (2014) — 14 tracks
+- Honeymoon (2015) — 14 tracks
+- Lust for Life (2017) — 16 tracks
+- Norman Fucking Rockwell! (2019) — 14 tracks
+- Chemtrails Over the Country Club (2021) — 11 tracks
+- Blue Banisters (2021) — 15 tracks
+- Did You Know That There's a Tunnel Under Ocean Blvd (2023) — 15 tracks
+
+## How to preview
+
+Tap any track title, era cut, tarot card, or muse song. Local file plays instantly inside user gesture (autoplay-safe). Unreleased vault items show unplayable notice.
+
+## FAQ
+
+Q: Who is Lizzy Grant?
+A: Early stage name of Lana Del Rey (Elizabeth Woolridge Grant), used for 2008 Kill Kill and 2010 Lana Del Ray album.
+
+Q: What is the Vault?
+A: 17 editorial case files documenting unreleased songs, poetry, and lore. Catalog numbers like LG-UNR-041 are fan consensus, session unconfirmed unless noted.
+
+Q: Are previews full songs?
+A: No, 30-second vocal clips only.
+
+Q: Where are photos from?
+A: Wikimedia Commons CC-BY-SA contributors, credited per frame.
+
+## Stack
+
+Vite + React + Tailwind + Framer Motion. Content in src/data/*.js.

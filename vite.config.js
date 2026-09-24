@@ -6,6 +6,14 @@ export default defineConfig({
   // es2019 output: old Android webviews (Chrome 70+) can parse & boot the bundle
   build: {
     target: 'es2019',
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          vendor: ['react', 'react-dom'],
+          motion: ['framer-motion'],
+        },
+      },
+    },
   },
   server: {
     host: '0.0.0.0',

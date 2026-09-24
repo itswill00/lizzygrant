@@ -59,7 +59,7 @@ export default function LoadingScreen({ onDone }) {
             style={{ width: `${progress}%` }}
           />
         </div>
-        <div className="mt-2 text-center font-script text-[13px] text-typewriter/60">* keep the tapes running —</div>
+        <div className="mt-2 text-center font-body italic text-[13px] text-typewriter/60">* keep the tapes running —</div>
       </div>
 
       {/* footer */}

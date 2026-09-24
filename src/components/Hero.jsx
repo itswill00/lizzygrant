@@ -171,10 +171,10 @@ export default function Hero({ isPlaying, setIsPlaying, currentTrack, setCurrent
             </Magnetic>
           </div>
 
-          <p className="mt-3 hidden font-script text-[14px] text-typewriter dark:text-parchment/50 sm:block sm:text-[15px]">
+          <p className="mt-3 hidden font-body italic text-[14px] text-typewriter dark:text-parchment/50 sm:block sm:text-[15px]">
             * hand-annotated by E.W.G — “keep the tapes running” ✎
           </p>
-          <p className="mt-3 font-script text-[13px] text-typewriter/70 dark:text-parchment/50 sm:hidden">
+          <p className="mt-3 font-body italic text-[13px] text-typewriter/70 dark:text-parchment/50 sm:hidden">
             * E.W.G — “keep the tapes running” ✎
           </p>
         </div>
@@ -257,7 +257,7 @@ export default function Hero({ isPlaying, setIsPlaying, currentTrack, setCurrent
                 </button>
               </motion.div>
               <div className="absolute bottom-1.5 left-2 right-2 flex items-end justify-between gap-2 sm:bottom-3 sm:left-3 sm:right-3">
-                <span className="truncate font-script text-[13px] leading-none text-espresso dark:text-parchment sm:text-[17px]">{heroEra.title.toLowerCase()} —</span>
+                <span className="truncate font-body italic text-[13px] leading-none text-espresso dark:text-parchment sm:text-[17px]">{heroEra.title.toLowerCase()} —</span>
                 <span className="shrink-0 font-mono text-[8px] tracking-[0.15em] text-typewriter sm:text-[9px]">FIG. {String(heroIndex + 1).padStart(2, '0')}/{String(eras.length).padStart(2, '0')}</span>
               </div>
               {/* dots */}
@@ -292,7 +292,7 @@ export default function Hero({ isPlaying, setIsPlaying, currentTrack, setCurrent
                   className="h-full w-full object-cover"
                 />
               </div>
-              <p className="mt-2 text-center font-script text-[13px] text-espresso dark:text-parchment">ultraviolence babe ♡</p>
+              <p className="mt-2 text-center font-body italic text-[13px] text-espresso dark:text-parchment">ultraviolence babe ♡</p>
             </motion.div>
 
             {/* stamp badge - desktop only */}
@@ -380,7 +380,7 @@ export default function Hero({ isPlaying, setIsPlaying, currentTrack, setCurrent
                 BROWSE ERAS ↓
               </button>
             </div>
-            <div className="mt-2 hidden font-script text-[12px] text-typewriter/70 dark:text-parchment/50 sm:block">
+            <div className="mt-2 hidden font-body italic text-[12px] text-typewriter/70 dark:text-parchment/50 sm:block">
               curated static — press play for the room tone of the archives
             </div>
           </div>
