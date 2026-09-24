@@ -37,7 +37,6 @@ export const LOCAL_FILES = new Set([
   'blue-jeans.mp3',
   'blue-velvet.mp3',
   'body-electric.mp3',
-  'born-to-die.mp3',
   'breaking-up-slowly.mp3',
   'brooklyn-baby.mp3',
   'burnt-norton.mp3',
