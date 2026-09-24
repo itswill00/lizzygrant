@@ -1,6 +1,6 @@
 import { Suspense, lazy, useEffect, useState } from 'react';
 const GrainOverlay = lazy(() => import('./components/GrainOverlay'));
-const DustCanvas = lazy(() => import('./components/Fx').then(m => ({ default: m.DustCanvas })));
+import { DustCanvas } from './components/Fx';
 import ScrollProgress from './components/ScrollProgress';
 import Navbar from './components/Navbar';
 import Hero from './components/Hero';

@@ -143,6 +143,29 @@ export default function AudioPlayer({ isPlaying, setIsPlaying, currentTrack, set
     try { localStorage.removeItem('lg-player-pos'); } catch {}
   }, []);
 
+  // Keyboard shortcuts: Space (play/pause), Ctrl/Alt + ArrowRight (next), Ctrl/Alt + ArrowLeft (prev)
+  useEffect(() => {
+    const onKeyDown = (e) => {
+      const tag = document.activeElement?.tagName;
+      if (tag === 'INPUT' || tag === 'TEXTAREA' || document.activeElement?.isContentEditable) return;
+
+      if (e.code === 'Space') {
+        e.preventDefault();
+        setIsPlaying((p) => !p);
+      } else if (e.code === 'ArrowRight' && (e.metaKey || e.ctrlKey || e.altKey)) {
+        e.preventDefault();
+        const nextIdx = (trackIndexRef.current + 1) % tracksRef.current.length;
+        if (selectAndPlayRef.current) selectAndPlayRef.current(nextIdx);
+      } else if (e.code === 'ArrowLeft' && (e.metaKey || e.ctrlKey || e.altKey)) {
+        e.preventDefault();
+        const prevIdx = (trackIndexRef.current - 1 + tracksRef.current.length) % tracksRef.current.length;
+        if (selectAndPlayRef.current) selectAndPlayRef.current(prevIdx);
+      }
+    };
+    window.addEventListener('keydown', onKeyDown);
+    return () => window.removeEventListener('keydown', onKeyDown);
+  }, [setIsPlaying]);
+
   useEffect(() => {
     const audio = audioRef.current;
     if (!audio) return;

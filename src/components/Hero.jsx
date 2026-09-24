@@ -3,7 +3,6 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Tilt, Magnetic, FloatingVinyl } from './Fx';
 import SafeImage from './SafeImage';
 import { eras } from '../data/eras';
-import { playAudioDirect, pauseAudioDirect } from '../lib/preview';
 
 const quotes = [
   { text: '"We were born to die."', ref: '- Born to Die, 2012' },
@@ -308,81 +307,6 @@ export default function Hero({ isPlaying, setIsPlaying, currentTrack, setCurrent
               </div>
             </motion.div>
 
-            {/* brass pin - hide on very small */}
-            <div className="absolute left-1/2 top-[52%] hidden h-3 w-3 -translate-x-1/2 rounded-full border-2 border-white bg-brass shadow-md dark:border-noir sm:block" />
-          </div>
-
-          {/* Cassette player hero widget - removed on desktop to deduplicate, unified to bottom dock only */}
-          <div className="hidden">
-            <div className="tape -top-3 left-4 hidden rotate-[-2deg] sm:block" />
-            <div className="flex items-center justify-between gap-2">
-              <div className="truncate font-sans text-[9px] tracking-[0.14em] text-zinc-500 sm:text-[10px] sm:tracking-[0.2em]">AMBIENT ARCHIVE PLAYER · SIDE A</div>
-              <span className="shrink-0 rounded-full bg-cherry px-2 py-0.5 font-sans text-[8px] tracking-widest text-white sm:text-[9px]">REC ●</span>
-            </div>
-
-            {/* cassette visual - stack on tiny screens */}
-            <div className="mt-3 flex flex-col gap-3 rounded-2xl border border-[#F7F4EB]/10 bg-[#1A1A1A] p-3 text-parchment shadow-inner sm:gap-4">
-              <div className="flex flex-1 items-center gap-2 sm:gap-3">
-                {/* reels - smaller on mobile */}
-                <div className="flex shrink-0 gap-1.5 sm:gap-2">
-                  <div className={`h-7 w-7 rounded-full border-2 border-parchment/20 bg-[#2a2a2a] p-1 sm:h-9 sm:w-9 ${isPlaying ? 'animate-tape-reel' : ''}`}>
-                    <div className="h-full w-full rounded-full border border-parchment/10 bg-parchment/5" style={{
-                      backgroundImage: `repeating-conic-gradient(from 0deg, transparent 0 30deg, rgba(255,255,255,0.08) 30deg 60deg)`
-                    }} />
-                  </div>
-                  <div className={`h-7 w-7 rounded-full border-2 border-parchment/20 bg-[#2a2a2a] p-1 sm:h-9 sm:w-9 ${isPlaying ? 'animate-tape-reel' : ''}`} style={{ animationDirection: 'reverse' }}>
-                    <div className="h-full w-full rounded-full border border-parchment/10 bg-parchment/5" style={{
-                      backgroundImage: `repeating-conic-gradient(from 0deg, transparent 0 30deg, rgba(255,255,255,0.08) 30deg 60deg)`
-                    }} />
-                  </div>
-                </div>
-                <div className="min-w-0 flex-1">
-                  <div className="truncate font-sans text-[11px] tracking-widest text-cherry dark:text-brass-light sm:text-[12px]">
-                    {currentTrack?.title || 'Video Games'}
-                  </div>
-                  <div className="truncate font-sans text-[9px] tracking-[0.12em] text-parchment/60 sm:text-[10px] sm:tracking-[0.08em]">
-                    LANA DEL REY / {currentTrack?.era || 'BORN TO DIE'}
-                  </div>
-                  <div className="mt-1 h-1 w-full overflow-hidden rounded-full bg-parchment/10">
-                    <motion.div
-                      className="h-full bg-brass"
-                      animate={{ width: isPlaying ? ['0%', '100%'] : '42%' }}
-                      transition={{ duration: isPlaying ? 30 : 0, ease: 'linear', repeat: isPlaying ? Infinity : 0 }}
-                    />
-                  </div>
-                </div>
-              </div>
-
-              <button
-                onClick={() => {
-                  if (isPlaying) {
-                    pauseAudioDirect();
-                    setIsPlaying(false);
-                  } else {
-                    const targetSrc = currentTrack?.src || '/audio/video-games.mp3';
-                    playAudioDirect(targetSrc);
-                    setIsPlaying(true);
-                  }
-                }}
-                aria-label={isPlaying ? 'Pause' : 'Play'}
-                className="flex h-10 w-10 shrink-0 items-center justify-center self-center rounded-full bg-brass text-noir shadow-md transition hover:bg-brass-light active:scale-95 sm:h-11 sm:w-11"
-              >
-                <span className="text-[16px] leading-none sm:text-[18px]">{isPlaying ? '❚❚' : '▶'}</span>
-              </button>
-            </div>
-
-            <div className="mt-3 flex flex-wrap items-center justify-between gap-2 font-sans text-[9px] tracking-widest text-zinc-500 sm:text-[10px]">
-              <span>DOLBY B / 90 MIN / CAT. LG-001</span>
-              <button
-                onClick={() => document.getElementById('timeline')?.scrollIntoView({ behavior: 'smooth' })}
-                className="text-cherry hover:underline"
-              >
-                BROWSE ERAS ↓
-              </button>
-            </div>
-            <div className="mt-2 hidden font-body italic text-[12px] text-zinc-500/70 dark:text-parchment/50 sm:block">
-              curated static, press play for the room tone of the archives
-            </div>
           </div>
         </div>
       </div>
