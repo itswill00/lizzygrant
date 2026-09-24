@@ -37,7 +37,7 @@ export default function Navbar({ darkMode, setDarkMode }) {
         </a>
 
         {/* desktop nav */}
-        <nav className="hidden items-center gap-4 font-mono text-[11px] tracking-[0.15em] text-espresso/70 dark:text-parchment/70 md:flex lg:gap-5">
+        <nav className="hidden items-center gap-4 font-sans text-[11px] font-medium tracking-[0.08em] text-zinc-700 dark:text-zinc-300 md:flex lg:gap-5">
           <a href="/eras" className="py-2 hover:text-cherry transition-colors">
             ERAS
           </a>
@@ -61,7 +61,7 @@ export default function Navbar({ darkMode, setDarkMode }) {
           </a>
           <a
             href="/"
-            className="rounded-full border border-espresso/15 px-3 py-1.5 text-cherry hover:bg-cherry hover:text-white transition-colors dark:border-parchment/15 lg:px-4"
+            className="rounded-full border border-zinc-200 px-3 py-1.5 text-cherry hover:bg-cherry hover:text-white transition-colors dark:border-zinc-700 lg:px-4"
           >
             LISTEN →
           </a>
