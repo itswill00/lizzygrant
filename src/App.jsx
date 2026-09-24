@@ -17,6 +17,7 @@ const Muses = lazy(() => import('./components/Muses'));
 const Louisiana = lazy(() => import('./components/Louisiana'));
 const Gallery = lazy(() => import('./components/Gallery'));
 const Discography = lazy(() => import('./components/Discography'));
+const JeremyPage = lazy(() => import('./pages/Jeremy'));
 
 function SectionFallback({ label }) {
   return (
@@ -35,6 +36,7 @@ export default function App() {
   const [darkMode, setDarkMode] = useState(false);
   const [isPlaying, setIsPlaying] = useState(false);
   const [currentTrack, setCurrentTrack] = useState(null);
+  const isJeremy = typeof window !== 'undefined' && window.location.pathname === '/jeremy';
 
   useEffect(() => {
     if (darkMode) document.documentElement.classList.add('dark');
@@ -68,50 +70,59 @@ export default function App() {
         {!loading && <ScrollProgress />}
 
         <Navbar darkMode={darkMode} setDarkMode={setDarkMode} />
+        <div className="h-[56px] md:h-[64px] lg:h-[92px]" aria-hidden />
 
-        <main id="main">
-          <Hero
-            isPlaying={isPlaying}
-            setIsPlaying={setIsPlaying}
-            currentTrack={currentTrack}
-            setCurrentTrack={setCurrentTrack}
-          />
-          <div className="cv-auto">
-            <Suspense fallback={<SectionFallback label="02 — THE ERAS" />}>
-              <Timeline setCurrentTrack={setCurrentTrack} setIsPlaying={setIsPlaying} />
+        {isJeremy ? (
+          <main id="main">
+            <Suspense fallback={<SectionFallback label="JEREMY — LANA & JEREMY" />}>
+              <JeremyPage />
             </Suspense>
-          </div>
-          <div className="cv-auto">
-            <Suspense fallback={<SectionFallback label="03 — SECRET VAULT" />}>
-              <Vault />
-            </Suspense>
-          </div>
-          <div className="cv-auto">
-            <Suspense fallback={<SectionFallback label="04 — LYRICAL TAROT" />}>
-              <Tarot setCurrentTrack={setCurrentTrack} setIsPlaying={setIsPlaying} />
-            </Suspense>
-          </div>
-          <div className="cv-auto">
-            <Suspense fallback={<SectionFallback label="05 — MUSES & LOVERS" />}>
-              <Muses setCurrentTrack={setCurrentTrack} setIsPlaying={setIsPlaying} />
-            </Suspense>
-          </div>
-          <div className="cv-auto">
-            <Suspense fallback={<SectionFallback label="06 — LOUISIANA NOW" />}>
-              <Louisiana />
-            </Suspense>
-          </div>
-          <div className="cv-auto">
-            <Suspense fallback={<SectionFallback label="07 — CONTACT SHEET" />}>
-              <Gallery />
-            </Suspense>
-          </div>
-          <div className="cv-auto">
-            <Suspense fallback={<SectionFallback label="08 — COMPLETE DISCOGRAPHY" />}>
-              <Discography setCurrentTrack={setCurrentTrack} setIsPlaying={setIsPlaying} />
-            </Suspense>
-          </div>
-        </main>
+          </main>
+        ) : (
+          <main id="main">
+            <Hero
+              isPlaying={isPlaying}
+              setIsPlaying={setIsPlaying}
+              currentTrack={currentTrack}
+              setCurrentTrack={setCurrentTrack}
+            />
+            <div className="cv-auto">
+              <Suspense fallback={<SectionFallback label="02 — THE ERAS" />}>
+                <Timeline setCurrentTrack={setCurrentTrack} setIsPlaying={setIsPlaying} />
+              </Suspense>
+            </div>
+            <div className="cv-auto">
+              <Suspense fallback={<SectionFallback label="03 — SECRET VAULT" />}>
+                <Vault />
+              </Suspense>
+            </div>
+            <div className="cv-auto">
+              <Suspense fallback={<SectionFallback label="04 — LYRICAL TAROT" />}>
+                <Tarot setCurrentTrack={setCurrentTrack} setIsPlaying={setIsPlaying} />
+              </Suspense>
+            </div>
+            <div className="cv-auto">
+              <Suspense fallback={<SectionFallback label="05 — MUSES & LOVERS" />}>
+                <Muses setCurrentTrack={setCurrentTrack} setIsPlaying={setIsPlaying} />
+              </Suspense>
+            </div>
+            <div className="cv-auto">
+              <Suspense fallback={<SectionFallback label="06 — LOUISIANA NOW" />}>
+                <Louisiana />
+              </Suspense>
+            </div>
+            <div className="cv-auto">
+              <Suspense fallback={<SectionFallback label="07 — CONTACT SHEET" />}>
+                <Gallery />
+              </Suspense>
+            </div>
+            <div className="cv-auto">
+              <Suspense fallback={<SectionFallback label="08 — COMPLETE DISCOGRAPHY" />}>
+                <Discography setCurrentTrack={setCurrentTrack} setIsPlaying={setIsPlaying} />
+              </Suspense>
+            </div>
+          </main>
+        )}
 
         <Footer />
 

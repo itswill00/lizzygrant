@@ -5,7 +5,7 @@ export default function Navbar({ darkMode, setDarkMode }) {
   const [open, setOpen] = useState(false);
 
   return (
-    <header className="sticky top-0 z-40 border-b border-espresso/10 bg-parchment/95 dark:border-parchment/10 dark:bg-noir/95">
+    <header className="fixed left-0 right-0 top-0 z-40 border-b border-espresso/10 bg-parchment/95 backdrop-blur-md dark:border-parchment/10 dark:bg-noir/95">
       {/* top archival bar - hide on mobile */}
       <div className="hidden border-b border-espresso/5 bg-espresso/[0.02] dark:border-parchment/5 dark:bg-parchment/[0.02] lg:block">
         <div className="mx-auto flex max-w-[1400px] items-center justify-between px-6 py-1.5 font-mono text-[10px] tracking-[0.2em] text-typewriter dark:text-parchment/50">
@@ -100,83 +100,58 @@ export default function Navbar({ darkMode, setDarkMode }) {
         </div>
       </div>
 
-      {/* mobile drawer */}
+      {/* mobile drawer — simpler, readable */}
       <AnimatePresence>
         {open && (
           <motion.div
             initial={{ height: 0, opacity: 0 }}
             animate={{ height: 'auto', opacity: 1 }}
             exit={{ height: 0, opacity: 0 }}
-            transition={{ duration: 0.25, ease: 'easeOut' }}
-            className="overflow-hidden rounded-b-lg border-t border-[#D4AF37]/15 bg-parchment/95 shadow-xl dark:border-[#F7F4EB]/10 dark:bg-noir/95 md:hidden"
+            transition={{ duration: 0.24, ease: 'easeOut' }}
+            className="overflow-hidden border-t border-espresso/10 bg-white shadow-xl dark:border-parchment/10 dark:bg-noir md:hidden"
           >
-            <nav className="flex flex-col px-3 py-3 font-mono text-[12px] tracking-[0.15em]">
+            <nav className="flex flex-col gap-1 p-3">
+              {[
+                { label: 'The Eras', href: '#timeline', sub: '2005 → 2024 · 8 chapters' },
+                { label: 'Secret Vault', href: '#vault', sub: 'Unreleased & lore · 17 files' },
+                { label: 'Lyrical Tarot', href: '#tarot', sub: 'Ask · Shuffle · Draw' },
+                { label: 'Muses & Lovers', href: '#muses', sub: 'Fan readings · Barrie → Jeremy' },
+                { label: 'Louisiana Now', href: '#now', sub: 'Journal · Waffle House → Wedding' },
+                { label: 'Contact Sheet', href: '#gallery', sub: '22 frames · loupe' },
+                { label: 'Discography', href: '#discography', sub: '9 releases · 122 tracks' },
+              ].map((it) => (
+                <a
+                  key={it.href}
+                  href={it.href}
+                  onClick={() => setOpen(false)}
+                  className="flex items-center justify-between rounded-xl px-3 py-3 hover:bg-parchment dark:hover:bg-white/5"
+                >
+                  <span>
+                    <span className="block font-display text-[15px] font-semibold leading-none text-espresso dark:text-parchment">{it.label}</span>
+                    <span className="block font-body text-[12px] leading-none text-typewriter">{it.sub}</span>
+                  </span>
+                  <span className="ml-3 text-[16px] text-typewriter/40">›</span>
+                </a>
+              ))}
               <a
-                href="#timeline"
+                href="/jeremy"
                 onClick={() => setOpen(false)}
-                className="flex items-center justify-between border-b border-espresso/5 py-3 text-espresso dark:border-parchment/5 dark:text-parchment"
+                className="mt-1 flex items-center justify-between rounded-xl bg-cherry px-3 py-3 text-white shadow-sm"
               >
-                <span>02 — THE ERAS</span>
-                <span className="text-cherry">→</span>
-              </a>
-              <a
-                href="#vault"
-                onClick={() => setOpen(false)}
-                className="flex items-center justify-between border-b border-espresso/5 py-3 text-espresso dark:border-parchment/5 dark:text-parchment"
-              >
-                <span>03 — SECRET VAULT</span>
-                <span className="text-cherry">→</span>
-              </a>
-              <a
-                href="#tarot"
-                onClick={() => setOpen(false)}
-                className="flex items-center justify-between border-b border-espresso/5 py-3 text-espresso dark:border-parchment/5 dark:text-parchment"
-              >
-                <span>04 — LYRICAL TAROT</span>
-                <span className="text-cherry">→</span>
-              </a>
-              <a
-                href="#muses"
-                onClick={() => setOpen(false)}
-                className="flex items-center justify-between border-b border-espresso/5 py-3 text-espresso dark:border-parchment/5 dark:text-parchment"
-              >
-                <span>05 — MUSES & LOVERS</span>
-                <span className="text-cherry">→</span>
-              </a>
-              <a
-                href="#now"
-                onClick={() => setOpen(false)}
-                className="flex items-center justify-between border-b border-espresso/5 py-3 text-espresso dark:border-parchment/5 dark:text-parchment"
-              >
-                <span>06 — LOUISIANA NOW</span>
-                <span className="text-cherry">→</span>
-              </a>
-              <a
-                href="#gallery"
-                onClick={() => setOpen(false)}
-                className="flex items-center justify-between border-b border-espresso/5 py-3 text-espresso dark:border-parchment/5 dark:text-parchment"
-              >
-                <span>07 — CONTACT SHEET</span>
-                <span className="text-cherry">→</span>
-              </a>
-              <a
-                href="#discography"
-                onClick={() => setOpen(false)}
-                className="flex items-center justify-between border-b border-espresso/5 py-3 text-espresso dark:border-parchment/5 dark:text-parchment"
-              >
-                <span>08 — DISCOGRAPHY</span>
-                <span className="text-cherry">→</span>
+                <span>
+                  <span className="block font-display text-[15px] font-semibold leading-none">Lana + Jeremy</span>
+                  <span className="block font-body text-[12px] leading-none text-white/80">New page · photos & timeline</span>
+                </span>
+                <span className="text-[16px]">→</span>
               </a>
               <a
                 href="#hero"
                 onClick={() => setOpen(false)}
-                className="mt-3 flex items-center justify-center gap-2 rounded-full bg-cherry py-3 text-white"
+                className="mt-2 flex items-center justify-center gap-2 rounded-full bg-[#1A1A1A] py-3 font-body text-[14px] font-medium text-white dark:bg-parchment dark:text-noir"
               >
-                LISTEN NOW — SIDE A ▶
+                Listen — Side A ▶
               </a>
-              <div className="pt-3 text-center font-mono text-[10px] tracking-[0.15em] text-typewriter">
-                CATALOG № LG-1985—2024 / TAP ANYWHERE TO CLOSE
-              </div>
+              <button onClick={() => setOpen(false)} className="py-2 font-body text-[12px] text-typewriter/60">Tap to close ✕</button>
             </nav>
           </motion.div>
         )}

@@ -78,6 +78,9 @@ export default function Muses({ setCurrentTrack, setIsPlaying }) {
                   </button>
                 ))}
               </div>
+              {m.id === 'jeremy' && (
+                <a href="/jeremy" className="mt-3 inline-flex items-center gap-1.5 rounded-full bg-cherry px-3 py-1.5 font-mono text-[10px] tracking-[0.12em] text-white hover:bg-cherry-light">SEE JEREMY PAGE →</a>
+              )}
             </div>
           </motion.article>
         ))}
