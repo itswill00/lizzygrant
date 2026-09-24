@@ -380,7 +380,7 @@ export default function AudioPlayer({ isPlaying, setIsPlaying, currentTrack, set
                     <span className="block truncate font-display text-[13px] font-semibold leading-tight text-parchment" title={displayTitle}>
                       {displayTitle}
                     </span>
-                    <span className="block truncate font-mono text-[10px] tracking-[0.12em] text-brass-light">
+                    <span className="block truncate font-mono text-[10px] tracking-[0.12em] text-cherry dark:text-brass-light">
                       LANA DEL REY / {displayEra}
                     </span>
                   </span>
@@ -391,7 +391,7 @@ export default function AudioPlayer({ isPlaying, setIsPlaying, currentTrack, set
                   <div className="truncate font-display text-[16px] font-semibold leading-tight text-parchment" title={displayTitle}>
                     {displayTitle}
                   </div>
-                  <div className="truncate font-mono text-[12px] tracking-[0.15em] text-brass-light">
+                  <div className="truncate font-mono text-[12px] tracking-[0.15em] text-cherry dark:text-brass-light">
                     LANA DEL REY / {displayEra}
                   </div>
                 </div>

@@ -337,7 +337,7 @@ export default function Hero({ isPlaying, setIsPlaying, currentTrack, setCurrent
                   </div>
                 </div>
                 <div className="min-w-0 flex-1">
-                  <div className="truncate font-mono text-[11px] tracking-widest text-brass-light sm:text-[12px]">
+                  <div className="truncate font-mono text-[11px] tracking-widest text-cherry dark:text-brass-light sm:text-[12px]">
                     {currentTrack?.title || 'Video Games'}
                   </div>
                   <div className="truncate font-mono text-[9px] tracking-[0.12em] text-parchment/60 sm:text-[10px] sm:tracking-[0.15em]">
