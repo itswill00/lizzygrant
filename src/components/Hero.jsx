@@ -178,13 +178,13 @@ export default function Hero({ isPlaying, setIsPlaying, currentTrack, setCurrent
           </p>
         </div>
 
-        {/* RIGHT - single main polaroid on mobile, layered collage on md+ */}
+        {/* RIGHT - single main polaroid below lg, layered collage on lg+ */}
         <div className="relative flex min-w-0 flex-col gap-4 sm:gap-5 lg:col-span-5">
-          <div className="relative mx-auto w-full max-w-[560px] lg:mx-0 lg:max-w-none lg:h-[580px] md:block md:h-[540px]">
+          <div className="relative mx-auto w-full max-w-[560px] lg:mx-0 lg:max-w-none lg:h-[580px]">
             {/* card 1 - main, 3D tilt on desktop pointers */}
             <Tilt
               max={6}
-              className="relative z-20 mb-6 w-full sm:mb-7 md:absolute md:left-0 md:top-2 md:mb-0 md:w-[68%] lg:w-[65%] md:translate-x-0"
+              className="relative z-20 mb-6 w-full sm:mb-7 lg:absolute lg:left-0 lg:top-2 lg:mb-0 lg:w-[65%] lg:translate-x-0"
             >
             <motion.div
               initial={{ rotate: -2, y: 20, opacity: 0 }}
@@ -261,8 +261,8 @@ export default function Hero({ isPlaying, setIsPlaying, currentTrack, setCurrent
               </div>
             </motion.div>
             </Tilt>
-            {/* dots, below card on mobile, absolute on desktop */}
-            <div className="flex justify-center gap-1 mt-3 md:absolute md:bottom-0 md:left-1/2 md:z-30 md:mt-0 md:-translate-x-1/2">
+            {/* dots, below card on mobile/tablet, absolute on lg+ */}
+            <div className="flex justify-center gap-1 mt-3 lg:absolute lg:bottom-0 lg:left-1/2 lg:z-30 lg:mt-0 lg:-translate-x-1/2">
               {eras.map((e, i) => (
                 <button
                   key={e.id}
@@ -280,9 +280,9 @@ export default function Hero({ isPlaying, setIsPlaying, currentTrack, setCurrent
               initial={{ rotate: 3, y: 20, opacity: 0 }}
               animate={{ rotate: 2, y: 0, opacity: 1 }}
               transition={{ duration: 0.9, delay: 0.3 }}
-              className="hidden rounded-2xl paper border border-[#D4AF37]/15 p-2 pb-7 shadow-[0_8px_20px_rgba(0,0,0,0.1)] transition-all duration-300 hover:rotate-[-0.8deg] hover:shadow-[0_12px_24px_rgba(0,0,0,0.14)] md:absolute md:bottom-4 md:right-1 md:block md:w-[38%] lg:right-0 lg:w-[38%]"
+              className="hidden rounded-2xl paper border border-[#D4AF37]/15 p-2 pb-7 shadow-[0_8px_20px_rgba(0,0,0,0.1)] transition-all duration-300 hover:rotate-[-0.8deg] hover:shadow-[0_12px_24px_rgba(0,0,0,0.14)] lg:absolute lg:bottom-4 lg:right-0 lg:block lg:w-[38%]"
             >
-              <div className="tape -top-2 left-1/2 hidden w-12 -translate-x-1/2 rotate-[2deg] md:block" />
+              <div className="tape -top-2 left-1/2 hidden w-12 -translate-x-1/2 rotate-[2deg] lg:block" />
               <div className="aspect-[3/4] overflow-hidden rounded-md bg-[#8B7355]">
                 <SafeImage
                   src="https://commons.wikimedia.org/wiki/Special:FilePath/Lana%20Del%20Rey%20live%20in%20Seattle%20%2802%29.jpg?width=400"
@@ -299,7 +299,7 @@ export default function Hero({ isPlaying, setIsPlaying, currentTrack, setCurrent
               initial={{ scale: 0, rotate: -15 }}
               animate={{ scale: 1, rotate: -12 }}
               transition={{ delay: 0.6, type: 'spring', stiffness: 200 }}
-              className="hidden rounded-full border-2 border-cherry bg-white px-3 py-1.5 shadow-md dark:bg-noir-soft md:absolute md:left-0 md:top-[44%] md:block"
+              className="hidden rounded-full border-2 border-cherry bg-white px-3 py-1.5 shadow-md dark:bg-noir-soft lg:absolute lg:left-0 lg:top-[44%] lg:block"
             >
               <div className="text-center leading-none">
                 <div className="font-display text-[9px] font-bold tracking-[0.08em] text-cherry sm:text-[11px] sm:tracking-[0.2em]">ARCHIVED</div>
