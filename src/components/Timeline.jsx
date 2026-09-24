@@ -15,15 +15,15 @@ export default function Timeline({ setCurrentTrack, setIsPlaying }) {
         <div className="min-w-0">
           <div className="font-sans text-[10px] tracking-[0.2em] text-cherry sm:text-[11px] sm:tracking-[0.08em]">02 · INTERACTIVE CHRONOLOGY</div>
           <h2 className="mt-1.5 font-display text-[28px] font-bold leading-none tracking-[-0.02em] text-espresso dark:text-parchment sm:mt-2 sm:text-[36px] md:text-[52px]">
-            THE ERAS <span className="font-light italic text-zinc-500 text-[22px] sm:text-[28px] md:text-[36px]">· {eras.length} chapters</span>
+            THE ERAS <span className="font-light italic text-zinc-600 text-[22px] sm:text-[28px] md:text-[36px]">· {eras.length} chapters</span>
           </h2>
-          <p className="mt-2 max-w-[640px] font-body text-[14.5px] leading-[1.75] text-zinc-500 dark:text-parchment/60 sm:mt-3 sm:text-[15px]">
+          <p className="mt-2 max-w-[640px] font-body text-[14.5px] leading-[1.75] text-zinc-600 dark:text-parchment/70 sm:mt-3 sm:text-[15px]">
             Each era is an aesthetic world. Tap the timeline to enter. Songs are <em className="text-espresso dark:text-parchment">archival previews</em>, select one to cue the cassette.
           </p>
         </div>
-        <div className="hidden items-center gap-2 font-sans text-[10px] tracking-[0.08em] text-zinc-500 md:flex">
+        <div className="hidden items-center gap-2 font-sans text-[10px] tracking-[0.08em] text-zinc-600 md:flex">
           <span className="h-2 w-2 rounded-full bg-cherry" />
-          {eras.length} ERAS CATALOGUED / 2005 → PRESENT
+          {eras.length} ERAS CATALOGUED / 2005 → 2025
         </div>
       </div>
 
@@ -34,7 +34,7 @@ export default function Timeline({ setCurrentTrack, setIsPlaying }) {
           <div className="absolute bottom-6 left-[11px] top-6 hidden w-px bg-espresso/10 dark:bg-parchment/10 lg:block" />
           
           {/* mobile hint */}
-          <div className="mb-2 flex items-center gap-2 font-sans text-[9px] tracking-[0.08em] text-zinc-500/70 sm:text-[10px] lg:hidden">
+          <div className="mb-2 flex items-center gap-2 font-sans text-[9px] tracking-[0.08em] text-zinc-600/80 sm:text-[10px] lg:hidden">
             <span>← SWIPE TO EXPLORE →</span>
             <span className="h-px flex-1 bg-espresso/10 dark:bg-parchment/10" />
           </div>
@@ -135,7 +135,7 @@ export default function Timeline({ setCurrentTrack, setIsPlaying }) {
                 </p>
 
                 <div className="mt-4 sm:mt-5">
-                  <div className="font-sans text-[9px] tracking-[0.08em] text-zinc-500 sm:text-[10px] sm:tracking-[0.2em]">AESTHETIC DOSSIER</div>
+                  <div className="font-sans text-[10px] tracking-[0.08em] text-zinc-600 sm:text-[10px] sm:tracking-[0.2em]">AESTHETIC DOSSIER</div>
                   <div className="mt-2 flex flex-wrap gap-1.5">
                     <span className="inline-flex max-w-full rounded-full border border-espresso/10 bg-parchment-dark px-2.5 py-1.5 font-sans text-[10px] leading-snug tracking-wide text-espresso dark:border-parchment/10 dark:bg-noir dark:text-parchment/70 sm:px-3 sm:text-[11px]">
                       {active.aesthetic}
@@ -147,7 +147,7 @@ export default function Timeline({ setCurrentTrack, setIsPlaying }) {
               {/* Songs / moodboard */}
               <div className="flex min-w-0 flex-col gap-3 sm:gap-4">
                 <div className="rounded-2xl border border-[#D4AF37]/15 bg-parchment-dark/40 p-2.5 shadow-sm dark:border-[#F7F4EB]/10 dark:bg-noir/40 sm:p-3">
-                  <div className="font-sans text-[9px] tracking-[0.08em] text-zinc-500 sm:text-[10px] sm:tracking-[0.2em]">NOTABLE CUTS · TAP TO CUE CASSETTE</div>
+                  <div className="font-sans text-[10px] tracking-[0.08em] text-zinc-600 sm:text-[10px] sm:tracking-[0.2em]">NOTABLE CUTS · TAP TO CUE CASSETTE</div>
                   <div className="mt-2.5 flex flex-col gap-2 sm:mt-3">
                     {active.songs.map((s) => (
                       <button

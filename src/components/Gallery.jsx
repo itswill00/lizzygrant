@@ -43,9 +43,9 @@ export default function Gallery() {
         <h2 className="mt-1.5 font-display text-[26px] font-bold leading-none tracking-[-0.02em] text-espresso dark:text-parchment sm:mt-2 sm:text-[34px] md:text-[48px]">
           EVERY FRAME <span className="font-light italic text-zinc-500 text-[20px] sm:text-[26px] md:text-[34px]">filed & numbered</span>
         </h2>
-        <p className="mt-2 max-w-[640px] font-body text-[14.5px] leading-[1.75] text-zinc-500 dark:text-parchment/60 sm:mt-3 sm:text-[15px]">
+        <p className="mt-2 max-w-[640px] font-body text-[14.5px] leading-[1.75] text-zinc-600 dark:text-parchment/70 sm:mt-3 sm:text-[15px]">
           The proof prints, {galleryFrames.length} frames from Bowery ballrooms to Dublin, 2011 → 2025.
-          Tap any frame for the loupe. Photographs: Wikimedia Commons contributors.
+          Tap any frame for the loupe. Photographs: Wikimedia Commons contributors, CC-BY-SA, credited per frame below.
         </p>
       </div>
 
@@ -70,19 +70,12 @@ export default function Gallery() {
       </div>
 
       {/* masonry contact sheet */}
-      <motion.div layout className="columns-2 gap-3 sm:columns-3 sm:gap-4 lg:columns-4">
-        <AnimatePresence mode="popLayout">
-          {shown.map((f, i) => (
-            <motion.figure
-              layout
+      <div className="columns-2 gap-3 sm:columns-3 sm:gap-4 lg:columns-4">
+        {shown.map((f, i) => (
+            <figure
               key={f.id}
-              initial={{ opacity: 0, y: 12 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, scale: 0.96 }}
-              viewport={{ once: true, margin: '-30px' }}
-              transition={{ duration: 0.35 }}
               onClick={() => setLightbox(filtered.indexOf(f))}
-              className="group mb-3 break-inside-avoid cursor-pointer rounded-2xl border border-[#D4AF37]/15 bg-white p-1.5 pb-2 shadow-[0_4px_12px_rgba(0,0,0,0.05)] transition-shadow duration-300 hover:shadow-[0_10px_24px_rgba(0,0,0,0.12)] dark:border-[#F7F4EB]/10 dark:bg-noir-soft sm:mb-4"
+              className="group mb-3 break-inside-avoid cursor-pointer rounded-2xl border border-[#D4AF37]/15 bg-white p-1.5 pb-2 shadow-[0_4px_12px_rgba(0,0,0,0.05)] transition-all duration-300 hover:shadow-[0_10px_24px_rgba(0,0,0,0.12)] active:scale-[0.99] dark:border-[#F7F4EB]/10 dark:bg-noir-soft sm:mb-4"
             >
               <div className="relative aspect-[3/4] overflow-hidden rounded-xl bg-parchment-dark">
                 <SafeImage
@@ -96,13 +89,12 @@ export default function Gallery() {
                 </span>
               </div>
               <figcaption className="flex items-center justify-between gap-2 px-1 pt-1.5">
-                <span className="truncate font-sans text-[9px] tracking-[0.08em] text-zinc-500">{f.caption}</span>
-                <span className="shrink-0 font-sans text-[9px] font-bold tracking-[0.1em] text-cherry">{f.year}</span>
+                <span className="truncate font-sans text-[10px] tracking-[0.08em] text-zinc-600">{f.caption}</span>
+                <span className="shrink-0 font-sans text-[10px] font-bold tracking-[0.1em] text-cherry dark:text-brass-light">{f.year}</span>
               </figcaption>
-            </motion.figure>
+            </figure>
           ))}
-        </AnimatePresence>
-      </motion.div>
+      </div>
 
       {/* progressive load, keeps request bursts small for throttled CDNs */}
       <div className="mt-6 flex flex-col items-center gap-2">
@@ -171,8 +163,8 @@ export default function Gallery() {
                   <div className="truncate font-display text-[14px] font-bold text-espresso dark:text-parchment sm:text-[16px]">
                     {frame.caption}
                   </div>
-                  <div className="font-sans text-[10px] tracking-[0.12em] text-zinc-500">
-                    {frame.year} / {frame.credit} / CC-BY-SA
+                  <div className="font-sans text-[10px] tracking-[0.12em] text-zinc-600">
+                    {frame.year} / {frame.credit} / <a href={`https://commons.wikimedia.org/wiki/File:${encodeURIComponent(frame.file)}`} target="_blank" rel="noreferrer" className="underline hover:text-cherry">CC-BY-SA</a>
                   </div>
                 </div>
                 <span className="rounded-full bg-cherry px-2.5 py-1 font-sans text-[10px] tracking-[0.12em] text-white">

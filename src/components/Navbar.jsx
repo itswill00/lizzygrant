@@ -1,8 +1,12 @@
-import { useState } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { routes } from '../data/routes';
 
 export default function Navbar({ darkMode, setDarkMode, onNavigate }) {
   const [open, setOpen] = useState(false);
+  const drawerItems = routes.filter((r) => r.href !== '/jeremy').slice(0, 7);
+  const closeBtnRef = useRef(null);
+  const openBtnRef = useRef(null);
   const go = (e, href) => {
     if (onNavigate) {
       e.preventDefault();
@@ -10,6 +14,27 @@ export default function Navbar({ darkMode, setDarkMode, onNavigate }) {
       onNavigate(href);
     }
   };
+  useEffect(() => {
+    if (!open) {
+      openBtnRef.current?.focus?.();
+      return;
+    }
+    const first = document.querySelector('#mobile-menu a');
+    first?.focus?.();
+    const onKey = (e) => {
+      if (e.key === 'Escape') setOpen(false);
+      if (e.key === 'Tab') {
+        const focusable = document.querySelectorAll('#mobile-menu a, #mobile-menu button');
+        if (!focusable.length) return;
+        const firstEl = focusable[0];
+        const lastEl = focusable[focusable.length - 1];
+        if (e.shiftKey && document.activeElement === firstEl) { e.preventDefault(); lastEl.focus(); }
+        else if (!e.shiftKey && document.activeElement === lastEl) { e.preventDefault(); firstEl.focus(); }
+      }
+    };
+    document.addEventListener('keydown', onKey);
+    return () => document.removeEventListener('keydown', onKey);
+  }, [open]);
 
   return (
     <header className="fixed left-0 right-0 top-0 z-40 border-b border-espresso/10 bg-parchment/95 backdrop-blur-md dark:border-parchment/10 dark:bg-noir/95">
@@ -94,8 +119,8 @@ export default function Navbar({ darkMode, setDarkMode, onNavigate }) {
 
           {/* mobile hamburger */}
           <button
+            ref={openBtnRef}
             onClick={() => setOpen(!open)}
-            onKeyDown={(e) => { if (e.key === 'Escape') setOpen(false); }}
             aria-label="Toggle menu"
             aria-expanded={open}
             aria-controls="mobile-menu"
@@ -121,15 +146,7 @@ export default function Navbar({ darkMode, setDarkMode, onNavigate }) {
             className="overflow-hidden border-t border-espresso/10 bg-white shadow-xl dark:border-parchment/10 dark:bg-noir md:hidden"
           >
             <nav id="mobile-menu" className="flex flex-col gap-1 p-3">
-              {[
-                { label: 'The Eras', href: '/eras', sub: '2005 → 2025 · 8 chapters' },
-                { label: 'Secret Vault', href: '/vault', sub: 'Unreleased & lore · 17 files' },
-                { label: 'Lyrical Tarot', href: '/tarot', sub: 'Ask · Shuffle · Draw' },
-                { label: 'Muses & Lovers', href: '/muses', sub: 'Fan readings · Barrie → Jeremy' },
-                { label: 'Louisiana Now', href: '/louisiana', sub: 'Journal · Waffle House → Wedding' },
-                { label: 'Contact Sheet', href: '/gallery', sub: '22 frames · loupe' },
-                { label: 'Discography', href: '/discography', sub: '9 releases · 123 tracks' },
-              ].map((it) => (
+              {drawerItems.map((it) => (
                 <a
                   key={it.href}
                   href={it.href}
@@ -161,7 +178,7 @@ export default function Navbar({ darkMode, setDarkMode, onNavigate }) {
               >
                 Listen · Side A ▶
               </a>
-              <button onClick={() => setOpen(false)} className="py-2 font-sans text-[12px] text-zinc-400">Tap to close ✕</button>
+              <button ref={closeBtnRef} onClick={() => setOpen(false)} className="py-2 font-sans text-[12px] text-zinc-400">Tap to close ✕</button>
             </nav>
           </motion.div>
         )}

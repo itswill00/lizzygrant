@@ -50,8 +50,8 @@ export default function Footer({ onNavigate }) {
                   <span className="font-mono text-[11px] tracking-[0.12em] text-espresso dark:text-parchment">Music & artwork</span>: All songs, recordings, and covers belong to their respective copyright holders. 30-second previews via official sources for reverent listening.
                 </p>
               </div>
-              <div className="mt-4 border-t border-dashed border-[#D4AF37]/20 pt-3 font-mono text-[9px] tracking-[0.14em] text-typewriter/60">
-                Not affiliated with Lana Del Rey. Made by a listener, for listeners. If you love it, buy the record.
+              <div className="mt-4 border-t border-dashed border-[#D4AF37]/20 pt-3 font-mono text-[10px] tracking-[0.14em] text-typewriter/70 dark:text-parchment/60">
+                Not affiliated with Lana Del Rey. Made by a listener, for listeners. If you love it, buy the record. Covers low-res for identification under fair use.
               </div>
             </div>
           </div>

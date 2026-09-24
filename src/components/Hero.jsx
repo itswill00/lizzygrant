@@ -231,6 +231,9 @@ export default function Hero({ onNavigate }) {
                       alt={heroEra.imageAlt}
                       loading={heroIndex === 1 ? 'eager' : 'lazy'}
                       fetchPriority={heroIndex === 1 ? 'high' : undefined}
+                      width="800"
+                      height="600"
+                      sizes="(min-width: 1024px) 460px, (min-width: 640px) 560px, 90vw"
                       draggable={false}
                       className="h-full w-full object-cover"
                     />

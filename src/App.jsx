@@ -6,6 +6,7 @@ import Navbar from './components/Navbar';
 import Hero from './components/Hero';
 import AudioPlayer from './components/AudioPlayer';
 import Footer from './components/Footer';
+import { routes } from './data/routes';
 
 const Timeline = lazy(() => import('./components/Timeline'));
 const Vault = lazy(() => import('./components/Vault'));
@@ -29,16 +30,7 @@ function SectionFallback({ label }) {
 }
 
 function Hub({ onNavigate }) {
-  const cards = [
-    { href: '/eras', k: '02', label: 'The Eras', sub: '2005 → 2025 · 8 chapters', desc: 'Interactive chronology, tap timeline, enter an era.' },
-    { href: '/vault', k: '03', label: 'Secret Vault', sub: '17 files · unreleased & lore', desc: 'Case files, tapes, poetry, interview lore.' },
-    { href: '/tarot', k: '04', label: 'Lyrical Tarot', sub: 'Ask · Shuffle · Draw', desc: 'Lyric as reading, shuffle and draw.' },
-    { href: '/muses', k: '05', label: 'Muses & Lovers', sub: 'Barrie → Jeremy · fan readings', desc: 'Every love left a song, public chapters only.' },
-    { href: '/louisiana', k: '06', label: 'Louisiana Now', sub: 'Journal · Waffle House → Wedding', desc: 'Living journal, newest first, developing.' },
-    { href: '/gallery', k: '07', label: 'Contact Sheet', sub: '22 frames · loupe', desc: 'Proof prints 2011 → 2025, tap for loupe.' },
-    { href: '/discography', k: '08', label: 'Discography', sub: '9 releases · 123 tracks', desc: 'Every record, every standard track, tap to preview.' },
-    { href: '/jeremy', k: '09', label: 'Lana + Jeremy', sub: 'New · photos & timeline', desc: 'The Louisiana peace, how they met, married.' },
-  ];
+  const cards = routes;
   return (
     <section className="mx-auto max-w-[1400px] px-4 py-10 sm:px-6 sm:py-12 md:py-16">
       <div className="mb-6 flex items-end justify-between gap-3">
@@ -47,7 +39,7 @@ function Hub({ onNavigate }) {
           <h2 className="mt-1 font-display text-[22px] font-bold tracking-[-0.02em] text-zinc-900 dark:text-white sm:text-[26px]">Browse the archive</h2>
           <p className="mt-1 max-w-[560px] font-sans text-[13.5px] leading-[1.6] text-zinc-500 dark:text-zinc-400">Home is now a hub, pick a chapter. Each page is its own tape, lighter to load.</p>
         </div>
-        <span className="hidden font-sans text-[11px] tracking-[0.08em] text-zinc-400 sm:block">8 CHAPTERS</span>
+        <span className="hidden font-sans text-[11px] tracking-[0.08em] text-zinc-400 sm:block">{String(routes.length).padStart(2,'0')} CHAPTERS</span>
       </div>
       <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
         {cards.map((c) => (

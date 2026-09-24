@@ -171,8 +171,17 @@ export default function AudioPlayer({ isPlaying, setIsPlaying, currentTrack, set
   useEffect(() => {
     const audio = audioRef.current;
     if (!audio) return;
-
-    const onTimeUpdate = () => setCurrentTime(audio.currentTime);
+    let raf = 0;
+    let last = 0;
+    const onTimeUpdate = () => {
+      const now = performance.now();
+      if (now - last < 200) {
+        if (!raf) raf = requestAnimationFrame(() => { raf = 0; last = performance.now(); setCurrentTime(audio.currentTime); });
+        return;
+      }
+      last = now;
+      setCurrentTime(audio.currentTime);
+    };
     const onLoadedMetadata = () => {
       setDuration(audio.duration || 0);
       setError(null);
@@ -203,6 +212,7 @@ export default function AudioPlayer({ isPlaying, setIsPlaying, currentTrack, set
     audio.addEventListener('error', onError);
 
     return () => {
+      if (raf) cancelAnimationFrame(raf);
       audio.removeEventListener('timeupdate', onTimeUpdate);
       audio.removeEventListener('loadedmetadata', onLoadedMetadata);
       audio.removeEventListener('playing', onPlaying);

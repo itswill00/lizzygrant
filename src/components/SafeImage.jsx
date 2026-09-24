@@ -12,6 +12,10 @@ export default function SafeImage({
   fetchPriority,
   draggable,
   style,
+  width,
+  height,
+  sizes,
+  srcSet,
 }) {
   const [attempt, setAttempt] = useState(0);
   const [dead, setDead] = useState(false);
@@ -47,6 +51,10 @@ export default function SafeImage({
     <img
       key={`${src}::${attempt}`}
       src={src}
+      srcSet={srcSet}
+      sizes={sizes}
+      width={width}
+      height={height}
       alt={alt}
       className={className}
       loading={loading}

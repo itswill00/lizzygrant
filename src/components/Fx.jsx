@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { motion, useMotionValue, useSpring, useTransform } from 'framer-motion';
 
 const finePointer = () =>
@@ -113,23 +113,7 @@ export function DustCanvas() {
 }
 
 /* 3D tilt wrapper: rotateX/rotateY springs + soft glare. Desktop pointers only. */
-export function Tilt({ children, max = 7, className = '' }) {
-  const rx = useMotionValue(0);
-  const ry = useMotionValue(0);
-  const gx = useMotionValue(50);
-  const gy = useMotionValue(50);
-  const srx = useSpring(rx, { stiffness: 180, damping: 20, mass: 0.6 });
-  const sry = useSpring(ry, { stiffness: 180, damping: 20, mass: 0.6 });
-  const glare = useTransform(gx, [0, 100], [0, 0.22]);
-  const glareBg = useTransform(
-    [gx, gy],
-    ([x, y]) => `radial-gradient(circle at ${x}% ${y}%, rgba(255,255,255,0.5), transparent 60%)`
-  );
-
-  if (!finePointer() || reducedMotion()) {
-    return <div className={className}>{children}</div>;
-  }
-
+function TiltInner({ children, max, className, rx, ry, gx, gy, srx, sry, glare, glareBg }) {
   return (
     <div
       className={className}
@@ -166,6 +150,25 @@ export function Tilt({ children, max = 7, className = '' }) {
   );
 }
 
+export function Tilt({ children, max = 7, className = '' }) {
+  if (!finePointer() || reducedMotion()) {
+    return <div className={className}>{children}</div>;
+  }
+  const rx = useMotionValue(0);
+  const ry = useMotionValue(0);
+  const gx = useMotionValue(50);
+  const gy = useMotionValue(50);
+  const srx = useSpring(rx, { stiffness: 180, damping: 20, mass: 0.6 });
+  const sry = useSpring(ry, { stiffness: 180, damping: 20, mass: 0.6 });
+  const glare = useTransform(gx, [0, 100], [0, 0.22]);
+  const glareBg = useTransform(
+    [gx, gy],
+    ([x, y]) => `radial-gradient(circle at ${x}% ${y}%, rgba(255,255,255,0.5), transparent 60%)`
+  );
+
+  return <TiltInner {...{ children, max, className, rx, ry, gx, gy, srx, sry, glare, glareBg }} />;
+}
+
 /* Scroll reveal: opacity + rise, once, transform-only */
 export function Reveal({ children, delay = 0, className = '' }) {
   if (reducedMotion()) return <div className={className}>{children}</div>;
@@ -183,15 +186,7 @@ export function Reveal({ children, delay = 0, className = '' }) {
 }
 
 /* Magnetic hover: gently pulls CTA toward cursor, springs back */
-export function Magnetic({ children, strength = 0.22, className = '' }) {
-  const x = useMotionValue(0);
-  const y = useMotionValue(0);
-  const sx = useSpring(x, { stiffness: 220, damping: 16, mass: 0.4 });
-  const sy = useSpring(y, { stiffness: 220, damping: 16, mass: 0.4 });
-
-  if (!finePointer() || reducedMotion()) {
-    return <div className={className}>{children}</div>;
-  }
+function MagneticInner({ children, strength, className, x, y, sx, sy }) {
   return (
     <motion.div
       className={`inline-block ${className}`}
@@ -211,8 +206,28 @@ export function Magnetic({ children, strength = 0.22, className = '' }) {
   );
 }
 
+export function Magnetic({ children, strength = 0.22, className = '' }) {
+  if (!finePointer() || reducedMotion()) {
+    return <div className={className}>{children}</div>;
+  }
+  const x = useMotionValue(0);
+  const y = useMotionValue(0);
+  const sx = useSpring(x, { stiffness: 220, damping: 16, mass: 0.4 });
+  const sy = useSpring(y, { stiffness: 220, damping: 16, mass: 0.4 });
+
+  return <MagneticInner {...{ children, strength, className, x, y, sx, sy }} />;
+}
+
 /* Floating vinyl: pure-CSS 3D disc, slow spin + soft float, zero WebGL cost */
 export function FloatingVinyl({ size = 300, className = '' }) {
+  const [show, setShow] = useState(() => typeof window !== 'undefined' ? window.matchMedia('(min-width: 768px)').matches : false);
+  useEffect(() => {
+    const m = window.matchMedia('(min-width: 768px)');
+    const on = () => setShow(m.matches);
+    m.addEventListener?.('change', on);
+    return () => m.removeEventListener?.('change', on);
+  }, []);
+  if (!show) return null;
   return (
     <div aria-hidden className={`pointer-events-none absolute ${className}`}>
       <motion.div
