@@ -55,3 +55,5 @@ vercel --prod
 ---
 
 *A fan archival project dedicated to Elizabeth Woolridge Grant. Created with love, reverence, and continuous tape loops. Not affiliated with Lana Del Rey, “Keep the tapes running.”*
+
+<!-- redeploy trigger: sync prod to 2bf5e2c -->
