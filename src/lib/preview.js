@@ -262,7 +262,19 @@ export async function fetchExactPreview(title, signal) {
   const q = (t) => (t || '').toLowerCase().trim();
   const target = q(base);
   const timeout = typeof AbortSignal !== 'undefined' && AbortSignal.timeout ? AbortSignal.timeout(4000) : null;
-  const combined = timeout && signal ? AbortSignal.any ? AbortSignal.any([signal, timeout]) : signal : (signal || timeout);
+  let combined = signal || timeout;
+  if (timeout && signal) {
+    if (typeof AbortSignal.any === 'function') {
+      combined = AbortSignal.any([signal, timeout]);
+    } else {
+      // Safari <16 fallback: abort when either fires
+      const ctrl = new AbortController();
+      const onAbort = () => ctrl.abort();
+      signal.addEventListener('abort', onAbort, { once: true });
+      timeout.addEventListener?.('abort', onAbort, { once: true });
+      combined = ctrl.signal;
+    }
+  }
 
   try {
     const res = await fetch(`https://itunes.apple.com/search?term=${encodeURIComponent(`lana del rey ${base}`)}&entity=song&limit=10`, { signal: combined });

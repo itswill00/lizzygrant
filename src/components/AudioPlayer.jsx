@@ -5,6 +5,7 @@ import {
   playAudioDirect,
   isAudioSwitching,
   setAudioErrorHandler,
+  slugify,
 } from '../lib/preview';
 
 // Internal deck for prev/next. Track picking happens in
@@ -53,8 +54,7 @@ export default function AudioPlayer({ isPlaying, setIsPlaying, currentTrack, set
 
   const cleanTitle = (raw) => (raw ? raw.split(' /')[0].trim() : '');
   const activeTrack = tracks[trackIndex];
-  const slugifyLocal = (s) => (s || '').toLowerCase().trim().replace(/&/g, '-').replace(/[^a-z0-9\s-]/g, '').trim().replace(/[\s_]+/g, '-').replace(/-+/g, '-');
-  const matchDeck = (base) => tracks.findIndex((t) => slugifyLocal(t.title) === slugifyLocal(base));
+  const matchDeck = (base) => tracks.findIndex((t) => slugify(t.title) === slugify(base));
   const reqBase = currentTrack && !currentTrack.src ? cleanTitle(currentTrack.title).toLowerCase() : null;
   const reqPlayable = !currentTrack || currentTrack.src || (reqBase && matchDeck(reqBase) !== -1);
   const displayTitle = reqPlayable ? cleanTitle(currentTrack?.title || activeTrack.title) : activeTrack.title;
@@ -144,7 +144,6 @@ export default function AudioPlayer({ isPlaying, setIsPlaying, currentTrack, set
   const selectAndPlayRef = useRef(selectAndPlay);
   useEffect(() => { selectAndPlayRef.current = selectAndPlay; });
 
-  // bersihkan sisa posisi drag versi lama (localStorage), sekali saja — legacy, hapus setelah 2026-12
   // Keyboard shortcuts: Space only when body focused, Ctrl/Alt + Arrow for next/prev
   useEffect(() => {
     const onKeyDown = (e) => {

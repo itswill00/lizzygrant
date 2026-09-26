@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { tarotCards } from '../data/tarot';
 import { cueSong } from '../lib/preview';
@@ -23,6 +23,14 @@ export default function Tarot({ setCurrentTrack, setIsPlaying }) {
   const [isShuffling, setIsShuffling] = useState(false);
   const [copied, setCopied] = useState(false);
   const [hearing, setHearing] = useState(null); // card id loading preview
+  const timersRef = useRef([]);
+
+  useEffect(() => {
+    return () => {
+      timersRef.current.forEach(clearTimeout);
+      timersRef.current = [];
+    };
+  }, []);
 
   const active = tarotCards.find((c) => c.id === activeId) || null;
   const flippedCount = Object.keys(flipped).length;
@@ -56,12 +64,14 @@ export default function Tarot({ setCurrentTrack, setIsPlaying }) {
     setFlipped({});
     setDrawn(picked);
     picked.forEach((id, i) => {
-      setTimeout(() => {
+      const t = setTimeout(() => {
         setFlipped((f) => ({ ...f, [id]: true }));
         if (i === 0) setActiveId(id);
       }, 250 * (i + 1));
+      timersRef.current.push(t);
     });
-    setTimeout(() => pushHistory(picked), 250 * count + 100);
+    const t = setTimeout(() => pushHistory(picked), 250 * count + 100);
+    timersRef.current.push(t);
   };
 
   const toggleCard = (id) => {

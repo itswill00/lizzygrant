@@ -137,6 +137,7 @@ export default function Gallery() {
               onClick={(e) => e.stopPropagation()}
               className="w-fit max-w-[92vw] rounded-2xl border border-[#D4AF37]/20 bg-[#FFFEFB] shadow-[0_20px_60px_rgba(0,0,0,0.4)] dark:border-[#F7F4EB]/10 dark:bg-noir sm:max-w-[860px]"
               role="dialog"
+              aria-modal="true"
               aria-label={`Frame: ${frame.caption}`}
             >
               <div className="relative overflow-hidden rounded-t-2xl bg-[#1A1A1A]">

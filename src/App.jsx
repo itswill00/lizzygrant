@@ -76,8 +76,14 @@ export default function App() {
     const clean = normalize(href);
     history.pushState(null, '', clean);
     setPath(clean);
-    window.scrollTo({ top: 0 });
-    requestAnimationFrame(() => document.querySelector('#main h1, #main h2')?.focus?.());
+    window.scrollTo({ top: 0, behavior: 'auto' });
+    requestAnimationFrame(() => {
+      const main = document.querySelector('#main');
+      if (main) {
+        main.setAttribute('tabindex', '-1');
+        main.focus({ preventScroll: true });
+      }
+    });
   };
 
   useEffect(() => {
@@ -86,7 +92,7 @@ export default function App() {
   }, [darkMode]);
 
   useEffect(() => {
-    const onPop = () => { setPath(getPath()); window.scrollTo({ top: 0 }); };
+    const onPop = () => { setPath(getPath()); window.scrollTo({ top: 0, behavior: 'auto' }); };
     window.addEventListener('popstate', onPop);
     // handle old hash links like /#vault
     if (window.location.hash) {
@@ -129,11 +135,11 @@ export default function App() {
       <a href="#main" className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[100] focus:rounded-full focus:bg-cherry focus:px-4 focus:py-2 focus:text-white">Skip to content</a>
       <div>
         <GrainOverlay />
-        <DustCanvas />
+        {(path === '/' || path === '/index.html') && <DustCanvas />}
         <ScrollProgress />
         <Navbar darkMode={darkMode} setDarkMode={setDarkMode} onNavigate={navigate} />
         <div className="h-[82px] sm:h-[84px] md:h-[96px] lg:h-[124px]" aria-hidden />
-        <main id="main"><Suspense fallback={<SectionFallback label="ARCHIVE" />}>{renderRoute()}</Suspense></main>
+        <main id="main" tabIndex={-1}><Suspense fallback={<SectionFallback label="ARCHIVE" />}>{renderRoute()}</Suspense></main>
         <Footer onNavigate={navigate} />
         <AudioPlayer isPlaying={isPlaying} setIsPlaying={setIsPlaying} currentTrack={currentTrack} setCurrentTrack={setCurrentTrack} />
       </div>

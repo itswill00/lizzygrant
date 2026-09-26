@@ -192,6 +192,7 @@ export default function Vault({ onNavigate }) {
               onClick={(e) => e.stopPropagation()}
               className="w-full max-w-[640px] rounded-2xl border border-[#D4AF37]/20 bg-[#FFFEFB] shadow-[0_20px_60px_rgba(0,0,0,0.35)] dark:border-[#F7F4EB]/10 dark:bg-noir"
               role="dialog"
+              aria-modal="true"
               aria-label={`File: ${selected.title}`}
             >
               <div className="relative aspect-[16/9] w-full shrink-0 overflow-hidden rounded-t-2xl bg-parchment-dark">
