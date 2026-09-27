@@ -37,7 +37,6 @@ export const LOCAL_FILES = new Set([
   'blue-jeans.mp3',
   'blue-velvet.mp3',
   'body-electric.mp3',
-  'born-to-die.mp3',
   'breaking-up-slowly.mp3',
   'brooklyn-baby.mp3',
   'burnt-norton.mp3',
@@ -255,6 +254,8 @@ export function pauseAudioDirect() {
   } catch {}
 }
 
+const streamPreviewCache = new Map();
+
 export async function fetchExactPreview(title, signal) {
   const local = resolveLocalPreview(title);
   if (local) return local;
@@ -262,6 +263,11 @@ export async function fetchExactPreview(title, signal) {
   const base = title.replace(/[\.…]+$/, '').split(' (')[0].trim();
   const q = (t) => (t || '').toLowerCase().trim();
   const target = q(base);
+
+  if (streamPreviewCache.has(target)) {
+    return streamPreviewCache.get(target);
+  }
+
   const timeout = typeof AbortSignal !== 'undefined' && AbortSignal.timeout ? AbortSignal.timeout(4000) : null;
   let combined = signal || timeout;
   if (timeout && signal) {
@@ -284,7 +290,11 @@ export async function fetchExactPreview(title, signal) {
     if (!m) {
       m = json.results?.find((r) => r.previewUrl && q(r.trackName).startsWith(target) && q(r.artistName).includes('lana'));
     }
-    if (m?.previewUrl) return { src: m.previewUrl, source: 'iTUNES' };
+    if (m?.previewUrl) {
+      const match = { src: m.previewUrl, source: 'iTUNES' };
+      streamPreviewCache.set(target, match);
+      return match;
+    }
   } catch (e) {
     if (e?.name === 'AbortError') throw e;
   }
@@ -300,17 +310,21 @@ export function cueSong(title, era, setCurrentTrack, setIsPlaying) {
 
   if (cueAbort) { try { cueAbort.abort(); } catch {} cueAbort = null; }
 
-  if (local?.src) {
+  const baseKey = cleanTitle.replace(/[\.…]+$/, '').split(' (')[0].trim().toLowerCase();
+  const cachedStream = !local ? streamPreviewCache.get(baseKey) : null;
+  const immediate = local || cachedStream;
+
+  if (immediate?.src) {
     // 1. Play directly inside the active user gesture
-    playAudioDirect(local.src);
+    playAudioDirect(immediate.src);
 
     // 2. Synchronously set React state
     if (setCurrentTrack) {
       setCurrentTrack({
         title: cleanTitle,
         era,
-        src: local.src,
-        source: 'LOCAL',
+        src: immediate.src,
+        source: immediate.source || 'LOCAL',
       });
     }
     if (setIsPlaying) setIsPlaying(true);
