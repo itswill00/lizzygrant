@@ -19,7 +19,7 @@ export function slugify(title) {
     .replace(/-+/g, '-');
 }
 
-// Complete set of 129 genuine local clips bundled in public/audio/
+// Complete set of 128 genuine local clips bundled in public/audio/
 export const LOCAL_FILES = new Set([
   '13-beaches.mp3',
   '24.mp3',
@@ -107,7 +107,7 @@ export const LOCAL_FILES = new Set([
   'nectar-of-the-gods.mp3',
   'norman-fucking-rockwell.mp3',
   'not-all-who-wander-are-lost.mp3',
-  'off-to-the-races.mp3',
+  'off-to-the-races-v2.mp3',
   'old-money.mp3',
   'paris-texas.mp3',
   'peppers.mp3',
@@ -151,14 +151,21 @@ export const LOCAL_FILES = new Set([
   'yosemite.mp3',
 ]);
 
+// Cache-busted filenames: same song, new URL so year-long immutable
+// caches (browser + edge) fetch the fixed clip instead of the stale one.
+const LOCAL_OVERRIDES = {
+  'off-to-the-races': 'off-to-the-races-v2.mp3',
+};
+
 // Synchronous local file lookup, returns { src, source: 'LOCAL' } in 0ms
 export function resolveLocalPreview(title) {
   if (!title) return null;
   const slug = slugify(title);
   if (!slug) return null;
 
-  if (LOCAL_FILES.has(slug + '.mp3')) {
-    return { src: `/audio/${slug}.mp3`, source: 'LOCAL' };
+  const file = LOCAL_OVERRIDES[slug] || `${slug}.mp3`;
+  if (LOCAL_FILES.has(file)) {
+    return { src: `/audio/${file}`, source: 'LOCAL' };
   }
   return null;
 }
