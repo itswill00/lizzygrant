@@ -34,7 +34,7 @@ export const LOCAL_FILES = new Set([
   'black-bathing-suit.mp3',
   'black-beauty.mp3',
   'blue-banisters.mp3',
-  'blue-jeans.mp3',
+  'blue-jeans-v2.mp3',
   'blue-velvet.mp3',
   'body-electric.mp3',
   'breaking-up-slowly.mp3',
@@ -155,6 +155,7 @@ export const LOCAL_FILES = new Set([
 // caches (browser + edge) fetch the fixed clip instead of the stale one.
 const LOCAL_OVERRIDES = {
   'off-to-the-races': 'off-to-the-races-v2.mp3',
+  'blue-jeans': 'blue-jeans-v2.mp3',
 };
 
 // Synchronous local file lookup, returns { src, source: 'LOCAL' } in 0ms
