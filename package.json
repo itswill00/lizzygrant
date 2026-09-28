@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "node node_modules/vite/bin/vite.js --host 0.0.0.0 --port 5173",
-    "build": "node node_modules/vite/bin/vite.js build",
+    "build": "node node_modules/vite/bin/vite.js build && node ./scripts/spa-fallback.js",
     "preview": "node node_modules/vite/bin/vite.js preview --host 0.0.0.0 --port 4173"
   },
   "dependencies": {

@@ -68,7 +68,11 @@ export default function App() {
   const [darkMode, setDarkMode] = useState(() => typeof window !== 'undefined' && window.matchMedia?.('(prefers-color-scheme: dark)').matches);
   const [isPlaying, setIsPlaying] = useState(false);
   const [currentTrack, setCurrentTrack] = useState(null);
-  const normalize = (p) => (p || '/').replace(/\/+$/, '') || '/';
+  const normalize = (p) => {
+    const s = (p || '/').replace(/\/+$/, '') || '/';
+    if (s === '/index' || s === '/index.html') return '/';
+    return s.replace(/\.html$/, '') || '/';
+  };
   const getPath = () => (typeof window !== 'undefined' ? normalize(window.location.pathname) : '/');
   const [path, setPath] = useState(getPath());
 
