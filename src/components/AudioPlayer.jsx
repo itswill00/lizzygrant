@@ -270,7 +270,7 @@ export default function AudioPlayer({ isPlaying, setIsPlaying, currentTrack, set
       <audio ref={audioRef} preload="metadata" playsInline />
       <div className="h-[76px]" aria-hidden />
 
-      <div className="pointer-events-none fixed inset-x-0 bottom-0 z-50 flex justify-center px-3 pb-[calc(0.75rem+env(safe-area-inset-bottom,0px))] sm:pb-[calc(1rem+env(safe-area-inset-bottom,0px))]">
+      <div className="pointer-events-none fixed inset-x-0 bottom-0 z-50 flex justify-center px-3 pb-[calc(0.5rem+env(safe-area-inset-bottom,0px))] sm:pb-[calc(1rem+env(safe-area-inset-bottom,0px))]">
         <div className="pointer-events-auto relative w-full max-w-[560px]">
           {error && (
             <div className="absolute -top-9 left-1/2 flex max-w-full -translate-x-1/2 items-center gap-2 whitespace-nowrap rounded-full bg-[#1A1A1A]/95 px-3 py-1.5 font-mono text-[10px] tracking-wide text-parchment/80 shadow-lg">
@@ -333,7 +333,7 @@ export default function AudioPlayer({ isPlaying, setIsPlaying, currentTrack, set
               else if (e.key === 'Home') { audio.currentTime = 0; e.preventDefault(); }
               else if (e.key === 'End') { audio.currentTime = total; e.preventDefault(); }
             }}
-            className="mx-6 -mt-0.5 cursor-pointer py-3"
+            className="mx-6 -mt-0.5 cursor-pointer py-2 sm:py-3"
             title="Seek (Arrow keys work when focused)"
             role="slider"
             tabIndex={0}
