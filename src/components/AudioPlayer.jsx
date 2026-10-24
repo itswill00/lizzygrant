@@ -32,6 +32,12 @@ function formatTime(sec) {
   return `${m}:${String(s).padStart(2, '0')}`;
 }
 
+// Filename portion of an audio URL, ignoring query string. Preview URLs are
+// long signed CDN paths, so compare only the last segment.
+function tailOf(src) {
+  return (src || '').split('/').pop()?.split('?')[0] || '';
+}
+
 export default function AudioPlayer({ isPlaying, setIsPlaying, currentTrack, setCurrentTrack }) {
   const audioRef = useRef(null);
 
