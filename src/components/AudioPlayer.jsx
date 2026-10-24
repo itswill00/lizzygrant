@@ -7,6 +7,7 @@ import {
   setAudioErrorHandler,
   cueSong,
   fullSongLinks,
+  invalidateBySrc,
   slugify,
 } from '../lib/preview';
 
@@ -50,6 +51,9 @@ export default function AudioPlayer({ isPlaying, setIsPlaying, currentTrack, set
   const toastedRef = useRef(null);
   const barRef = useRef(null);
   const linksRef = useRef(null);
+  const retriedRef = useRef(null);
+  const currentTrackRef = useRef(currentTrack);
+  useEffect(() => { currentTrackRef.current = currentTrack; }, [currentTrack]);
 
   useEffect(() => {
     if (!error) return;
@@ -195,8 +199,22 @@ export default function AudioPlayer({ isPlaying, setIsPlaying, currentTrack, set
       if (selectAndPlayRef.current) selectAndPlayRef.current(nextIdx);
     };
     const onError = () => {
-      if (audio.src && !audio.src.endsWith('/')) {
-        console.warn('[AudioPlayer] Audio load error for', audio.src);
+      const failedSrc = audio.src;
+      if (!failedSrc || failedSrc.endsWith('/')) return;
+      console.warn('[AudioPlayer] Audio load error for', failedSrc);
+
+      // A dead preview URL (expired CDN token, moved asset) must not stay in
+      // the cache, or every future tap on this song fails the same way.
+      const track = currentTrackRef.current;
+      const key = track ? cleanTitle(track.title) : null;
+      invalidateBySrc(failedSrc);
+
+      if (key && retriedRef.current !== key) {
+        retriedRef.current = key;
+        setError('Preview expired, re-tuning…');
+        cueSong(key, track.era, setCurrentTrack, setIsPlaying);
+      } else {
+        setError('Preview failed to load, open the full song instead');
       }
     };
 

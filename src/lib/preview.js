@@ -92,15 +92,65 @@ export function pickMatch(results, baseTitle) {
 // Network plumbing: one request per track, memoised, with backoff.
 // ---------------------------------------------------------------------------
 
-const streamPreviewCache = new Map(); // normalised title -> { src, source, full }
+const streamPreviewCache = new Map(); // normalised title -> { src, source, expiresAt }
 const inflight = new Map();
 const CACHE_KEY = 'lg.preview.v3';
+
+// Deezer hands out signed URLs with an `hdnea=exp=<unix>...` token. Once that
+// expires the CDN returns 403 and the audio element dies silently — which is
+// exactly how "Ride" stopped playing for no visible reason. Read the expiry so
+// we never serve a dead URL.
+function expiryFromSrc(src) {
+  if (!src) return null;
+  const m = /[?&]hdnea=[^&]*exp=(\d+)/.exec(src);
+  return m ? Number(m[1]) * 1000 : null;
+}
+
+const MISS_TTL_MS = 120 * 1000; // transient failures shouldn't stick for the session
+const EXPIRY_MARGIN_MS = 60 * 1000; // refresh a minute before the token dies
+
+function isFresh(entry) {
+  if (!entry) return false;
+  if (!entry.expiresAt) return true;
+  return Date.now() < entry.expiresAt - EXPIRY_MARGIN_MS;
+}
+
+function readCache(key) {
+  const entry = streamPreviewCache.get(key);
+  if (!entry) return null;
+  if (isFresh(entry)) return entry;
+  streamPreviewCache.delete(key); // stale: drop and re-resolve
+  return null;
+}
+
+// Purge whatever is cached for a URL the browser refused to play.
+export function invalidateBySrc(src) {
+  if (!src) return;
+  for (const [key, entry] of streamPreviewCache) {
+    if (entry && entry.src === src) {
+      streamPreviewCache.delete(key);
+      persist();
+      return;
+    }
+  }
+}
 
 // Warm from sessionStorage so a reload doesn't re-hit the APIs
 // (iTunes rate-limits hard after ~50 requests).
 try {
   const raw = typeof sessionStorage !== 'undefined' && sessionStorage.getItem(CACHE_KEY);
-  if (raw) for (const [k, v] of Object.entries(JSON.parse(raw))) streamPreviewCache.set(k, v);
+  if (raw) {
+    for (const [k, v] of Object.entries(JSON.parse(raw))) {
+      if (v && v.src) {
+        // Old entries have no expiresAt; derive it so stale tokens are dropped.
+        const exp = v.expiresAt ?? expiryFromSrc(v.src);
+        if (exp && Date.now() >= exp - EXPIRY_MARGIN_MS) continue;
+        streamPreviewCache.set(k, { ...v, expiresAt: exp ?? null });
+      } else if (v && v.unplayable) {
+        streamPreviewCache.set(k, { ...v, expiresAt: Date.now() + MISS_TTL_MS });
+      }
+    }
+  }
 } catch {}
 
 let persistTimer = null;
@@ -256,7 +306,7 @@ export async function fetchExactPreview(title, signal, albumHint) {
   const key = normTitle(base);
   if (!key) return { unplayable: true };
 
-  if (streamPreviewCache.has(key)) return streamPreviewCache.get(key);
+  if (readCache(key)) return readCache(key);
 
   // Collapse concurrent requests for the same track.
   if (inflight.has(key)) return inflight.get(key);
@@ -271,7 +321,7 @@ export async function fetchExactPreview(title, signal, albumHint) {
       try {
         const hit = await provider.run();
         if (hit) {
-          const match = { src: hit.previewUrl, source: provider.name };
+          const match = { src: hit.previewUrl, source: provider.name, expiresAt: expiryFromSrc(hit.previewUrl) };
           streamPreviewCache.set(key, match);
           persist();
           return match;
@@ -282,7 +332,7 @@ export async function fetchExactPreview(title, signal, albumHint) {
       }
     }
 
-    const miss = { unplayable: true };
+    const miss = { unplayable: true, expiresAt: Date.now() + MISS_TTL_MS };
     streamPreviewCache.set(key, miss);
     persist();
     return miss;
@@ -378,7 +428,7 @@ export function cueSong(title, era, setCurrentTrack, setIsPlaying, albumHint) {
   if (cueAbort) { try { cueAbort.abort(); } catch {} cueAbort = null; }
 
   const key = normTitle(baseTitle(cleanTitle));
-  const cached = streamPreviewCache.get(key);
+  const cached = readCache(key);
 
   if (cached && cached.src) {
     // 1. Start inside the active user gesture.
