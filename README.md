@@ -24,11 +24,12 @@ Retro Americana · 70s editorial nostalgia · cinematic melancholy.
 - **Louisiana Now**: living journal: Waffle House shift, Coachella headline, the 2024 wedding, developing entries
 - **Contact Sheet**: 22 numbered proof-print frames (Bowery 2011 → Dublin 2025), era filters, loupe lightbox
 - **Complete Discography**: 9 releases, full standard tracklists, singles marked, tap-to-preview everything
-- **Cassette deck**: persistent bottom player with genuine 30-second vocal previews, seek tape-counter, volume, track pills, slim mini-bar on mobile (`▴` to expand)
+- **Cassette deck**: persistent bottom player with genuine 30-second vocal previews, seek tape-counter, volume, track pills, slim mini-bar on mobile (`▴` to expand). The `♫` button opens Spotify / YouTube / Apple Music for the full song.
 
 ## Music & photos (legal)
 
-- **Audio**: genuine 30-second vocal previews. Local `public/audio/*.mp3` take priority when present; otherwise the player hydrates from the iTunes Search API (`previewUrl`), with Deezer as secondary fallback. Full songs belong to their respective copyright holders, if you love it, buy the record.
+- **Audio**: genuine 30-second vocal previews, streamed live from the iTunes Search API (`previewUrl`) with Deezer as fallback. **No audio files ship with this repo** — nothing is downloaded, cached to disk, or re-hosted. Lookups resolve by album tracklist first (exact), then by title, and are memoised per session so a track is only fetched once. Every player surface also links out to Spotify / YouTube / Apple Music for the full song. Full songs belong to their respective copyright holders — if you love it, buy the record.
+- **Matching**: strict. A track only plays if its normalised title genuinely matches a Lana Del Rey release. Censored store metadata (`F****d My Way…`), feature credits (`(feat. …)`) and edition tags are reconciled; a near-miss is rejected rather than playing the wrong song.
 - **Photography**: Wikimedia Commons contributors (CC-BY-SA), served compressed via direct `upload.wikimedia.org/.../thumb/.../800px-...` `object-cover`, lazy below the fold.
 
 ## Stack

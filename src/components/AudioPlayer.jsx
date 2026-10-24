@@ -5,22 +5,24 @@ import {
   playAudioDirect,
   isAudioSwitching,
   setAudioErrorHandler,
+  cueSong,
+  fullSongLinks,
   slugify,
 } from '../lib/preview';
 
 // Internal deck for prev/next. Track picking happens in
 // Discography / Eras / Tarot / Muses via cueSong, player just follows.
-// Volume via hardware buttons, no in-app volume UI.
+// No bundled audio: every track resolves from a streaming API on demand.
 const baseTracks = [
-  { title: 'Video Games', slug: 'video-games', era: 'BORN TO DIE', year: '2012', duration: '4:42', src: '/audio/video-games.mp3', local: '/audio/video-games.mp3', source: 'LOCAL' },
-  { title: 'West Coast', slug: 'west-coast', era: 'ULTRAVIOLENCE', year: '2014', duration: '4:16', src: '/audio/west-coast.mp3', local: '/audio/west-coast.mp3', source: 'LOCAL' },
-  { title: 'Mariners Apartment Complex', slug: 'mariners-apartment-complex', era: 'NFR!', year: '2019', duration: '4:06', src: '/audio/mariners-apartment-complex.mp3', local: '/audio/mariners-apartment-complex.mp3', source: 'LOCAL' },
-  { title: 'Sweet', slug: 'sweet', era: 'OCEAN BLVD', year: '2023', duration: '3:22', src: '/audio/sweet.mp3', local: '/audio/sweet.mp3', source: 'LOCAL' },
-  { title: 'Honeymoon', slug: 'honeymoon', era: 'HONEYMOON', year: '2015', duration: '5:50', src: '/audio/honeymoon.mp3', local: '/audio/honeymoon.mp3', source: 'LOCAL' },
-  { title: 'Love', slug: 'love', era: 'LUST FOR LIFE', year: '2017', duration: '4:32', src: '/audio/love.mp3', local: '/audio/love.mp3', source: 'LOCAL' },
-  { title: 'White Dress', slug: 'white-dress', era: 'CHEMTRAILS', year: '2021', duration: '5:33', src: '/audio/white-dress.mp3', local: '/audio/white-dress.mp3', source: 'LOCAL' },
-  { title: 'A&W', slug: 'a-w', era: 'OCEAN BLVD', year: '2023', duration: '7:13', src: '/audio/a-w.mp3', local: '/audio/a-w.mp3', source: 'LOCAL' },
-  { title: 'Ride', slug: 'ride', era: 'PARADISE', year: '2012', duration: '4:49', src: '/audio/ride.mp3', local: '/audio/ride.mp3', source: 'LOCAL' },
+  { title: 'Video Games', slug: 'video-games', era: 'BORN TO DIE', year: '2012', duration: '4:42' },
+  { title: 'West Coast', slug: 'west-coast', era: 'ULTRAVIOLENCE', year: '2014', duration: '4:16' },
+  { title: 'Mariners Apartment Complex', slug: 'mariners-apartment-complex', era: 'NFR!', year: '2019', duration: '4:06' },
+  { title: 'Sweet', slug: 'sweet', era: 'OCEAN BLVD', year: '2023', duration: '3:22' },
+  { title: 'Honeymoon', slug: 'honeymoon', era: 'HONEYMOON', year: '2015', duration: '5:50' },
+  { title: 'Love', slug: 'love', era: 'LUST FOR LIFE', year: '2017', duration: '4:32' },
+  { title: 'White Dress', slug: 'white-dress', era: 'CHEMTRAILS', year: '2021', duration: '5:33' },
+  { title: 'A&W', slug: 'a-w', era: 'OCEAN BLVD', year: '2023', duration: '7:13' },
+  { title: 'Ride', slug: 'ride', era: 'PARADISE', year: '2012', duration: '4:49' },
 ];
 
 function formatTime(sec) {
@@ -38,8 +40,10 @@ export default function AudioPlayer({ isPlaying, setIsPlaying, currentTrack, set
   const [currentTime, setCurrentTime] = useState(0);
   const [duration, setDuration] = useState(0);
   const [error, setError] = useState(null);
+  const [linksOpen, setLinksOpen] = useState(false);
   const toastedRef = useRef(null);
   const barRef = useRef(null);
+  const linksRef = useRef(null);
 
   useEffect(() => {
     if (!error) return;
@@ -55,23 +59,26 @@ export default function AudioPlayer({ isPlaying, setIsPlaying, currentTrack, set
   const cleanTitle = (raw) => (raw ? raw.split(' /')[0].trim() : '');
   const activeTrack = tracks[trackIndex];
   const matchDeck = (base) => tracks.findIndex((t) => slugify(t.title) === slugify(base));
-  const reqBase = currentTrack && !currentTrack.src ? cleanTitle(currentTrack.title).toLowerCase() : null;
-  const reqPlayable = !currentTrack || currentTrack.src || (reqBase && matchDeck(reqBase) !== -1);
-  const displayTitle = reqPlayable ? cleanTitle(currentTrack?.title || activeTrack.title) : activeTrack.title;
-  const displayEra = reqPlayable ? (currentTrack?.era || activeTrack.era) : activeTrack.era;
-  const effectiveSrc = currentTrack?.src || activeTrack.src;
+
+  const displayTitle = cleanTitle(currentTrack?.title || activeTrack.title);
+  const displayEra = currentTrack?.era || activeTrack.era;
+  const effectiveSrc = currentTrack?.src || null;
+  const isLoading = Boolean(currentTrack?.loading);
+  const fullLinks = currentTrack?.fullLinks || fullSongLinks(displayTitle);
 
   useEffect(() => {
-    if (audioRef.current) {
-      registerAudioElement(audioRef.current);
-      if (effectiveSrc && !audioRef.current.src) {
-        audioRef.current.src = effectiveSrc;
-      }
-    }
-    return () => {
-      unregisterAudioElement();
-    };
+    if (audioRef.current) registerAudioElement(audioRef.current);
+    return () => unregisterAudioElement();
   }, []);
+
+  useEffect(() => {
+    if (!linksOpen) return;
+    const onDown = (e) => {
+      if (linksRef.current && !linksRef.current.contains(e.target)) setLinksOpen(false);
+    };
+    document.addEventListener('pointerdown', onDown);
+    return () => document.removeEventListener('pointerdown', onDown);
+  }, [linksOpen]);
 
   useEffect(() => {
     if (!currentTrack) return;
@@ -89,57 +96,41 @@ export default function AudioPlayer({ isPlaying, setIsPlaying, currentTrack, set
     }
   }, [currentTrack, tracks, trackIndex]);
 
-  useEffect(() => {
-    const audio = audioRef.current;
-    if (!audio || !effectiveSrc) return;
-    if (!isPlaying) {
-      const cur = audio.currentSrc || audio.src || '';
-      if (!cur || !cur.endsWith(effectiveSrc.split('/').pop())) audio.src = effectiveSrc;
-      return;
-    }
-    const cur = audio.currentSrc || audio.src || '';
-    const curTail = cur.split('/').pop()?.split('?')[0];
-    const tgtTail = effectiveSrc.split('/').pop()?.split('?')[0];
-    if (curTail !== tgtTail || !cur) {
-      playAudioDirect(effectiveSrc);
-    }
-  }, [effectiveSrc, isPlaying]);
-
+  // Single source of truth for transport state.
   useEffect(() => {
     const audio = audioRef.current;
     if (!audio) return;
     if (isPlaying) {
-      if (audio.paused && !isAudioSwitching()) {
+      if (!effectiveSrc) return;
+      if (tailOf(audio.currentSrc || audio.src) !== tailOf(effectiveSrc)) {
+        playAudioDirect(effectiveSrc);
+      } else if (audio.paused && !isAudioSwitching()) {
         const p = audio.play();
         if (p && typeof p.catch === 'function') {
           p.catch((err) => {
-            if (err.name !== 'AbortError') {
-              console.warn('[AudioPlayer] isPlaying effect error:', err);
-            }
+            if (err.name !== 'AbortError') console.warn('[AudioPlayer] resume failed:', err);
           });
         }
       }
-    } else {
-      if (!audio.paused && !isAudioSwitching()) {
-        audio.pause();
-      }
+    } else if (!audio.paused && !isAudioSwitching()) {
+      audio.pause();
     }
-  }, [isPlaying]);
+  }, [isPlaying, effectiveSrc]);
 
   const trackIndexRef = useRef(trackIndex);
   const tracksRef = useRef(tracks);
   useEffect(() => { trackIndexRef.current = trackIndex; }, [trackIndex]);
   useEffect(() => { tracksRef.current = tracks; }, [tracks]);
 
+  // Cueing goes through cueSong so lookup + playback share one code path.
   const selectAndPlay = (n) => {
     const t = tracks[n];
     if (!t) return;
     setError(null);
     setCurrentTime(0);
+    setDuration(0);
     setTrackIndex(n);
-    setCurrentTrack(t);
-    setIsPlaying(true);
-    playAudioDirect(t.src);
+    cueSong(t.title, t.era, setCurrentTrack, setIsPlaying);
   };
   const selectAndPlayRef = useRef(selectAndPlay);
   useEffect(() => { selectAndPlayRef.current = selectAndPlay; });
@@ -227,19 +218,23 @@ export default function AudioPlayer({ isPlaying, setIsPlaying, currentTrack, set
     if (isPlaying) {
       audio.pause();
       setIsPlaying(false);
+      return;
+    }
+    if (effectiveSrc) {
+      if (tailOf(audio.currentSrc || audio.src) !== tailOf(effectiveSrc)) {
+        playAudioDirect(effectiveSrc);
+      } else {
+        setIsPlaying(true);
+        const p = audio.play();
+        if (p && typeof p.catch === 'function') {
+          p.catch((err) => {
+            if (err.name !== 'AbortError') console.warn('[AudioPlayer] togglePlay failed:', err);
+          });
+        }
+      }
     } else {
-      if (!audio.src && effectiveSrc) {
-        audio.src = effectiveSrc;
-      }
-      setIsPlaying(true);
-      const p = audio.play();
-      if (p && typeof p.catch === 'function') {
-        p.catch((err) => {
-          if (err.name !== 'AbortError') {
-            console.warn('[AudioPlayer] togglePlay error:', err);
-          }
-        });
-      }
+      // Nothing cued yet: start the current deck track.
+      selectAndPlay(trackIndex);
     }
   };
 
@@ -267,7 +262,7 @@ export default function AudioPlayer({ isPlaying, setIsPlaying, currentTrack, set
 
   return (
     <>
-      <audio ref={audioRef} preload="metadata" playsInline />
+      <audio ref={audioRef} preload="metadata" playsInline crossOrigin="anonymous" />
       <div className="h-[76px]" aria-hidden />
 
       <div className="pointer-events-none fixed inset-x-0 bottom-0 z-50 flex justify-center px-3 pb-[calc(0.5rem+env(safe-area-inset-bottom,0px))] sm:pb-[calc(1rem+env(safe-area-inset-bottom,0px))]">
@@ -276,6 +271,20 @@ export default function AudioPlayer({ isPlaying, setIsPlaying, currentTrack, set
             <div className="absolute -top-9 left-1/2 flex max-w-full -translate-x-1/2 items-center gap-2 whitespace-nowrap rounded-full bg-[#1A1A1A]/95 px-3 py-1.5 font-mono text-[10px] tracking-wide text-parchment/80 shadow-lg">
               <span className="h-1.5 w-1.5 shrink-0 rounded-full bg-brass" />
               <span className="truncate">{error}</span>
+            </div>
+          )}
+
+          {linksOpen && (
+            <div
+              ref={linksRef}
+              className="absolute -top-11 right-2 flex items-center gap-1 rounded-full border border-white/10 bg-[#1A1A1A]/95 px-2 py-1.5 shadow-lg backdrop-blur-md"
+            >
+              <span className="pl-1 pr-0.5 font-mono text-[9px] tracking-widest text-parchment/40">FULL</span>
+              <a href={fullLinks.spotify} target="_blank" rel="noopener noreferrer" className="rounded-full px-2 py-0.5 font-mono text-[10px] tracking-wide text-parchment/75 hover:text-brass">SPOTIFY</a>
+              <span className="text-white/20">·</span>
+              <a href={fullLinks.youtube} target="_blank" rel="noopener noreferrer" className="rounded-full px-2 py-0.5 font-mono text-[10px] tracking-wide text-parchment/75 hover:text-brass">YOUTUBE</a>
+              <span className="text-white/20">·</span>
+              <a href={fullLinks.apple} target="_blank" rel="noopener noreferrer" className="rounded-full px-2 py-0.5 font-mono text-[10px] tracking-wide text-parchment/75 hover:text-brass">APPLE</a>
             </div>
           )}
 
@@ -289,11 +298,20 @@ export default function AudioPlayer({ isPlaying, setIsPlaying, currentTrack, set
                 {displayTitle}
               </div>
               <div className="block w-full truncate font-mono text-[10px] tabular-nums tracking-wide text-parchment/75">
-                {formatTime(currentTime)} / {duration ? formatTime(duration) : '--:--'} · {displayEra}
+                {isLoading ? 'tuning the reel…' : `${formatTime(currentTime)} / ${duration ? formatTime(duration) : '--:--'}`} · {displayEra}
               </div>
             </div>
 
             <div className="flex shrink-0 items-center">
+              <button
+                onClick={() => setLinksOpen((v) => !v)}
+                aria-label="Listen to the full song"
+                title="Listen to the full song"
+                aria-expanded={linksOpen}
+                className={`flex h-9 w-8 items-center justify-center text-[13px] active:scale-95 ${linksOpen ? 'text-brass' : 'text-white/60 hover:text-white'}`}
+              >
+                ♫
+              </button>
               <button
                 onClick={prev}
                 aria-label="Previous track"

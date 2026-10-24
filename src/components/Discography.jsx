@@ -84,7 +84,7 @@ export default function Discography({ setCurrentTrack, setIsPlaying }) {
                       {album.tracks.map((t, i) => (
                         <button
                           key={`${album.id}-${t.t}`}
-                          onClick={() => cueSong(t.t, album.title.toUpperCase(), setCurrentTrack, setIsPlaying)}
+                          onClick={() => cueSong(t.t, album.title.toUpperCase(), setCurrentTrack, setIsPlaying, album.title)}
                           className="group flex items-center gap-2.5 rounded-xl px-2 py-2 text-left transition hover:bg-parchment-dark/60 active:scale-[0.99] dark:hover:bg-white/5"
                         >
                           <span className="w-6 shrink-0 text-right font-sans text-[10px] tabular-nums text-zinc-500/60">

@@ -1,7 +1,12 @@
-// Shared genuine-preview resolver, single source of truth for every
-// tap-to-play on the site (Timeline, Muses, Tarot, Discography, AudioPlayer).
-// ORDER: local file first (instant 0ms, same-origin, immune to mobile autoplay blocks), then iTunes.
-// STRICT: exact title match only. Never attaches a wrong song.
+// Shared audio resolver — single source of truth for every tap-to-play
+// on the site (Timeline, Muses, Tarot, Discography, AudioPlayer).
+//
+// ORDER: iTunes Search API -> Deezer -> unplayable.
+// No bundled audio ships with this repo. Everything streams from the rights
+// holders' own preview endpoints.
+//
+// MATCHING IS STRICT: a track only plays if the title genuinely matches.
+// A wrong song is worse than no song.
 
 export function slugify(title) {
   if (!title) return '';
@@ -19,358 +24,422 @@ export function slugify(title) {
     .replace(/-+/g, '-');
 }
 
-// Complete set of 128 genuine local clips bundled in public/audio/
-export const LOCAL_FILES = new Set([
-  '13-beaches.mp3',
-  '24.mp3',
-  'a-w.mp3',
-  'american.mp3',
-  'arcadia.mp3',
-  'art-deco.mp3',
-  'bartender.mp3',
-  'beautiful-people-beautiful-problems.mp3',
-  'beautiful.mp3',
-  'bel-air.mp3',
-  'black-bathing-suit.mp3',
-  'black-beauty.mp3',
-  'blue-banisters.mp3',
-  'blue-jeans-v2.mp3',
-  'blue-velvet.mp3',
-  'body-electric.mp3',
-  'breaking-up-slowly.mp3',
-  'brooklyn-baby.mp3',
-  'burnt-norton.mp3',
-  'california.mp3',
-  'candy-necklace.mp3',
-  'carmen.mp3',
-  'change.mp3',
-  'chemtrails-over-the-country-club.mp3',
-  'cherry-blossom.mp3',
-  'cherry.mp3',
-  'cinnamon-girl.mp3',
-  'coachella-woodstock-in-my-mind.mp3',
-  'cola.mp3',
-  'cruel-world.mp3',
-  'dance-till-we-die.mp3',
-  'dark-but-just-a-game.mp3',
-  'dark-paradise.mp3',
-  'dealer.mp3',
-  'did-you-know-that-theres-a-tunnel-under-ocean-blvd.mp3',
-  'did-you-know.mp3',
-  'diet-mountain-dew.mp3',
-  'doin-time.mp3',
-  'dont-let-me-be-misunderstood.mp3',
-  'fingertips.mp3',
-  'fishtail.mp3',
-  'florida-kilos.mp3',
-  'for-free.mp3',
-  'freak.mp3',
-  'fuck-it-i-love-you.mp3',
-  'fucked-my-way-up-to-the-top.mp3',
-  'get-free.mp3',
-  'god-bless-america-and-all-the-beautiful-women-in-it.mp3',
-  'god-knows-i-tried.mp3',
-  'gods-monsters.mp3',
-  'gramma.mp3',
-  'grandfather-please-stand-on-the-shoulders-of-my-father-while-hes-deep-sea-fishing.mp3',
-  'groupie-love.mp3',
-  'guns-and-roses.mp3',
-  'happiness-is-a-butterfly.mp3',
-  'heroin.mp3',
-  'high-by-the-beach.mp3',
-  'honeymoon.mp3',
-  'hope-is-a-dangerous-thing-for-a-woman-like-me-to-have-but-i-have-it.mp3',
-  'hope-is-a-dangerous-thing-for-a-woman-like-me-to-have.mp3',
-  'hope-is-a-dangerous-thing.mp3',
-  'how-to-disappear.mp3',
-  'if-you-lie-down-with-me.mp3',
-  'in-my-feelings.mp3',
-  'interlude-the-trio.mp3',
-  'jon-batiste-interlude.mp3',
-  'judah-smith-interlude.mp3',
-  'kill-kill.mp3',
-  'kintsugi.mp3',
-  'let-me-love-you-like-a-woman.mp3',
-  'let-the-light-in.mp3',
-  'living-legend.mp3',
-  'lolita.mp3',
-  'love-song.mp3',
-  'love.mp3',
-  'lucky-ones.mp3',
-  'lust-for-life.mp3',
-  'margaret.mp3',
-  'mariners-apartment-complex.mp3',
-  'million-dollar-man.mp3',
-  'money-power-glory.mp3',
-  'music-to-watch-boys-to.mp3',
-  'national-anthem.mp3',
-  'nectar-of-the-gods.mp3',
-  'norman-fucking-rockwell.mp3',
-  'not-all-who-wander-are-lost.mp3',
-  'off-to-the-races-v2.mp3',
-  'old-money.mp3',
-  'paris-texas.mp3',
-  'peppers.mp3',
-  'pretty-when-you-cry.mp3',
-  'radio.mp3',
-  'religion.mp3',
-  'ride.mp3',
-  'sad-girl.mp3',
-  'salvatore.mp3',
-  'shades-of-cool.mp3',
-  'summer-bummer.mp3',
-  'summertime-sadness.mp3',
-  'swan-song.mp3',
-  'sweet-carolina.mp3',
-  'sweet.mp3',
-  'taco-truck-x-vb.mp3',
-  'terrence-loves-you.mp3',
-  'text-book.mp3',
-  'the-blackest-day.mp3',
-  'the-grants.mp3',
-  'the-greatest.mp3',
-  'the-next-best-american-record.mp3',
-  'the-other-woman.mp3',
-  'this-is-what-makes-us-girls.mp3',
-  'thunder.mp3',
-  'tomorrow-never-came.mp3',
-  'tulsa-jesus-freak.mp3',
-  'ultraviolence.mp3',
-  'venice-bitch.mp3',
-  'video-games.mp3',
-  'violets-for-roses.mp3',
-  'west-coast.mp3',
-  'when-the-world-was-at-war-we-kept-dancing.mp3',
-  'white-dress.mp3',
-  'white-mustang.mp3',
-  'wild-at-heart.mp3',
-  'wildflower-wildfire.mp3',
-  'without-you.mp3',
-  'yayo-original.mp3',
-  'yayo.mp3',
-  'yosemite.mp3',
-]);
+// ---------------------------------------------------------------------------
+// Title normalisation
+// ---------------------------------------------------------------------------
 
-// Cache-busted filenames: same song, new URL so year-long immutable
-// caches (browser + edge) fetch the fixed clip instead of the stale one.
-const LOCAL_OVERRIDES = {
-  'off-to-the-races': 'off-to-the-races-v2.mp3',
-  'blue-jeans': 'blue-jeans-v2.mp3',
-};
+const DASHES = /[\u2010-\u2015\u2212]/g;
 
-// Synchronous local file lookup, returns { src, source: 'LOCAL' } in 0ms
-export function resolveLocalPreview(title) {
-  if (!title) return null;
-  const slug = slugify(title);
-  if (!slug) return null;
-
-  const file = LOCAL_OVERRIDES[slug] || `${slug}.mp3`;
-  if (LOCAL_FILES.has(file)) {
-    return { src: `/audio/${file}`, source: 'LOCAL' };
-  }
-  return null;
+// Strips the noise that differs between our tracklist and store metadata:
+// featured-artist credits, remaster/edition tags, punctuation, diacritics.
+export function normTitle(raw) {
+  if (!raw) return '';
+  return raw
+    .normalize('NFKD')
+    .replace(/[\u0300-\u036f]/g, '')
+    .replace(DASHES, '-')
+    .replace(/[\u2018\u2019\u0060\u00b4]/g, "'")
+    .toLowerCase()
+    .replace(/\s*[([][^)\]]*\b(?:feat|ft|featuring|with)\b[^)\]]*[)\]]/g, '')
+    .replace(/\s+-\s+(?:feat|ft|featuring)\.?.*$/, '')
+    .replace(/\s*[([][^)\]]*\b(?:remaster(?:ed)?|deluxe|bonus|explicit|radio edit|single version|album version)\b[^)\]]*[)\]]/g, '')
+    .replace(/\s+-\s+(?:remaster(?:ed)?|deluxe|bonus track|explicit|radio edit|single version|album version)\b.*$/, '')
+    .replace(/&/g, ' and ')
+    .replace(/[^a-z0-9*' ]+/g, ' ')
+    .replace(/'/g, '')
+    .replace(/\s+/g, ' ')
+    .trim();
 }
 
-// Module-level direct audio element handle
-// Allows calling .play() synchronously in the user touch/click gesture stack,
-// guaranteeing 100% immunity to mobile browser autoplay blocks.
+// Store metadata sometimes censors profanity ("F****d My Way Up to the Top").
+// Turn asterisk runs into wildcards so they still match the real title.
+function titleRegex(normalised) {
+  const escaped = normalised.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  return new RegExp('^' + escaped.replace(/\\\*+/g, '[a-z]*') + '$');
+}
+
+function isLanaArtist(artistName) {
+  const a = (artistName || '').toLowerCase();
+  // A Lana Del Rey release — not a feature credit on someone else's track.
+  return /^lana del rey\b/.test(a);
+}
+
+// Exact-after-normalisation only. No "startsWith" fuzziness: that is what
+// previously let "Cherry" resolve to "Cherry Blossom".
+export function pickMatch(results, baseTitle) {
+  const target = normTitle(baseTitle);
+  if (!target) return null;
+  const targetRe = titleRegex(target);
+
+  const scored = (results || [])
+    .filter((r) => r && r.previewUrl && isLanaArtist(r.artistName))
+    .map((r) => {
+      const cand = normTitle(r.trackName);
+      if (!cand) return null;
+      if (cand === target) return { r, score: 3 };
+      if (titleRegex(cand).test(target)) return { r, score: 2 }; // censored metadata
+      if (targetRe.test(cand)) return { r, score: 2 };
+      return null;
+    })
+    .filter(Boolean);
+
+  if (!scored.length) return null;
+  scored.sort((a, b) => b.score - a.score);
+  return scored[0].r;
+}
+
+// ---------------------------------------------------------------------------
+// Network plumbing: one request per track, memoised, with backoff.
+// ---------------------------------------------------------------------------
+
+const streamPreviewCache = new Map(); // normalised title -> { src, source, full }
+const inflight = new Map();
+const CACHE_KEY = 'lg.preview.v3';
+
+// Warm from sessionStorage so a reload doesn't re-hit the APIs
+// (iTunes rate-limits hard after ~50 requests).
+try {
+  const raw = typeof sessionStorage !== 'undefined' && sessionStorage.getItem(CACHE_KEY);
+  if (raw) for (const [k, v] of Object.entries(JSON.parse(raw))) streamPreviewCache.set(k, v);
+} catch {}
+
+let persistTimer = null;
+function persist() {
+  if (persistTimer) return;
+  persistTimer = setTimeout(() => {
+    persistTimer = null;
+    try {
+      sessionStorage.setItem(CACHE_KEY, JSON.stringify(Object.fromEntries(streamPreviewCache)));
+    } catch {}
+  }, 400);
+}
+
+const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
+
+async function fetchJson(url, signal, timeoutMs = 8000) {
+  const ctrl = new AbortController();
+  let timedOut = false;
+  const onAbort = () => ctrl.abort();
+  if (signal) {
+    if (signal.aborted) throw Object.assign(new Error('aborted'), { name: 'AbortError' });
+    signal.addEventListener('abort', onAbort, { once: true });
+  }
+  const timer = setTimeout(() => { timedOut = true; ctrl.abort(); }, timeoutMs);
+  try {
+    const res = await fetch(url, { signal: ctrl.signal });
+    if (res.status === 403 || res.status === 429) {
+      const err = new Error('rate-limited');
+      err.rateLimited = true;
+      throw err;
+    }
+    if (!res.ok) throw new Error('HTTP ' + res.status);
+    const text = await res.text();
+    if (!text.trim().startsWith('{')) throw new Error('non-json response');
+    return JSON.parse(text);
+  } catch (e) {
+    // A timeout is a retryable transport failure, not a user cancellation.
+    if (timedOut && e && e.name === 'AbortError') {
+      throw Object.assign(new Error('timeout'), { timedOut: true });
+    }
+    throw e;
+  } finally {
+    clearTimeout(timer);
+    if (signal) signal.removeEventListener('abort', onAbort);
+  }
+}
+
+async function itunesQuery(params, signal) {
+  const qs = Object.entries(params).map(([k, v]) => k + '=' + encodeURIComponent(v)).join('&');
+  const json = await fetchJson('https://itunes.apple.com/search?' + qs, signal);
+  return json.results || [];
+}
+
+// Try the album first (fastest, most precise), then fall back to a title search.
+async function lookupItunes(base, albumHint, signal) {
+  if (albumHint) {
+    const byAlbum = await withRetry(
+      () => itunesQuery({ term: 'lana del rey ' + albumHint, entity: 'song', attribute: 'albumTerm', limit: 50, country: 'US' }, signal),
+      signal
+    );
+    const hit = pickMatch(byAlbum, base);
+    if (hit) return hit;
+  }
+  const byTitle = await withRetry(
+    () => itunesQuery({ term: 'lana del rey ' + base, entity: 'song', limit: 25, country: 'US' }, signal),
+    signal
+  );
+  return pickMatch(byTitle, base);
+}
+
+async function lookupDeezer(base, albumHintDeezer, signal) {
+  // Deezer's text search is unreliable for short titles ("Cola" returns
+  // unrelated songs). When we know the album, resolve the album first and
+  // read its tracklist — that path is exact.
+  if (albumHintDeezer) {
+    const albums = await withRetry(
+      () => fetchJson('https://api.deezer.com/search/album?q=' + encodeURIComponent('lana del rey ' + albumHintDeezer) + '&limit=10', signal),
+      signal
+    );
+    const album = (albums.data || []).find(
+      (a) => a.artist && /^lana del rey\b/i.test(a.artist.name) && normTitle(a.title) === normTitle(albumHintDeezer)
+    ) || (albums.data || []).find(
+      (a) => a.artist && /^lana del rey\b/i.test(a.artist.name) && normTitle(a.title).includes(normTitle(albumHintDeezer))
+    );
+
+    if (album) {
+      const full = await withRetry(() => fetchJson('https://api.deezer.com/album/' + album.id, signal), signal);
+      const tracks = (full.tracks && full.tracks.data ? full.tracks.data : []).map((t) => ({
+        trackName: t.title,
+        artistName: (t.artist && t.artist.name) || (album.artist && album.artist.name),
+        previewUrl: t.preview,
+      }));
+      const hit = pickMatch(tracks, base);
+      if (hit) return hit;
+    }
+  }
+
+  const json = await withRetry(
+    () => fetchJson('https://api.deezer.com/search?q=' + encodeURIComponent('lana del rey ' + base) + '&limit=25', signal),
+    signal
+  );
+  const results = (json.data || []).map((d) => ({
+    trackName: d.title,
+    artistName: d.artist && d.artist.name,
+    previewUrl: d.preview,
+  }));
+  return pickMatch(results, base);
+}
+
+async function withRetry(fn, signal) {
+  let lastErr;
+  for (let attempt = 0; attempt < 3; attempt++) {
+    if (signal && signal.aborted) throw Object.assign(new Error('aborted'), { name: 'AbortError' });
+    try {
+      return await fn();
+    } catch (e) {
+      if (e && e.name === 'AbortError') throw e;
+      lastErr = e;
+      await sleep((e && e.rateLimited ? 900 : 350) * Math.pow(2, attempt));
+    }
+  }
+  throw lastErr;
+}
+
+// Official places to hear the full song. We link out instead of proxying
+// audio we have no right to serve.
+export function fullSongLinks(title, artist) {
+  const q = encodeURIComponent((artist || 'Lana Del Rey') + ' ' + title);
+  return {
+    spotify: 'https://open.spotify.com/search/' + q,
+    youtube: 'https://www.youtube.com/results?search_query=' + q,
+    apple: 'https://music.apple.com/us/search?term=' + q,
+  };
+}
+
+// Canonical base title for lookups. Do NOT truncate at " (" here: that would
+// turn "Burnt Norton (Interlude)" into "Burnt Norton". normTitle() already
+// strips featured-artist and edition suffixes.
+function baseTitle(raw) {
+  return (raw || '').replace(/[\.…]+$/, '').trim();
+}
+
+/**
+ * Resolve a playable preview URL for a track.
+ * @param {string} title
+ * @param {AbortSignal} [signal]
+ * @param {string} [albumHint] album title, improves disambiguation
+ * @returns {Promise<{src?: string, source?: string, unplayable?: boolean}>}
+ */
+export async function fetchExactPreview(title, signal, albumHint) {
+  if (!title) return { unplayable: true };
+  const base = baseTitle(title);
+  const key = normTitle(base);
+  if (!key) return { unplayable: true };
+
+  if (streamPreviewCache.has(key)) return streamPreviewCache.get(key);
+
+  // Collapse concurrent requests for the same track.
+  if (inflight.has(key)) return inflight.get(key);
+
+  const task = (async () => {
+    const providers = [
+      { name: 'iTUNES', run: () => lookupItunes(base, albumHint, signal) },
+      { name: 'DEEZER', run: () => lookupDeezer(base, albumHint, signal) },
+    ];
+
+    for (const provider of providers) {
+      try {
+        const hit = await provider.run();
+        if (hit) {
+          const match = { src: hit.previewUrl, source: provider.name };
+          streamPreviewCache.set(key, match);
+          persist();
+          return match;
+        }
+      } catch (e) {
+        if (e && e.name === 'AbortError') throw e;
+        console.warn('[Audio] ' + provider.name + ' lookup failed for "' + base + '"', e);
+      }
+    }
+
+    const miss = { unplayable: true };
+    streamPreviewCache.set(key, miss);
+    persist();
+    return miss;
+  })();
+
+  inflight.set(key, task);
+  try {
+    return await task;
+  } finally {
+    inflight.delete(key);
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Direct playback against a single module-level <audio> element.
+// Lets us call .play() synchronously inside the user gesture, which keeps
+// mobile browsers from blocking playback.
+// ---------------------------------------------------------------------------
+
 let activeAudioElement = null;
 let isSwitchingSrc = false;
 let audioErrorHandler = null;
 
 export function setAudioErrorHandler(fn) { audioErrorHandler = fn; }
+
 function reportAudioError(msg) {
   console.warn('[Audio]', msg);
-  if (audioErrorHandler) try { audioErrorHandler(msg); } catch {}
+  if (audioErrorHandler) { try { audioErrorHandler(msg); } catch {} }
 }
 
-export function registerAudioElement(element) {
-  activeAudioElement = element;
-}
+export function registerAudioElement(element) { activeAudioElement = element; }
+export function unregisterAudioElement() { activeAudioElement = null; }
+export function isAudioSwitching() { return isSwitchingSrc; }
 
-export function unregisterAudioElement() {
-  activeAudioElement = null;
-}
-
-export function isAudioSwitching() {
-  return isSwitchingSrc;
+function tail(src) {
+  return (src || '').split('/').pop()?.split('?')[0];
 }
 
 export function playAudioDirect(src) {
   if (!activeAudioElement || !src) {
-    const msg = !activeAudioElement ? 'No audio element, tap again' : `No src for ${src}`;
-    reportAudioError(msg);
+    reportAudioError(!activeAudioElement ? 'No audio element, tap again' : 'No src for ' + src);
     return;
   }
+  const audio = activeAudioElement;
   try {
-    const cur = activeAudioElement.currentSrc || activeAudioElement.src || '';
-    const curTail = cur.split('/').pop()?.split('?')[0];
-    const tgtTail = src.split('/').pop()?.split('?')[0];
-    console.log('[Audio] playAudioDirect', src, 'cur', curTail, 'tgt', tgtTail);
-    if (curTail !== tgtTail || !cur) {
+    const cur = audio.currentSrc || audio.src || '';
+    if (tail(cur) !== tail(src) || !cur) {
       isSwitchingSrc = true;
-      activeAudioElement.src = src;
-      try { activeAudioElement.load(); } catch {}
-      activeAudioElement.currentTime = 0;
+      audio.src = src;
+      try { audio.load(); } catch {}
+      try { audio.currentTime = 0; } catch {}
     }
-    const p = activeAudioElement.play();
+    const p = audio.play();
     if (p && typeof p.then === 'function') {
-      p.then(() => {
-        isSwitchingSrc = false;
-        console.log('[Audio] play ok', src);
-      }).catch((err) => {
-        isSwitchingSrc = false;
-        if (err.name === 'AbortError') {
-          console.log('[Audio] AbortError benign', src);
-        } else if (err.name === 'NotAllowedError') {
-          reportAudioError('Tap again to allow audio, browser blocked autoplay');
-        } else if (err.name === 'NotSupportedError') {
-          console.warn('[Audio] NotSupportedError, retrying with blob', src, err);
-          fetch(src, { cache: 'no-store' }).then(r => {
-            if (!r.ok) throw new Error(`fetch ${r.status}`);
-            return r.blob();
-          }).then(blob => {
-            const url = URL.createObjectURL(blob);
-            activeAudioElement.src = url;
-            try { activeAudioElement.load(); } catch {}
-            return activeAudioElement.play();
-          }).then(() => {
-            console.log('[Audio] blob retry ok', src);
-          }).catch(e2 => {
-            reportAudioError(`Audio format not supported, try Chrome/Update WebView (${tgtTail})`);
-            console.warn('[Audio] blob retry failed', e2);
-          });
-        } else {
-          reportAudioError(`Play failed (${err.name}): ${src.split('/').pop()}`);
-        }
-        console.warn('[Audio] play rejected:', err);
-      });
+      p.then(() => { isSwitchingSrc = false; })
+        .catch((err) => {
+          isSwitchingSrc = false;
+          if (err.name === 'NotAllowedError') {
+            reportAudioError('Tap again to allow audio, browser blocked autoplay');
+          } else if (err.name === 'AbortError') {
+            // benign: a newer tap superseded this one
+          } else {
+            reportAudioError('Play failed (' + err.name + '): ' + tail(src));
+          }
+        });
     } else {
       isSwitchingSrc = false;
     }
   } catch (err) {
     isSwitchingSrc = false;
-    reportAudioError(`Play error: ${err.message || err}`);
-    console.warn('[Audio] playAudioDirect failed:', err);
+    reportAudioError('Play error: ' + (err.message || err));
   }
 }
 
 export function pauseAudioDirect() {
   if (!activeAudioElement) return;
-  try {
-    activeAudioElement.pause();
-  } catch {}
+  try { activeAudioElement.pause(); } catch {}
 }
 
-const streamPreviewCache = new Map();
+// ---------------------------------------------------------------------------
+// Cue a song on the cassette deck.
+// ---------------------------------------------------------------------------
 
-export async function fetchExactPreview(title, signal) {
-  const local = resolveLocalPreview(title);
-  if (local) return local;
-
-  const base = title.replace(/[\.…]+$/, '').split(' (')[0].trim();
-  const q = (t) => (t || '').toLowerCase().trim();
-  const target = q(base);
-
-  if (streamPreviewCache.has(target)) {
-    return streamPreviewCache.get(target);
-  }
-
-  const timeout = typeof AbortSignal !== 'undefined' && AbortSignal.timeout ? AbortSignal.timeout(4000) : null;
-  let combined = signal || timeout;
-  if (timeout && signal) {
-    if (typeof AbortSignal.any === 'function') {
-      combined = AbortSignal.any([signal, timeout]);
-    } else {
-      // Safari <16 fallback: abort when either fires
-      const ctrl = new AbortController();
-      const onAbort = () => ctrl.abort();
-      signal.addEventListener('abort', onAbort, { once: true });
-      timeout.addEventListener?.('abort', onAbort, { once: true });
-      combined = ctrl.signal;
-    }
-  }
-
-  try {
-    const res = await fetch(`https://itunes.apple.com/search?term=${encodeURIComponent(`lana del rey ${base}`)}&entity=song&limit=10`, { signal: combined });
-    const json = await res.json();
-    let m = json.results?.find((r) => r.previewUrl && q(r.trackName) === target && q(r.artistName).includes('lana'));
-    if (!m) {
-      m = json.results?.find((r) => r.previewUrl && q(r.trackName).startsWith(target) && q(r.artistName).includes('lana'));
-    }
-    if (m?.previewUrl) {
-      const match = { src: m.previewUrl, source: 'iTUNES' };
-      streamPreviewCache.set(target, match);
-      return match;
-    }
-  } catch (e) {
-    if (e?.name === 'AbortError') throw e;
-  }
-  return {};
-}
-
-// Cue a song on the cassette: instant synchronous playback for local files,
-// honest fallback for unreleased tracks. Aborts prior iTunes search on rapid taps.
 let cueAbort = null;
-export function cueSong(title, era, setCurrentTrack, setIsPlaying) {
-  const cleanTitle = title.replace(/[\.…]+$/, '').trim();
-  const local = resolveLocalPreview(cleanTitle);
+
+/**
+ * @returns {boolean} true when playback started synchronously (cache hit).
+ */
+export function cueSong(title, era, setCurrentTrack, setIsPlaying, albumHint) {
+  const cleanTitle = (title || '').replace(/[\.…]+$/, '').trim();
+  if (!cleanTitle) return false;
 
   if (cueAbort) { try { cueAbort.abort(); } catch {} cueAbort = null; }
 
-  const baseKey = cleanTitle.replace(/[\.…]+$/, '').split(' (')[0].trim().toLowerCase();
-  const cachedStream = !local ? streamPreviewCache.get(baseKey) : null;
-  const immediate = local || cachedStream;
+  const key = normTitle(baseTitle(cleanTitle));
+  const cached = streamPreviewCache.get(key);
 
-  if (immediate?.src) {
-    // 1. Play directly inside the active user gesture
-    playAudioDirect(immediate.src);
-
-    // 2. Synchronously set React state
+  if (cached && cached.src) {
+    // 1. Start inside the active user gesture.
+    playAudioDirect(cached.src);
+    // 2. Synchronously update React state.
     if (setCurrentTrack) {
       setCurrentTrack({
         title: cleanTitle,
         era,
-        src: immediate.src,
-        source: immediate.source || 'LOCAL',
+        src: cached.src,
+        source: cached.source,
+        fullLinks: fullSongLinks(cleanTitle),
       });
     }
     if (setIsPlaying) setIsPlaying(true);
     return true;
   }
 
-  // Not in local catalog -> fallback to iTunes search asynchronously, abortable
+  if (cached && cached.unplayable) {
+    if (setCurrentTrack) {
+      setCurrentTrack({ title: cleanTitle, era, src: null, unplayable: true, fullLinks: fullSongLinks(cleanTitle) });
+    }
+    if (setIsPlaying) setIsPlaying(false);
+    return false;
+  }
+
+  // Cold lookup — async, abortable so rapid taps don't race.
   const controller = new AbortController();
   cueAbort = controller;
-  fetchExactPreview(cleanTitle, controller.signal).then((prev) => {
-    if (controller.signal.aborted) return;
-    cueAbort = null;
-    if (prev?.src) {
-      playAudioDirect(prev.src);
-      if (setCurrentTrack) {
-        setCurrentTrack({
-          title: cleanTitle,
-          era,
-          src: prev.src,
-          source: prev.source,
-        });
+
+  if (setCurrentTrack) {
+    setCurrentTrack({ title: cleanTitle, era, src: null, loading: true, fullLinks: fullSongLinks(cleanTitle) });
+  }
+
+  fetchExactPreview(cleanTitle, controller.signal, albumHint)
+    .then((prev) => {
+      if (controller.signal.aborted) return;
+      cueAbort = null;
+      if (prev && prev.src) {
+        playAudioDirect(prev.src);
+        if (setCurrentTrack) {
+          setCurrentTrack({
+            title: cleanTitle,
+            era,
+            src: prev.src,
+            source: prev.source,
+            fullLinks: fullSongLinks(cleanTitle),
+          });
+        }
+        if (setIsPlaying) setIsPlaying(true);
+      } else {
+        if (setCurrentTrack) {
+          setCurrentTrack({ title: cleanTitle, era, src: null, unplayable: true, fullLinks: fullSongLinks(cleanTitle) });
+        }
+        if (setIsPlaying) setIsPlaying(false);
       }
-      if (setIsPlaying) setIsPlaying(true);
-    } else {
-      if (setCurrentTrack) {
-        setCurrentTrack({
-          title: cleanTitle,
-          era,
-          src: null,
-          unplayable: true,
-        });
-      }
-      if (setIsPlaying) setIsPlaying(false);
-    }
-  }).catch(() => {
-    if (controller.signal.aborted) return;
-    cueAbort = null;
-  });
+    })
+    .catch(() => {
+      if (controller.signal.aborted) return;
+      cueAbort = null;
+    });
 
   return false;
 }

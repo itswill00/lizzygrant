@@ -152,7 +152,7 @@ export default function Timeline({ setCurrentTrack, setIsPlaying }) {
                     {active.songs.map((s) => (
                       <button
                         key={s.title}
-                        onClick={() => cueSong(s.title, active.title.toUpperCase(), setCurrentTrack, setIsPlaying)}
+                        onClick={() => cueSong(s.title, active.title.toUpperCase(), setCurrentTrack, setIsPlaying, s.album)}
                         className="group flex items-center gap-2.5 rounded-xl border border-[#D4AF37]/15 bg-white px-2.5 py-2.5 text-left shadow-sm transition-all duration-300 hover:border-[#D4AF37]/30 hover:shadow-[0_6px_16px_rgba(0,0,0,0.08)] active:scale-[0.99] dark:border-[#F7F4EB]/10 dark:bg-noir-soft sm:gap-3 sm:px-3"
                       >
                         <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-espresso text-[11px] text-white group-hover:bg-cherry dark:bg-parchment dark:text-noir dark:group-hover:bg-cherry dark:group-hover:text-white sm:h-8 sm:w-8 sm:text-[12px]">
