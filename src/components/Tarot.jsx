@@ -2,6 +2,7 @@ import { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { tarotCards } from '../data/tarot';
 import { cueSong } from '../lib/preview';
+import { Equalizer } from './Playback';
 
 function shuffle(arr) {
   const a = [...arr];
@@ -12,7 +13,7 @@ function shuffle(arr) {
   return a;
 }
 
-export default function Tarot({ setCurrentTrack, setIsPlaying }) {
+export default function Tarot({ setCurrentTrack, setIsPlaying, currentTrack, isPlaying }) {
   const [order, setOrder] = useState(tarotCards.map((c) => c.id));
   const [flipped, setFlipped] = useState({}); // id -> true
   const [activeId, setActiveId] = useState(null);
@@ -90,11 +91,19 @@ export default function Tarot({ setCurrentTrack, setIsPlaying }) {
     }
   };
 
+  const tarotState = (() => {
+    if (!currentTrack || !active) return 'idle';
+    const norm = (s) => String(s || '').split('/')[0].replace(/[\.…]+$/, '').replace(/\(.*?\)/g, '').trim().toLowerCase();
+    const songTitle = norm(active.song);
+    if (norm(currentTrack.title) !== songTitle) return 'idle';
+    if (currentTrack.loading) return 'loading';
+    if (currentTrack.unplayable) return 'unplayable';
+    return isPlaying ? 'playing' : 'paused';
+  })();
+
   const hearSong = (card) => {
-    setHearing(card.id);
     const songTitle = card.song.split('/')[0].replace(/[\.…]+$/, '').trim();
     cueSong(songTitle, 'LYRICAL TAROT', setCurrentTrack, setIsPlaying);
-    setTimeout(() => setHearing(null), 600);
   };
 
   const copyLyric = async (card) => {
@@ -362,10 +371,25 @@ export default function Tarot({ setCurrentTrack, setIsPlaying }) {
                   <div className="mt-4 grid grid-cols-2 gap-2 sm:mt-5">
                     <button
                       onClick={() => hearSong(active)}
-                      disabled={hearing === active.id}
-                      className="col-span-2 flex items-center justify-center gap-2 rounded-full bg-espresso px-4 py-3 font-sans text-[11px] tracking-[0.14em] text-parchment transition-all duration-300 hover:bg-noir hover:shadow-[0_6px_16px_rgba(0,0,0,0.2)] active:scale-[0.98] dark:bg-parchment dark:text-noir"
+                      aria-current={tarotState === 'playing' ? 'true' : undefined}
+                      className={`col-span-2 flex items-center justify-center gap-2 rounded-full px-4 py-3 font-sans text-[11px] tracking-[0.14em] transition-all duration-300 active:scale-[0.98] ${
+                        tarotState === 'playing' || tarotState === 'paused'
+                          ? 'bg-cherry text-white hover:bg-cherry-light'
+                          : 'bg-espresso text-parchment hover:bg-noir hover:shadow-[0_6px_16px_rgba(0,0,0,0.2)] dark:bg-parchment dark:text-noir'
+                      }`}
                     >
-                      <span>{hearing === active.id ? 'CUEING…' : '▶ HEAR THIS SONG'}</span>
+                      {tarotState === 'loading' ? (
+                        <span className="h-3 w-3 animate-spin rounded-full border-2 border-current/30 border-t-current" />
+                      ) : tarotState === 'playing' || tarotState === 'paused' ? (
+                        <Equalizer active paused={tarotState === 'paused'} className="h-2.5 w-2.5 text-white" />
+                      ) : null}
+                      <span>
+                        {tarotState === 'loading' ? 'CUEING…'
+                          : tarotState === 'playing' ? 'NOW PLAYING'
+                          : tarotState === 'paused' ? 'RESUME'
+                          : tarotState === 'unplayable' ? 'NO PREVIEW · OPEN FULL SONG'
+                          : '▶ HEAR THIS SONG'}
+                      </span>
                     </button>
                     <button onClick={() => copyLyric(active)} className="rounded-full border border-[#D4AF37]/20 bg-white px-3 py-2.5 font-sans text-[11px] tracking-[0.12em] text-espresso transition hover:bg-[#F7F4EB] active:scale-95 dark:border-[#F7F4EB]/15 dark:bg-noir-soft dark:text-parchment">
                       {copied ? 'COPIED ✓' : 'COPY LYRIC'}

@@ -2,10 +2,14 @@ import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { discography } from '../data/discography';
 import { cueSong } from '../lib/preview';
+import { useTrackState, PlayGlyph, TrackProgress, useProgress } from './Playback';
 import SafeImage from './SafeImage';
 
-export default function Discography({ setCurrentTrack, setIsPlaying }) {
+export default function Discography({ setCurrentTrack, setIsPlaying, currentTrack, isPlaying }) {
   const [openId, setOpenId] = useState('born-to-die');
+  const stateFor = useTrackState(currentTrack, isPlaying);
+  const { currentTime, duration } = useProgress();
+  const progress = duration ? currentTime / duration : 0;
   const totalTracks = discography.reduce((n, a) => n + a.tracks.length, 0);
   const totalSingles = discography.reduce((n, a) => n + a.tracks.filter((t) => t.s).length, 0);
 
@@ -81,16 +85,20 @@ export default function Discography({ setCurrentTrack, setIsPlaying }) {
                     className="overflow-hidden"
                   >
                     <div className="grid grid-cols-1 gap-1 border-t border-dashed border-[#D4AF37]/15 p-2.5 dark:border-[#F7F4EB]/10 sm:grid-cols-2 sm:gap-x-4 sm:p-4">
-                      {album.tracks.map((t, i) => (
+                      {album.tracks.map((t, i) => {
+                        const st = stateFor(t.t);
+                        const active = st === 'playing' || st === 'paused' || st === 'loading';
+                        return (
                         <button
                           key={`${album.id}-${t.t}`}
                           onClick={() => cueSong(t.t, album.title.toUpperCase(), setCurrentTrack, setIsPlaying, album.title)}
-                          className="group flex items-center gap-2.5 rounded-xl px-2 py-2 text-left transition hover:bg-parchment-dark/60 active:scale-[0.99] dark:hover:bg-white/5"
+                          aria-current={st === 'playing' ? 'true' : undefined}
+                          className={`group relative flex items-center gap-2.5 rounded-xl px-2 py-2 text-left transition hover:bg-parchment-dark/60 active:scale-[0.99] dark:hover:bg-white/5 ${active ? 'bg-cherry/[0.06] dark:bg-cherry/10' : ''}`}
                         >
-                          <span className="w-6 shrink-0 text-right font-sans text-[10px] tabular-nums text-zinc-500/60">
+                          <span className={`w-6 shrink-0 text-right font-sans text-[10px] tabular-nums ${active ? 'text-cherry' : 'text-zinc-500/60'}`}>
                             {String(i + 1).padStart(2, '0')}
                           </span>
-                          <span className="min-w-0 flex-1 truncate font-body text-[13.5px] text-espresso dark:text-parchment/85 sm:text-[14px]">
+                          <span className={`min-w-0 flex-1 truncate font-body text-[13.5px] sm:text-[14px] ${active ? 'font-medium text-cherry' : 'text-espresso dark:text-parchment/85'}`}>
                             {t.t}
                           </span>
                           {t.s && (
@@ -98,11 +106,11 @@ export default function Discography({ setCurrentTrack, setIsPlaying }) {
                               SINGLE
                             </span>
                           )}
-                          <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-espresso/[0.06] text-[10px] text-espresso transition group-hover:bg-cherry group-hover:text-white dark:bg-white/10 dark:text-parchment">
-                            ▶
-                          </span>
+                          <PlayGlyph state={st} />
+                          <TrackProgress state={st} progress={progress} />
                         </button>
-                      ))}
+                        );
+                      })}
                     </div>
                   </motion.div>
                 )}

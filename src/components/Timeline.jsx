@@ -2,11 +2,15 @@ import { useState, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { eras } from '../data/eras';
 import { cueSong } from '../lib/preview';
+import { useTrackState, PlayGlyph, useProgress } from './Playback';
 import SafeImage from './SafeImage';
 
-export default function Timeline({ setCurrentTrack, setIsPlaying }) {
+export default function Timeline({ setCurrentTrack, setIsPlaying, currentTrack, isPlaying }) {
   const [activeId, setActiveId] = useState(eras[1].id); // Born to Die default
   const active = eras.find((e) => e.id === activeId) || eras[0];
+  const stateFor = useTrackState(currentTrack, isPlaying);
+  const { currentTime, duration } = useProgress();
+  const progress = duration ? currentTime / duration : 0;
   const scrollRef = useRef(null);
 
   return (
@@ -149,28 +153,41 @@ export default function Timeline({ setCurrentTrack, setIsPlaying }) {
                 <div className="rounded-2xl border border-[#D4AF37]/15 bg-parchment-dark/40 p-2.5 shadow-sm dark:border-[#F7F4EB]/10 dark:bg-noir/40 sm:p-3">
                   <div className="font-sans text-[10px] tracking-[0.08em] text-zinc-600 sm:text-[10px] sm:tracking-[0.2em]">NOTABLE CUTS · TAP TO CUE CASSETTE</div>
                   <div className="mt-2.5 flex flex-col gap-2 sm:mt-3">
-                    {active.songs.map((s) => (
+                    {active.songs.map((s) => {
+                      const st = stateFor(s.title);
+                      const isActive = st === 'playing' || st === 'paused' || st === 'loading';
+                      return (
                       <button
                         key={s.title}
                         onClick={() => cueSong(s.title, active.title.toUpperCase(), setCurrentTrack, setIsPlaying, s.album)}
-                        className="group flex items-center gap-2.5 rounded-xl border border-[#D4AF37]/15 bg-white px-2.5 py-2.5 text-left shadow-sm transition-all duration-300 hover:border-[#D4AF37]/30 hover:shadow-[0_6px_16px_rgba(0,0,0,0.08)] active:scale-[0.99] dark:border-[#F7F4EB]/10 dark:bg-noir-soft sm:gap-3 sm:px-3"
+                        aria-current={st === 'playing' ? 'true' : undefined}
+                        className={`group flex items-center gap-2.5 rounded-xl border px-2.5 py-2.5 text-left shadow-sm transition-all duration-300 active:scale-[0.99] dark:bg-noir-soft sm:gap-3 sm:px-3 ${
+                          isActive
+                            ? 'border-cherry/40 bg-cherry/[0.06] dark:border-cherry/40'
+                            : 'border-[#D4AF37]/15 bg-white hover:border-[#D4AF37]/30 hover:shadow-[0_6px_16px_rgba(0,0,0,0.08)] dark:border-[#F7F4EB]/10'
+                        }`}
                       >
-                        <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-espresso text-[11px] text-white group-hover:bg-cherry dark:bg-parchment dark:text-noir dark:group-hover:bg-cherry dark:group-hover:text-white sm:h-8 sm:w-8 sm:text-[12px]">
-                          ▶
-                        </span>
+                        <PlayGlyph state={st} size="md" />
                         <span className="min-w-0 flex-1">
-                          <span className="block truncate font-display text-[12px] font-semibold leading-tight text-espresso dark:text-parchment sm:text-[13px]">
+                          <span className={`block truncate font-display text-[12px] font-semibold leading-tight sm:text-[13px] ${isActive ? 'text-cherry' : 'text-espresso dark:text-parchment'}`}>
                             {s.title}
                           </span>
                           <span className="block truncate font-sans text-[9px] tracking-wide text-zinc-500 sm:text-[10px]">
                             {s.note} / {s.duration}
                           </span>
                         </span>
-                        <span className="hidden font-sans text-[10px] tracking-widest text-cherry sm:block sm:opacity-0 sm:group-hover:opacity-100">
-                          PLAY
-                        </span>
+                        {isActive ? (
+                          <span className="hidden font-mono text-[9px] tracking-[0.14em] text-cherry sm:block">
+                            {st === 'loading' ? 'CUEING' : `${Math.round(progress * 100)}%`}
+                          </span>
+                        ) : (
+                          <span className="hidden font-sans text-[10px] tracking-widest text-cherry sm:block sm:opacity-0 sm:group-hover:opacity-100">
+                            PLAY
+                          </span>
+                        )}
                       </button>
-                    ))}
+                      );
+                    })}
                   </div>
                 </div>
 

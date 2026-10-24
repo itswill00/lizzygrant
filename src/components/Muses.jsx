@@ -1,8 +1,10 @@
 import { motion } from 'framer-motion';
 import { muses } from '../data/muses';
 import { cueSong } from '../lib/preview';
+import { useTrackState, Equalizer } from './Playback';
 
-export default function Muses({ setCurrentTrack, setIsPlaying, onNavigate }) {
+export default function Muses({ setCurrentTrack, setIsPlaying, onNavigate, currentTrack, isPlaying }) {
+  const stateFor = useTrackState(currentTrack, isPlaying);
   const playSong = (song) => {
     cueSong(song, 'MUSES & LOVERS', setCurrentTrack, setIsPlaying);
   };
@@ -67,16 +69,33 @@ export default function Muses({ setCurrentTrack, setIsPlaying, onNavigate }) {
             <div className="p-3.5 sm:p-4">
               <div className="font-sans text-[9px] tracking-[0.08em] text-zinc-500/70">SONGS WHISPERED ABOUT / FAN READING</div>
               <div className="mt-2 flex flex-wrap gap-1.5">
-                {m.songs.map((s) => (
+                {m.songs.map((s) => {
+                  const st = stateFor(s);
+                  const on = st === 'playing' || st === 'paused' || st === 'loading';
+                  return (
                   <button
                     key={s}
                     onClick={() => playSong(s)}
-                    className="group/song flex items-center gap-1.5 rounded-full border border-[#D4AF37]/20 bg-white px-3 py-1.5 font-sans text-[11px] tracking-wide text-espresso shadow-sm transition-all duration-300 hover:border-cherry/40 hover:shadow-md active:scale-95 dark:border-[#F7F4EB]/10 dark:bg-noir dark:text-parchment/80"
+                    aria-current={st === 'playing' ? 'true' : undefined}
+                    className={`group/song flex items-center gap-1.5 rounded-full border px-3 py-1.5 font-sans text-[11px] tracking-wide shadow-sm transition-all duration-300 active:scale-95 ${
+                      on
+                        ? 'border-cherry/50 bg-cherry/10 text-cherry'
+                        : 'border-[#D4AF37]/20 bg-white text-espresso hover:border-cherry/40 hover:shadow-md dark:border-[#F7F4EB]/10 dark:bg-noir dark:text-parchment/80'
+                    }`}
                   >
-                    <span className="flex h-5 w-5 items-center justify-center rounded-full bg-espresso text-[8px] text-white transition group-hover/song:bg-cherry dark:bg-parchment dark:text-noir">▶</span>
+                    <span className={`flex h-5 w-5 items-center justify-center rounded-full text-[8px] transition ${on ? 'bg-cherry text-white' : 'bg-espresso text-white group-hover/song:bg-cherry dark:bg-parchment dark:text-noir'}`}>
+                      {st === 'loading' ? (
+                        <span className="h-2 w-2 animate-spin rounded-full border border-white/40 border-t-white" />
+                      ) : on ? (
+                        <Equalizer active paused={st === 'paused'} className="h-2 w-2 text-white" />
+                      ) : (
+                        '▶'
+                      )}
+                    </span>
                     {s}
                   </button>
-                ))}
+                  );
+                })}
               </div>
               {m.id === 'jeremy' && (
                 <a href="/jeremy" onClick={(e) => go(e, '/jeremy')} className="mt-3 inline-flex items-center gap-1.5 rounded-full bg-cherry px-3 py-1.5 font-sans text-[10px] tracking-[0.12em] text-white hover:bg-cherry-light">SEE JEREMY PAGE →</a>

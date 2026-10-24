@@ -148,6 +148,10 @@ body {
 @keyframes vinylspin {
   to { transform: rotate(360deg); }
 }
+@keyframes eq-bar {
+  from { transform: scaleY(0.25); }
+  to   { transform: scaleY(1); }
+}
 @media (prefers-reduced-motion: reduce) {
   *, ::before, ::after {
     animation-duration: 0.01ms !important;

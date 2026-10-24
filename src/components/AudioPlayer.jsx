@@ -10,6 +10,7 @@ import {
   invalidateBySrc,
   slugify,
 } from '../lib/preview';
+import { publishProgress, PreviewNotice } from './Playback';
 
 // Internal deck for prev/next. Track picking happens in
 // Discography / Eras / Tarot / Muses via cueSong, player just follows.
@@ -176,14 +177,16 @@ export default function AudioPlayer({ isPlaying, setIsPlaying, currentTrack, set
     const onTimeUpdate = () => {
       const now = performance.now();
       if (now - last < 200) {
-        if (!raf) raf = requestAnimationFrame(() => { raf = 0; last = performance.now(); setCurrentTime(audio.currentTime); });
+        if (!raf) raf = requestAnimationFrame(() => { raf = 0; last = performance.now(); setCurrentTime(audio.currentTime); publishProgress(audio.currentTime, audio.duration || 0); });
         return;
       }
       last = now;
       setCurrentTime(audio.currentTime);
+      publishProgress(audio.currentTime, audio.duration || 0);
     };
     const onLoadedMetadata = () => {
       setDuration(audio.duration || 0);
+      publishProgress(audio.currentTime, audio.duration || 0);
       setError(null);
     };
     const onPlaying = () => {
@@ -289,7 +292,10 @@ export default function AudioPlayer({ isPlaying, setIsPlaying, currentTrack, set
       <audio ref={audioRef} preload="metadata" playsInline crossOrigin="anonymous" />
       <div className="h-[76px]" aria-hidden />
 
-      <div className="pointer-events-none fixed inset-x-0 bottom-0 z-50 flex justify-center px-3 pb-[calc(0.5rem+env(safe-area-inset-bottom,0px))] sm:pb-[calc(1rem+env(safe-area-inset-bottom,0px))]">
+      <div className="pointer-events-none fixed inset-x-0 bottom-0 z-50 flex flex-col items-center px-3 pb-[calc(0.5rem+env(safe-area-inset-bottom,0px))] sm:pb-[calc(1rem+env(safe-area-inset-bottom,0px))]">
+        <div className="pointer-events-auto w-full max-w-[560px]">
+          <PreviewNotice currentTrack={currentTrack} isPlaying={isPlaying} duration={duration} currentTime={currentTime} />
+        </div>
         <div className="pointer-events-auto relative w-full max-w-[560px]">
           {error && (
             <div className="absolute -top-9 left-1/2 flex max-w-full -translate-x-1/2 items-center gap-2 whitespace-nowrap rounded-full bg-[#1A1A1A]/95 px-3 py-1.5 font-mono text-[10px] tracking-wide text-parchment/80 shadow-lg">
